@@ -1,0 +1,11 @@
+nano .gitignore
+```
+
+Add these lines:
+```
+venv/
+__pycache__/
+*.pyc
+.env
+output/
+*.json
