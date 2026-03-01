@@ -38,7 +38,7 @@ REGULATION_FILES = {
     "MiFID2":  "MiFID2.pdf",
     "MiCA":    "MiCA.pdf",
     "NIS2":    "NIS2.pdf",
-    "SFDR":    "SFDR.pdf",
+    "SFDR":    "g.pdf",
 }
 
 # Keywords relevant to cross-regulation overlap zones
@@ -317,7 +317,7 @@ def main():
             print(f"Warning: {reg_name} not in config, skipping")
             continue
 
-        pdf_path = Path(args.input_dir) / REGULATION_FILES[reg_name]
+        pdf_path = Path(args.input_dir) / "data" / REGULATION_FILES[reg_name]
         if not pdf_path.exists():
             print(f"Warning: {pdf_path} not found, skipping")
             continue
