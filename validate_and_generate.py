@@ -57,7 +57,7 @@ Notes:
     - Requires HF_TOKEN env variable or --hf_token flag for gated models (Llama)
     - Accept the model license at https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
     - On multi-GPU clusters, use CUDA_VISIBLE_DEVICES to select GPUs
-    - 8B model needs ~16GB VRAM in float16, ~8GB in 4-bit quantisation
+    - 8B model needs ~16GB VRAM in float32, ~8GB in 4-bit quantisation
 """
 
 import json
@@ -179,7 +179,8 @@ def generate_response(model, tokenizer, prompt: str,
         # Fallback if no chat template
         input_text = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
 
-    inputs = tokenizer(input_text, return_tensors="pt").to(model.device)
+    device = next(model.parameters()).device
+    inputs = tokenizer(input_text, return_tensors="pt").to(device)
 
     # Generation config
     gen_kwargs = {
@@ -587,10 +588,10 @@ def run_pipeline(args):
                 if response_text:
                     print(f"      Raw: {response_text[:200]}...")
 
-            # Clear GPU cache periodically
-            if (i + 1) % 10 == 0 and torch.cuda.is_available():
-                torch.cuda.empty_cache()
-                gc.collect()
+            # # Clear GPU cache periodically
+            # if (i + 1) % 10 == 0 and torch.cuda.is_available():
+            #     torch.cuda.empty_cache()
+            #     gc.collect()
 
         # Save grouped
         gen_path = Path(args.output_dir) / "generated_questions.json"
@@ -633,7 +634,8 @@ def run_pipeline(args):
     # ─── SAVE REPORT ───
     stats["timestamp"] = datetime.now().isoformat()
     stats["model"] = args.model
-    stats["quantisation"] = "4bit" if args.load_in_4bit else ("8bit" if args.load_in_8bit else "float16")
+    # stats["quantisation"] = "4bit" if args.load_in_4bit else ("8bit" if args.load_in_8bit else "float32")
+    stats["quantisation"] = "float16"
 
     report_path = Path(args.output_dir) / "pipeline_report.json"
     with open(report_path, "w", encoding="utf-8") as f:

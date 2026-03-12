@@ -1,0 +1,46 @@
+[
+  {
+    "pair_id": "DORA_Art6_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 4,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles address the need for timely reporting and management of incidents that could impact personal data and operational resilience.",
+      "suggested_scenario_seed": "A financial entity experiences a cyber-attack that compromises customer data and disrupts digital services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art28_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "28",
+      "title": "General principles"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "21",
+      "title": "Cybersecurity risk-management measures"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 4,
+      "interaction_type": "dual_obligation",
+      "reasoning": "The articles impose distinct yet complementary obligations on financial entities to manage cybersecurity risks and third-party ICT risks.",
+      "suggested_scenario_seed": "A financial entity using third-party ICT services must ensure compliance with both DORA Article 28 and NIS2 Article 21 to manage cybersecurity risks effectively."
+    },
+    "final_status": "PASS"
+  }
+]
