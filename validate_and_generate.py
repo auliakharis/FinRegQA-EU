@@ -78,32 +78,32 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 def load_model(model_name: str, cache_dir: str = None, hf_token: str = None,
                load_in_4bit: bool = False, load_in_8bit: bool = False):
     """
-    Load model and tokenizer from Hugging Face.
+    Load model and tokenizer from a local offline path under $SCRATCH.
 
     Args:
-        model_name: HF model ID (e.g., "meta-llama/Llama-3.1-8B-Instruct")
-        cache_dir: Where to cache model weights (useful on clusters)
-        hf_token: Hugging Face token for gated models
+        model_name: Model directory name under $SCRATCH/models/ (e.g., "Llama-3.1-8B-Instruct")
+        cache_dir: Unused (kept for CLI compatibility)
+        hf_token: Unused (kept for CLI compatibility)
         load_in_4bit: Use 4-bit quantisation (saves VRAM, needs bitsandbytes)
         load_in_8bit: Use 8-bit quantisation (saves VRAM, needs bitsandbytes)
     """
-    # Resolve HF token
-    token = hf_token or os.environ.get("HF_TOKEN", None)
-    if token:
-        print(f"  Using HF token: {token[:8]}...")
-    else:
-        print("  WARNING: No HF token found. Set HF_TOKEN env variable or use --hf_token")
-        print("           Gated models (Llama) will fail without a token.")
+    scratch = os.environ.get("SCRATCH")
+    if not scratch:
+        raise EnvironmentError("SCRATCH environment variable is not set.")
 
-    print(f"  Loading model: {model_name}")
-    print(f"  Cache dir: {cache_dir or 'default (~/.cache/huggingface)'}")
+    # Support both a bare model name and a full path
+    if os.path.isabs(model_name):
+        model_path = model_name
+    else:
+        # Strip any HF org prefix (e.g. "meta-llama/Llama-3.1-8B-Instruct" → "Llama-3.1-8B-Instruct")
+        model_dir = model_name.split("/")[-1]
+        model_path = os.path.join(scratch, "models", model_dir)
+
+    print(f"  Loading model from local path: {model_path}")
 
     # Tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_name,
-        cache_dir=cache_dir,
-        token=token,
-    )
+    print("  Loading tokenizer...")
+    tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
 
     # Set pad token if not set (common for Llama)
     if tokenizer.pad_token is None:
@@ -125,13 +125,14 @@ def load_model(model_name: str, cache_dir: str = None, hf_token: str = None,
         quantization_config = BitsAndBytesConfig(load_in_8bit=True)
 
     # Load model
+    print("  Loading model weights...")
     model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        cache_dir=cache_dir,
-        token=token,
+        model_path,
+        local_files_only=True,
         torch_dtype=torch.float16,
         device_map="auto",  # Automatically distribute across available GPUs
         quantization_config=quantization_config,
+        low_cpu_mem_usage = True
     )
 
     model.eval()
@@ -147,7 +148,7 @@ def load_model(model_name: str, cache_dir: str = None, hf_token: str = None,
     if torch.cuda.is_available():
         for i in range(torch.cuda.device_count()):
             mem = torch.cuda.memory_allocated(i) / 1024**3
-            total = torch.cuda.get_device_properties(i).total_mem / 1024**3
+            total = torch.cuda.get_device_properties(i).total_memory / 1024**3
             print(f"  GPU {i}: {mem:.1f}GB / {total:.1f}GB used")
 
     return model, tokenizer
@@ -179,7 +180,7 @@ def generate_response(model, tokenizer, prompt: str,
         # Fallback if no chat template
         input_text = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
 
-    device = next(model.parameters()).device
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
     inputs = tokenizer(input_text, return_tensors="pt").to(device)
 
     # Generation config
@@ -634,8 +635,7 @@ def run_pipeline(args):
     # ─── SAVE REPORT ───
     stats["timestamp"] = datetime.now().isoformat()
     stats["model"] = args.model
-    # stats["quantisation"] = "4bit" if args.load_in_4bit else ("8bit" if args.load_in_8bit else "float32")
-    stats["quantisation"] = "float16"
+    stats["quantisation"] = "4bit" if args.load_in_4bit else ("8bit" if args.load_in_8bit else "float16")
 
     report_path = Path(args.output_dir) / "pipeline_report.json"
     with open(report_path, "w", encoding="utf-8") as f:

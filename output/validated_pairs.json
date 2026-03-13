@@ -14,10 +14,10 @@
     },
     "validation": {
       "pass": true,
-      "relevance_score": 4,
+      "relevance_score": 5,
       "interaction_type": "dual_obligation",
-      "reasoning": "Both articles address the need for timely reporting and management of incidents that could impact personal data and operational resilience.",
-      "suggested_scenario_seed": "A financial entity experiences a cyber-attack that compromises customer data and disrupts digital services."
+      "reasoning": "A financial entity may need to notify a personal data breach under GDPR Article 33 and simultaneously assess the ICT risk management framework under DORA Article 6 to ensure digital operational resilience.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises sensitive customer data, requiring immediate notification to the supervisory authority and an evaluation of its ICT risk management framework to prevent future breaches."
     },
     "final_status": "PASS"
   },
@@ -36,10 +36,10 @@
     },
     "validation": {
       "pass": true,
-      "relevance_score": 4,
+      "relevance_score": 5,
       "interaction_type": "dual_obligation",
-      "reasoning": "The articles impose distinct yet complementary obligations on financial entities to manage cybersecurity risks and third-party ICT risks.",
-      "suggested_scenario_seed": "A financial entity using third-party ICT services must ensure compliance with both DORA Article 28 and NIS2 Article 21 to manage cybersecurity risks effectively."
+      "reasoning": "Both articles impose obligations on financial entities to manage ICT risk and cybersecurity risk, creating a dual obligation to ensure comprehensive risk management.",
+      "suggested_scenario_seed": "A bank must comply with DORA's ICT risk management framework while also ensuring cybersecurity risk-management measures under NIS2, leading to a situation where both articles are relevant."
     },
     "final_status": "PASS"
   }

@@ -9,3 +9,4 @@ __pycache__/
 .env
 batch.sh
 logs/
+test_access.sh

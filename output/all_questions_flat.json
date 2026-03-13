@@ -1,0 +1,250 @@
+[
+  {
+    "scenario": "A medium-sized bank in Germany experiences a cyberattack that compromises sensitive customer data.",
+    "question": "What must the bank do?",
+    "options": {
+      "A": "Notify the supervisory authority and document the incident, but not inform customers about the breach.",
+      "B": "Notify the supervisory authority, inform customers about the breach, and perform an internal audit of the ICT risk management framework.",
+      "C": "Notify the supervisory authority, inform customers about the breach, and implement additional security measures to prevent future breaches, including documenting the incident and the measures taken.",
+      "D": "Implement additional security measures to prevent future breaches and document the incident, but not notify the supervisory authority or customers about the breach."
+    },
+    "correct_answer": "C",
+    "explanation": "The bank must notify the supervisory authority without undue delay (GDPR Art. 33) and document the incident (GDPR Art. 33). Additionally, the bank should inform customers about the breach, implement additional security measures to prevent future breaches, and document the incident and the measures taken (DORA Art. 6).",
+    "source_articles": {
+      "DORA": [
+        "Art. 6"
+      ],
+      "GDPR": [
+        "Art. 33"
+      ]
+    },
+    "distractor_analysis": {
+      "A": {
+        "error_type": "ignores_gdpr",
+        "explanation": "The bank must inform customers about the breach according to GDPR Art. 33."
+      },
+      "B": {
+        "error_type": "ignores_dora",
+        "explanation": "The bank must document the incident and implement additional security measures according to DORA Art. 6."
+      },
+      "D": {
+        "error_type": "fabricated_rule",
+        "explanation": "There is no regulation that requires banks to implement additional security measures without notifying the supervisory authority or customers about the breach."
+      }
+    },
+    "reasoning_type": "cross_regulation_overlap",
+    "difficulty": "medium",
+    "source_pair_id": "DORA_Art6_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_pair": "DORA × GDPR",
+    "validation_score": 5,
+    "interaction_type": "dual_obligation"
+  },
+  {
+    "scenario": "A fintech company in France is required to submit its ICT risk management framework to the supervisory authority for review.",
+    "question": "What must the fintech company do?",
+    "options": {
+      "A": "Submit the ICT risk management framework to the supervisory authority and conduct an internal audit of the framework.",
+      "B": "Submit the ICT risk management framework to the supervisory authority, conduct an internal audit of the framework, and notify the supervisory authority of any personal data breaches.",
+      "C": "Submit the ICT risk management framework to the supervisory authority, conduct an internal audit of the framework, and implement a digital operational resilience strategy.",
+      "D": "Notify the supervisory authority of any personal data breaches and conduct a review of the ICT risk management framework, but not submit it to the authority."
+    },
+    "correct_answer": "C",
+    "explanation": "The fintech company must submit the ICT risk management framework to the supervisory authority (DORA Art. 6) and conduct an internal audit of the framework (DORA Art. 6). Additionally, the company should implement a digital operational resilience strategy, which includes methods to address ICT risk and attain specific ICT objectives (DORA Art. 8).",
+    "source_articles": {
+      "DORA": [
+        "Art. 6",
+        "Art. 8"
+      ],
+      "GDPR": [
+        "Art. 33"
+      ]
+    },
+    "distractor_analysis": {
+      "A": {
+        "error_type": "ignores_gdpr",
+        "explanation": "The company must notify the supervisory authority of any personal data breaches according to GDPR Art. 33."
+      },
+      "B": {
+        "error_type": "fabricated_rule",
+        "explanation": "There is no regulation that requires companies to notify the supervisory authority of personal data breaches when submitting the ICT risk management framework."
+      },
+      "D": {
+        "error_type": "ignores_dora",
+        "explanation": "The company must submit the ICT risk management framework to the supervisory authority according to DORA Art. 6."
+      }
+    },
+    "reasoning_type": "cross_regulation_overlap",
+    "difficulty": "hard",
+    "source_pair_id": "DORA_Art6_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_pair": "DORA × GDPR",
+    "validation_score": 5,
+    "interaction_type": "dual_obligation"
+  },
+  {
+    "scenario": "A large bank in Spain is planning to outsource the tasks of verifying compliance with ICT risk management requirements to an intra-group undertaking.",
+    "question": "What must the bank do?",
+    "options": {
+      "A": "Assign the responsibility for managing and overseeing ICT risk to a control function and ensure an appropriate level of independence of such control function.",
+      "B": "Ensure that the intra-group undertaking has sufficient knowledge, skills, and expertise in ICT risk and possesses appropriate independence.",
+      "C": "Notify the supervisory authority of the outsourcing arrangement and ensure that the intra-group undertaking remains fully responsible for the verification of compliance with the ICT risk management requirements.",
+      "D": "Document the outsourcing arrangement and review it annually."
+    },
+    "correct_answer": "C",
+    "explanation": "The bank must notify the supervisory authority of the outsourcing arrangement (DORA Art. 6) and ensure that the intra-group undertaking remains fully responsible for the verification of compliance with the ICT risk management requirements (DORA Art. 10).",
+    "source_articles": {
+      "DORA": [
+        "Art. 6",
+        "Art. 10"
+      ],
+      "GDPR": [
+        "Art. 33"
+      ]
+    },
+    "distractor_analysis": {
+      "A": {
+        "error_type": "ignores_gdpr",
+        "explanation": "The bank must ensure that the intra-group undertaking has sufficient knowledge, skills, and expertise in ICT risk and possesses appropriate independence, according to GDPR Art. 33."
+      },
+      "B": {
+        "error_type": "ignores_dora",
+        "explanation": "The bank must notify the supervisory authority of the outsourcing arrangement according to DORA Art. 6."
+      },
+      "D": {
+        "error_type": "fabricated_rule",
+        "explanation": "There is no regulation that requires banks to document the outsourcing arrangement and review it annually."
+      }
+    },
+    "reasoning_type": "cross_regulation_overlap",
+    "difficulty": "easy",
+    "source_pair_id": "DORA_Art6_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_pair": "DORA × GDPR",
+    "validation_score": 5,
+    "interaction_type": "dual_obligation"
+  },
+  {
+    "scenario": "A medium-sized bank in Germany is planning to enter into a contractual arrangement with an ICT third-party service provider to provide cloud computing services.",
+    "question": "What must the bank do before entering into the contractual arrangement?",
+    "options": {
+      "A": "Assess the ICT third-party service provider's cybersecurity practices, including their secure development procedures.",
+      "B": "Verify the provider's compliance with applicable financial regulations and laws.",
+      "C": "Undertake due diligence on the prospective ICT third-party service provider, including assessing their suitability and potential conflicts of interest.",
+      "D": "Implement a multi-factor authentication solution for all employees accessing the cloud computing services."
+    },
+    "correct_answer": "C",
+    "explanation": "Before entering into a contractual arrangement, the bank must undertake due diligence on the prospective ICT third-party service provider, including assessing their suitability and potential conflicts of interest, as per DORA Article 28(4)(d). Additionally, the bank should also assess the ICT third-party service provider's cybersecurity practices, including their secure development procedures, as per NIS2 Article 21(2)(e).",
+    "source_articles": {
+      "DORA": [
+        "Art. 28"
+      ],
+      "NIS2": [
+        "Art. 21"
+      ]
+    },
+    "distractor_analysis": {
+      "A": {
+        "error_type": "ignores_dora",
+        "explanation": "While assessing the ICT third-party service provider's cybersecurity practices is important, it is not the primary requirement before entering into the contractual arrangement."
+      },
+      "B": {
+        "error_type": "ignores_nis2",
+        "explanation": "Verifying the provider's compliance with applicable financial regulations and laws is a general requirement, but it does not address the specific needs of ICT third-party risk management."
+      },
+      "D": {
+        "error_type": "fabricated_rule",
+        "explanation": "Implementing a multi-factor authentication solution is a good practice, but it is not a requirement before entering into the contractual arrangement."
+      }
+    },
+    "reasoning_type": "cross_regulation_overlap",
+    "difficulty": "medium",
+    "source_pair_id": "DORA_Art28_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_pair": "DORA × NIS2",
+    "validation_score": 5,
+    "interaction_type": "dual_obligation"
+  },
+  {
+    "scenario": "A fintech company in the UK is experiencing a significant breach by its ICT third-party service provider of applicable laws and regulations.",
+    "question": "What must the company do?",
+    "options": {
+      "A": "Report the breach to the Financial Conduct Authority (FCA) and notify its customers of the potential risks.",
+      "B": "Conduct a thorough investigation into the breach and identify the root cause.",
+      "C": "Terminate the contractual arrangement with the ICT third-party service provider, as per DORA Article 28(7)(a).",
+      "D": "Develop a new cybersecurity risk-management plan to mitigate the impact of the breach."
+    },
+    "correct_answer": "C",
+    "explanation": "In the event of a significant breach by the ICT third-party service provider, the company must terminate the contractual arrangement, as per DORA Article 28(7)(a). Additionally, the company should also take into account the cybersecurity risk-management measures required by NIS2 Article 21, such as assessing the impact of the breach and developing a plan to mitigate it.",
+    "source_articles": {
+      "DORA": [
+        "Art. 28"
+      ],
+      "NIS2": [
+        "Art. 21"
+      ]
+    },
+    "distractor_analysis": {
+      "A": {
+        "error_type": "ignores_dora",
+        "explanation": "While reporting the breach to the FCA and notifying customers is important, it is not the primary action required."
+      },
+      "B": {
+        "error_type": "ignores_nis2",
+        "explanation": "Conducting a thorough investigation is a good practice, but it does not address the contractual arrangement termination requirement."
+      },
+      "D": {
+        "error_type": "fabricated_rule",
+        "explanation": "Developing a new cybersecurity risk-management plan is a good practice, but it is not a requirement in the event of a significant breach by the ICT third-party service provider."
+      }
+    },
+    "reasoning_type": "cross_regulation_overlap",
+    "difficulty": "hard",
+    "source_pair_id": "DORA_Art28_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_pair": "DORA × NIS2",
+    "validation_score": 5,
+    "interaction_type": "dual_obligation"
+  },
+  {
+    "scenario": "A large bank in France is considering the use of multi-factor authentication to secure its online banking services.",
+    "question": "What must the bank do to ensure the security of its network and information systems?",
+    "options": {
+      "A": "Implement a regular backup and disaster recovery plan to ensure business continuity.",
+      "B": "Conduct a risk analysis to identify potential vulnerabilities and threats to its network and information systems.",
+      "C": "Ensure that its ICT third-party service providers comply with appropriate information security standards, as per DORA Article 28(5).",
+      "D": "Develop a comprehensive cybersecurity risk-management plan that includes all-hazards approach, incident handling, and business continuity measures."
+    },
+    "correct_answer": "D",
+    "explanation": "To ensure the security of its network and information systems, the bank must develop a comprehensive cybersecurity risk-management plan that includes an all-hazards approach, incident handling, and business continuity measures, as per NIS2 Article 21(2). Additionally, the bank should also ensure that its ICT third-party service providers comply with appropriate information security standards, as per DORA Article 28(5).",
+    "source_articles": {
+      "DORA": [
+        "Art. 28"
+      ],
+      "NIS2": [
+        "Art. 21"
+      ]
+    },
+    "distractor_analysis": {
+      "A": {
+        "error_type": "ignores_nis2",
+        "explanation": "While implementing a regular backup and disaster recovery plan is important, it is not a comprehensive solution to ensure the security of its network and information systems."
+      },
+      "B": {
+        "error_type": "ignores_dora",
+        "explanation": "Conducting a risk analysis is a good practice, but it is not a requirement to ensure the security of its network and information systems."
+      },
+      "C": {
+        "error_type": "partially_correct",
+        "explanation": "Ensuring that its ICT third-party service providers comply with appropriate information security standards is a good practice, but it is not the primary requirement to ensure the security of its network and information systems."
+      }
+    },
+    "reasoning_type": "cross_regulation_overlap",
+    "difficulty": "easy",
+    "source_pair_id": "DORA_Art28_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_pair": "DORA × NIS2",
+    "validation_score": 5,
+    "interaction_type": "dual_obligation"
+  }
+]
