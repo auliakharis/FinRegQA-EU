@@ -1,6 +1,6 @@
 {
   "regulation": "MiFID2",
-  "total_articles_found": 91,
+  "total_articles_found": 90,
   "overlap_zone_summary": {
     "crypto_asset_classification": [
       "Art. 18: Trading process and finalisation of transactions in an MTF and an OTF",
@@ -829,15 +829,6 @@
       "chapter": "Title VII — DELEGATED ACTS",
       "overlap_zones": [],
       "char_count": 885
-    },
-    {
-      "regulation": "MiFID2",
-      "article_number": "14",
-      "title": "--- PAGE 142 ---",
-      "text": "L 173/490 EN Official Journal of the European Union 12.6.2014\nDirective 2004/39/EC Directive 2014/65/EU Regulation (EU) No 600/2014",
-      "chapter": "Title VII — DELEGATED ACTS",
-      "overlap_zones": [],
-      "char_count": 131
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "regulation": "MiCA",
-  "total_articles_found": 5,
+  "total_articles_found": 4,
   "overlap_zone_summary": {
     "crypto_asset_classification": [
       "Art. 120: --- PAGE 126 ---"
@@ -9,8 +9,8 @@
   "articles": [
     {
       "regulation": "MiCA",
-      "article_number": "15",
-      "title": "--- PAGE 37 ---",
+      "article_number": "14",
+      "title": "Article 15",
       "text": "CHAPTER 1\nAuthorisation to offer asset-referenced tokens to the public and to seek their admission to trading",
       "chapter": "Unknown",
       "overlap_zones": [],
@@ -24,15 +24,6 @@
       "chapter": "Chapter 5 — Significant crypto-asset service providers",
       "overlap_zones": [],
       "char_count": 101
-    },
-    {
-      "regulation": "MiCA",
-      "article_number": "109",
-      "title": "--- PAGE 118 ---",
-      "text": "Article 110\nCHAPTER 3\nAdministrative penalties and other administrative measures by competent authorities",
-      "chapter": "Chapter 2 — ESMA register",
-      "overlap_zones": [],
-      "char_count": 105
     },
     {
       "regulation": "MiCA",

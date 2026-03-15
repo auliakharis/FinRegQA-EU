@@ -1,6 +1,6 @@
 {
   "regulation": "NIS2",
-  "total_articles_found": 36,
+  "total_articles_found": 34,
   "overlap_zone_summary": {
     "incident_reporting": [
       "Art. 4: Sector-specific Union legal acts",
@@ -85,15 +85,6 @@
       "chapter": "Chapter II — COORDINATED CYBERSECURITY FRAMEWORKS",
       "overlap_zones": [],
       "char_count": 521
-    },
-    {
-      "regulation": "NIS2",
-      "article_number": "29",
-      "title": "with sectoral or cross-sectoral communities of essential and important entities.",
-      "text": "5. The CSIRTs shall participate in peer reviews organised in accordance with Article 19.\n6. Member States shall ensure the effective, efficient and secure cooperation of their CSIRTs in the CSIRTs network.\n\nL 333/118 EN Official Journal of the European Union 27.12.2022\n7. The CSIRTs may establish cooperation relationships with third countries’ national computer security incident\nresponse teams. As part of such cooperation relationships, Member States shall facilitate effective, efficient and secure\ninformation exchange with those third countries’ national computer security incident response teams, using relevant\ninformation-sharing protocols, including the traffic light protocol. The CSIRTs may exchange relevant information with\nthird countries’ national computer security incident response teams, including personal data in accordance with Union\ndata protection law.\n8. The CSIRTs may cooperate with third countries’ national computer security incident response teams or equivalent\nthird-country bodies, in particular for the purpose of providing them with cybersecurity assistance.\n9. Each Member State shall notify the Commission without undue delay of the identity of the CSIRT referred to in\nparagraph 1 of this Article and the CSIRT designated as coordinator pursuant to Article 12(1), of their respective tasks in\nrelation to essential and important entities, and of any subsequent changes thereto.\n10. Member States may request the assistance of ENISA in developing their CSIRTs.",
-      "chapter": "Chapter II — COORDINATED CYBERSECURITY FRAMEWORKS",
-      "overlap_zones": [],
-      "char_count": 1497
     },
     {
       "regulation": "NIS2",
@@ -350,15 +341,6 @@
       "chapter": "Chapter VII — SUPERVISION AND ENFORCEMENT",
       "overlap_zones": [],
       "char_count": 2257
-    },
-    {
-      "regulation": "NIS2",
-      "article_number": "41",
-      "title": "Article 26 Article 45",
-      "text": "Article 27 Article 46\nAnnex I, point (1) Article 11(1)\nAnnex I, points (2)(a)(i) to (iv) Article 11(2), points (a) to (d)\n\nL 333/152 EN Official Journal of the European Union 27.12.2022\nDirective (EU) 2016/1148 This Directive\nAnnex I, point (2)(a)(v) Article 11(2), point (f)\nAnnex I, point (2)(b) Article 11(4)\nAnnex I, points (2)(c)(i) and (ii) Article 11(5), point (a)\nAnnex II Annex I\nAnnex III, points (1) and (2) Annex II, point (6)\nAnnex III, point (3) Annex I, point (8)",
-      "chapter": "Chapter IX — FINAL PROVISIONS",
-      "overlap_zones": [],
-      "char_count": 478
     }
   ]
 }

@@ -290,8 +290,8 @@ def parse_articles(text: str, regulation_name: str) -> list[dict]:
     #   (.*?)                   — body text (non-greedy)
     #   (?=Article\s+\d|$)      — until next article or end
     article_pattern = re.compile(
-        r'Article\s+(\d+[a-z]?)\s*\n([^\n]+)\n(.*?)(?=\nArticle\s+\d|\Z)',
-        re.DOTALL | re.IGNORECASE
+        r'^\s*Article\s+(\d+[a-z]?)\s*$\n^([^\n]+)$\n(.*?)(?=^\s*Article\s+\d|\Z)',
+        re.DOTALL | re.IGNORECASE | re.MULTILINE
     )
 
     matches = list(article_pattern.finditer(text))
@@ -308,6 +308,10 @@ def parse_articles(text: str, regulation_name: str) -> list[dict]:
         body = re.sub(r'--- PAGE \d+ ---', '', body)
         body = re.sub(r'\n{3,}', '\n\n', body)
         body = body.strip()
+
+        if re.match(r'^[\d\(]|^[a-z]', title):
+            skipped["not_a_title"] = skipped.get("not_a_title", 0) + 1
+            continue
 
         # --- FILTER 1: Skip by article number range ---
         try:

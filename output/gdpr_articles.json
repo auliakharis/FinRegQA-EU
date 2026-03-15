@@ -1,6 +1,6 @@
 {
   "regulation": "GDPR",
-  "total_articles_found": 91,
+  "total_articles_found": 90,
   "overlap_zone_summary": {
     "data_protection_vs_retention": [
       "Art. 6: Lawfulness of processing",
@@ -528,15 +528,6 @@
       "chapter": "Section 2 — Competence, tasks and powers",
       "overlap_zones": [],
       "char_count": 2170
-    },
-    {
-      "regulation": "GDPR",
-      "article_number": "41",
-      "title": "and of a certification body pursuant to Article 43;",
-      "text": "(q) conduct the accreditation of a body for monitoring codes of conduct pursuant to Article 41 and of a certification\nbody pursuant to Article 43;\n(r) authorise contractual clauses and provisions referred to in Article 46(3);\n(s) approve binding corporate rules pursuant to Article 47;\n(t) contribute to the activities of the Board;\n(u) keep internal records of infringements of this Regulation and of measures taken in accordance with Article 58(2);\nand\n(v) fulfil any other tasks related to the protection of personal data.\n2. Each supervisory authority shall facilitate the submission of complaints referred to in point (f) of paragraph 1 by\nmeasures such as a complaint submission form which can also be completed electronically, without excluding other\nmeans of communication.\n3. The performance of the tasks of each supervisory authority shall be free of charge for the data subject and, where\napplicable, for the data protection officer.\n4. Where requests are manifestly unfounded or excessive, in particular because of their repetitive character, the\nsupervisory authority may charge a reasonable fee based on administrative costs, or refuse to act on the request. The\nsupervisory authority shall bear the burden of demonstrating the manifestly unfounded or excessive character of the\nrequest.",
-      "chapter": "Section 2 — Competence, tasks and powers",
-      "overlap_zones": [],
-      "char_count": 1301
     },
     {
       "regulation": "GDPR",
