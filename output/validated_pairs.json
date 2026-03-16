@@ -16,8 +16,3022 @@
       "pass": true,
       "relevance_score": 5,
       "interaction_type": "dual_obligation",
-      "reasoning": "A financial entity may need to notify a personal data breach under GDPR Article 33 and simultaneously assess the ICT risk management framework under DORA Article 6 to ensure digital operational resilience.",
-      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises sensitive customer data, requiring immediate notification to the supervisory authority and an evaluation of its ICT risk management framework to prevent future breaches."
+      "reasoning": "A bank's failure to notify a personal data breach to the supervisory authority within 72 hours under GDPR Article 33 could also trigger an ICT risk management framework review under DORA Article 6.",
+      "suggested_scenario_seed": "A bank experiences a data breach that compromises customer data and must notify the supervisory authority under GDPR, while also reviewing its ICT risk management framework to ensure it can address the breach quickly and efficiently."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to communicate a personal data breach to the data subject under GDPR, while also ensuring the ICT risk management framework under DORA is followed to prevent and mitigate the breach.",
+      "suggested_scenario_seed": "A bank's IT system is hacked, exposing customer data, and the bank must comply with both GDPR and DORA regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to notify a personal data breach under GDPR Article 33 and simultaneously implement an ICT business continuity plan to mitigate potential disruptions to their operations under DORA Article 11.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and disrupts its operations, requiring both GDPR notification and ICT business continuity plan implementation."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to communicate a data breach to customers under GDPR, while also implementing a business continuity plan to mitigate the impact of the breach under DORA.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data, requiring both a GDPR breach notification and a DORA business continuity response."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank must notify a personal data breach under GDPR Article 33 and conduct an ICT-related incident review under DORA Article 13, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyber-attack that results in a personal data breach, requiring both GDPR and DORA compliance."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to inform customers about a data breach under GDPR and simultaneously conduct an ICT-related incident review under DORA, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyber-attack that compromises customer data, requiring them to notify affected customers under GDPR and assess the incident's impact on their digital operational resilience under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to notify both a personal data breach to the supervisory authority under GDPR and a major ICT-related incident to the public and counterparts under DORA, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that results in a personal data breach and a significant disruption of its ICT systems, requiring simultaneous notification under both DORA and GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to disclose both an ICT-related incident and a personal data breach to clients and data subjects, respectively, under these two articles.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and also causes a disruption in their online services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution, exempt from DORA's ICT risk management framework, may still be subject to GDPR's data breach notification requirements, creating a dual obligation.",
+      "suggested_scenario_seed": "A small, non-interconnected investment firm experiences a data breach and must notify the supervisory authority under GDPR, while also considering its simplified ICT risk management framework exemption under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when a small investment firm experiences a personal data breach that affects its ICT risk management framework, requiring them to communicate the breach to the data subject and assess its impact on the firm's ICT risk management framework.",
+      "suggested_scenario_seed": "A small investment firm experiences a cyberattack that compromises customer data and its internal ICT systems."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to notify both an ICT-related incident and a personal data breach to the relevant authorities, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data, triggering both an ICT-related incident and a personal data breach under DORA and GDPR, respectively."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to notify both an ICT-related incident and a personal data breach to the relevant authorities and the data subject, respectively, under these two articles.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and disrupts its ICT systems, requiring notification under DORA and GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to classify an ICT-related incident under DORA and also notify a personal data breach under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach affecting client data and service downtime, requiring both DORA and GDPR compliance."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to classify an ICT-related incident under DORA and simultaneously communicate a personal data breach to the affected data subjects under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and causes service downtime, requiring both incident classification under DORA and notification of affected customers under GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank must report both a cyber incident under DORA and a related personal data breach under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyber attack that compromises customer data, requiring both DORA and GDPR reporting."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to report a cyber incident under DORA and also notify affected data subjects under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyber attack that compromises customer data, requiring both a report to the relevant competent authority under DORA and notifications to affected customers under GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank may be required to report both a major ICT-related incident and a personal data breach under DORA and GDPR respectively, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and disrupts its operations, requiring simultaneous reporting under both DORA and GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution may be required to report an ICT-related incident under DORA and simultaneously notify affected data subjects about a personal data breach under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data, requiring both DORA incident reporting and GDPR data subject notification."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity experiencing a major ICT-related incident that also involves a personal data breach would need to comply with both articles, requiring simultaneous reporting to the ESAs and the supervisory authority.",
+      "suggested_scenario_seed": "A bank's IT system is hacked, resulting in a data breach affecting customer personal data and disrupting its operations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank must report a major ICT-related incident to the EU Hub and inform affected data subjects about the breach, creating a dual obligation to comply with both DORA and GDPR.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and requires both incident reporting and data subject notification."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_GDPR_Art33",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to notify both the supervisory authority under DORA and the supervisory authority under GDPR for the same event, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cybersecurity incident that also involves a personal data breach, requiring notification to the CSIRT and the national supervisory authority under GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_GDPR_Art34",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to provide feedback under DORA and simultaneously inform data subjects about a personal data breach under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank receives a notification of a cybersecurity incident and must respond to the supervisory authority under DORA while also informing affected customers about the breach under GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be subject to both DORA and NIS2 regulations, requiring them to implement an ICT risk management framework and comply with sector-specific cybersecurity measures, potentially creating a dual obligation.",
+      "suggested_scenario_seed": "A bank is required to implement an ICT risk management framework under DORA and also needs to comply with specific cybersecurity measures under NIS2 for its online banking services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to report a significant ICT incident to both the CSIRT and the recipients of their services, as per NIS2 Article 23, while also needing to address the ICT risk management framework as per DORA Article 6.",
+      "suggested_scenario_seed": "A bank experiences a significant cyberattack that affects its ability to provide services, requiring immediate notification to both the CSIRT and its customers."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity providing cloud computing services may be subject to both articles, requiring them to have a sound ICT risk management framework (Article 1) and to be registered in ENISA's registry (Article 2), creating a dual obligation.",
+      "suggested_scenario_seed": "A cloud computing service provider is registered in ENISA's registry and is required to have a sound ICT risk management framework to protect its customers' data."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity's ICT risk management framework (Article 1) may require them to protect their domain name registration data, which is also subject to the database requirements of Article 2, creating a dual obligation.",
+      "suggested_scenario_seed": "A financial entity's IT department discovers a security breach in their domain name registration data and must comply with both DORA and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when investigating a personal data breach incident that involves a financial entity's ICT risk management framework.",
+      "suggested_scenario_seed": "A financial entity experiences a cyberattack that results in a personal data breach, requiring the compliance officer to assess both the ICT risk management framework and the notification obligations under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities regarding ICT business continuity and cybersecurity risk management, potentially creating a dual obligation.",
+      "suggested_scenario_seed": "A bank is subject to both DORA and NIS2 regulations and must determine how to implement ICT business continuity and cybersecurity risk management measures without duplicating efforts."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles require financial entities to notify authorities and potentially customers in case of a significant ICT-related incident, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's IT system is compromised, requiring them to notify both their CSIRT under NIS2 and implement their ICT business continuity policy under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity's ICT business continuity policy may need to account for both ICT risk management and registry requirements, creating a dual obligation.",
+      "suggested_scenario_seed": "A financial entity's cloud service provider is listed in ENISA's registry and is critical to their ICT business continuity plan."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity's ICT business continuity policy, as per DORA Article 11, may require the collection and maintenance of domain name registration data, as per NIS2 Article 28, to ensure the security and resilience of their DNS.",
+      "suggested_scenario_seed": "A financial entity's DNS is compromised due to a cyberattack, and they need to respond and recover while ensuring the continuity of their services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art11_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "11",
+      "title": "Response and recovery"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to implement an ICT business continuity policy to prevent a personal data breach, as per DORA Article 11, and also notify the supervisory authorities in case of a breach, as per NIS2 Article 35.",
+      "suggested_scenario_seed": "A bank's IT system fails, causing a data breach, and the compliance officer must determine the necessary steps to prevent future breaches and report the incident."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to assess and respond to ICT-related incidents, creating a dual obligation scenario.",
+      "suggested_scenario_seed": "A bank experiences a major cyber-attack and must comply with both DORA's post-incident review requirements and NIS2's sector-specific cybersecurity risk-management measures."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to conduct a post-incident review under DORA Article 13 and notify the CSIRT or competent authority under NIS2 Article 23 for the same significant ICT-related incident.",
+      "suggested_scenario_seed": "A bank experiences a major cyber-attack that disrupts its core activities and is required to both review the incident and notify the relevant authorities."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to consider both articles when a major ICT-related incident occurs, requiring them to analyze the incident's impact on their digital operational resilience and also to report to ENISA as a provider of a relevant service.",
+      "suggested_scenario_seed": "A bank's cloud computing service provider experiences a major cyber-attack disrupting its core activities, and the bank must comply with both DORA and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity's ICT-related incident could trigger both DORA's requirement to analyze the impact on digital operational resilience and NIS2's obligation to maintain accurate domain name registration data.",
+      "suggested_scenario_seed": "A bank's website is hacked, causing a disruption in core activities, and the incident is linked to a domain name registration service."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to conduct an incident review under DORA Article 13 and also notify a personal data breach under NIS2 Article 35 for the same ICT-related incident.",
+      "suggested_scenario_seed": "A bank experiences a cyber-attack that disrupts its core activities and results in a personal data breach."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to communicate ICT-related incidents, creating a dual obligation scenario where compliance officers must consider both articles for a specific event.",
+      "suggested_scenario_seed": "A bank must decide whether to disclose a major ICT-related incident to clients and the public under DORA, while also considering the notification requirements under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to notify incidents to clients and the public, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a major ICT-related incident and must decide whether to notify clients and the public under DORA Article 14 or report to the competent authority under NIS2 Article 23."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to disclose a major ICT-related incident to the public and to ENISA through the registry, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's data centre service provider experiences a major security breach, requiring the bank to inform its clients and the public under DORA, while also reporting the incident to ENISA under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to disclose ICT-related incidents to clients and counterparts through a crisis communication plan (Article 1), while also being required to maintain a database of domain name registration data (Article 2) that may be affected by the incident.",
+      "suggested_scenario_seed": "A bank's website is hacked, and they need to inform clients and counterparts about the incident while also ensuring the domain name registration data is accurate and up-to-date."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art14_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "14",
+      "title": "Communication"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to disclose a personal data breach to supervisory authorities under NIS2 Article 35, while also needing to communicate the same incident to clients and counterparts under DORA Article 14, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach affecting customer data and must notify both the supervisory authorities and its clients according to both regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles create a dual obligation for entities that are subject to both DORA and NIS2, requiring them to comply with either the simplified ICT risk management framework or the sector-specific cybersecurity risk-management measures.",
+      "suggested_scenario_seed": "A small investment firm is subject to both DORA and NIS2 and needs to determine its ICT risk management framework and cybersecurity risk-management measures."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when a small investment firm experiences a significant ICT risk management incident that affects its services, requiring notification to both the CSIRT and the recipients of its services.",
+      "suggested_scenario_seed": "A small investment firm experiences a significant ICT risk management incident that affects its services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to ensure that a small investment firm, exempt from DORA Article 16, still complies with NIS2 Article 27, creating a dual obligation.",
+      "suggested_scenario_seed": "A small investment firm, exempt from DORA Article 16, uses a cloud computing service provider registered in the NIS2 registry."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when evaluating the ICT risk management framework of a payment institution that also requires domain name registration data for security purposes.",
+      "suggested_scenario_seed": "A payment institution is considering outsourcing its domain name registration services and needs to assess its ICT risk management framework and domain name registration data collection practices."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art16_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "16",
+      "title": "Simplified ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when a small investment firm experiences a personal data breach that also requires ICT risk management framework assessment.",
+      "suggested_scenario_seed": "A small investment firm experiences a data breach that affects its ICT systems and requires both DORA and NIS2 compliance."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to manage ICT-related incidents, creating a dual obligation scenario where compliance officers must consider both articles for a specific event.",
+      "suggested_scenario_seed": "A bank must comply with both DORA and NIS2 regulations when handling a significant cyber threat incident, requiring them to define an ICT-related incident management process and notify the relevant authorities."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles require financial entities to report ICT-related incidents, creating a dual obligation to notify both the CSIRT and the recipients of their services.",
+      "suggested_scenario_seed": "A bank experiences a significant cyber attack and must decide whether to notify its CSIRT under NIS2 Article 23 or its ICT-related incident management process under DORA Article 17."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity providing cloud computing services, such as AWS, would need to comply with both articles, as they would be subject to the incident management process under DORA and also be registered under NIS2.",
+      "suggested_scenario_seed": "A cloud computing service provider is hacked, and the incident needs to be reported under DORA, while also being listed in the NIS2 registry."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank's ICT-related incident management process (DORA Article 17) may involve a cyber threat that originated from a domain name registration service (NIS2 Article 28), requiring compliance with both articles for incident management and root cause analysis.",
+      "suggested_scenario_seed": "A bank's IT department detects a cyber attack on its system, which is traced back to a compromised domain name registration service."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art17_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "17",
+      "title": "ICT-related incident management process"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to both notify a personal data breach under NIS2 and manage an ICT-related incident under DORA, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyber attack that results in a personal data breach, requiring them to notify the supervisory authorities under NIS2 and implement their ICT-related incident management process under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to classify ICT-related incidents, creating a dual obligation to comply with both DORA and NIS2 requirements.",
+      "suggested_scenario_seed": "A bank experiences a significant ICT-related incident affecting multiple clients and transactions, requiring classification under DORA Article 18 and potentially exempting it from NIS2 requirements if it's an 'essential or important entity'."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer needs to classify the ICT-related incident under DORA Article 18 and then report it as a significant incident under NIS2 Article 23, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that affects 100 clients and causes significant reputational damage, requiring classification under DORA and notification under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to classify an ICT-related incident under DORA and also be listed in the ENISA registry under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that affects multiple clients and is listed as a cloud computing service provider in the ENISA registry."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to classify an ICT-related incident under DORA Article 18 and also report domain name registration data to the NIS2 database, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's IT system is compromised, affecting multiple clients and causing reputational damage, requiring classification under DORA Article 18, while also necessitating the reporting of the domain name registration data to the NIS2 database."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art18_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "18",
+      "title": "Classification of ICT-related incidents and cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to classify an ICT-related incident under DORA and also notify a personal data breach under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach affecting multiple clients and transactions, requiring both incident classification under DORA and notification of a personal data breach under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be subject to both DORA and NIS2 regulations, requiring them to report ICT-related incidents to both the relevant competent authority and potentially other sector-specific authorities, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank must report a major ICT-related incident under DORA and also comply with sector-specific cybersecurity risk-management measures under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose reporting obligations on financial entities for ICT-related incidents, creating a dual obligation to report to both the relevant competent authority and the CSIRT or competent authority in the Member State.",
+      "suggested_scenario_seed": "A bank in the EU experiences a major ICT-related incident and must report it to both the relevant EU competent authority and the CSIRT or competent authority in its Member State."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to report a major ICT-related incident to both the relevant competent authority under DORA and to register with ENISA's registry under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a major cyber attack and is required to notify the relevant competent authority under DORA and also needs to register with ENISA's registry under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity experiencing a major ICT-related incident may be required to report it to the relevant competent authority under DORA, and also be required to collect and maintain domain name registration data in a database under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's website is hacked, and the incident must be reported to the regulator under DORA, while also requiring the bank to collect and maintain the domain name registration data of the attacker in a database under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art19_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "19",
+      "title": "Reporting of major ICT-related incidents and voluntary notification of significant cyber threats"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to report incidents, creating a dual obligation to consider both DORA and NIS2 regulations.",
+      "suggested_scenario_seed": "A bank experiences a major ICT-related incident that also results in a personal data breach, requiring the compliance officer to report under both DORA Article 19 and NIS2 Article 35."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to report a major ICT-related incident under DORA and also comply with sector-specific cybersecurity risk-management measures under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a major cyberattack and is subject to both DORA and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to report a significant ICT-related incident to both the ESAs and the CSIRT/competent authority, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a major cyberattack and must notify the ESAs for DORA reporting and the CSIRT/competent authority for NIS2 reporting."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution providing cloud computing services may need to report ICT-related incidents under DORA and also be registered under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A cloud computing service provider is hacked and must report the incident under DORA and also be listed in the NIS2 registry."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to report a major ICT-related incident under DORA and also maintain domain name registration data in a database under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's IT system is hacked, and they need to report the incident under DORA and also ensure that the domain name registration data of the attackers is collected and maintained in a database under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art20_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "20",
+      "title": "Harmonisation of reporting content and templates"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution experiencing a major ICT-related incident may be required to report to both the ESAs and the supervisory authorities in case of a potential personal data breach, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's IT system is hacked, resulting in a data breach and a disruption of critical services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to report ICT-related incidents to both the ESAs and under sector-specific Union legal acts, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank must report a major ICT-related incident to the ESAs through the proposed EU Hub and also notify the relevant sector-specific Union legal acts as per NIS2 Article 4."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to report a significant ICT-related incident to both the ESAs and its national competent authority under DORA and NIS2, respectively.",
+      "suggested_scenario_seed": "A bank experiences a major cyberattack and must notify both the EU Hub and its national CSIRT under DORA and NIS2, respectively."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to report an ICT-related incident to both the EU Hub and the ENISA registry, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's cloud service provider experiences a major ICT-related incident and is listed in the ENISA registry, requiring the bank to report the incident to both the EU Hub and the ENISA registry."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity experiencing a major ICT-related incident may be required to report it to both the EU Hub (DORA Article 21) and maintain accurate domain name registration data in a dedicated database (NIS2 Article 28) if the incident involves a domain name registration service.",
+      "suggested_scenario_seed": "A bank's IT system is compromised due to a phishing attack on a domain name registration service provider."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art21_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "21",
+      "title": "Centralisation of reporting of major ICT-related incidents"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to report a personal data breach under NIS2 Article 35 and also centralise ICT-related incident reporting under DORA Article 21, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach that affects both its ICT systems and customer personal data, requiring the reporting of the incident under both articles."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be subject to both DORA and NIS2 regulations, creating a dual obligation to provide feedback and report significant incidents.",
+      "suggested_scenario_seed": "A bank must report a significant cybersecurity incident under NIS2 and also receive supervisory feedback under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to notify both the CSIRT and the competent authority under DORA and NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a significant cybersecurity incident and needs to notify both the EU's CSIRT and its national competent authority under DORA and NIS2, respectively."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity, such as a bank, may be required to provide reports to both the competent authority under DORA and to ENISA under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank receives a request from the competent authority to provide a report under DORA and simultaneously is required to register with ENISA under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to provide regular reports to the competent authority under DORA, which may then trigger the need to collect and maintain domain name registration data under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A financial entity, registered on a domain name, is required to submit regular reports to the competent authority under DORA, and in the process, the authority needs to ensure the domain name registration data is accurate and complete under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art22_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "22",
+      "title": "Supervisory feedback"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to report a personal data breach to the supervisory authorities under NIS2 and simultaneously receive supervisory feedback from the competent authority under DORA.",
+      "suggested_scenario_seed": "A bank experiences a cyber-attack that results in a personal data breach, requiring them to notify the supervisory authorities under NIS2 and seek feedback from the competent authority under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art33_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank must notify both a personal data breach to the supervisory authority under GDPR Article 33 and a significant cybersecurity incident to the relevant authority under NIS2 Article 4, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach that compromises customer data and also causes a significant disruption to its IT systems."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art33_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to notify both the supervisory authority under GDPR Article 33 and the CSIRT or competent authority under NIS2 Article 23 for the same data breach incident, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach that affects customer data and also causes a significant impact on its IT services, requiring simultaneous notifications to the GDPR supervisory authority and the CSIRT."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art33_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank must notify both the supervisory authority under GDPR Article 33 for a personal data breach and register with ENISA under NIS2 Article 27 for security incident reporting, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach that affects customer data and is required to report it to the supervisory authority within 72 hours under GDPR, while also needing to register with ENISA as a managed security service provider under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art33_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to notify a personal data breach under GDPR Article 33 and simultaneously maintain domain name registration data in a database under NIS2 Article 28, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's customer's domain name is compromised, leading to a data breach and requiring notification under GDPR, while also necessitating the bank to maintain accurate domain name registration data in a database as per NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art33_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "33",
+      "title": "Notification of a personal data breach to the supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles create a dual obligation for EU financial entities to notify a personal data breach to the supervisory authority within a certain timeframe.",
+      "suggested_scenario_seed": "A bank becomes aware of a data breach that may impact customer data and must notify the supervisory authority under both GDPR and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art34_x_NIS2_Art4",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "4",
+      "title": "Sector-specific Union legal acts"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A bank must notify both the data subject of a personal data breach under GDPR Article 34 and the relevant authorities of a significant cybersecurity incident under NIS2 Article 4, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a data breach that affects customer personal data and also compromises its IT systems, requiring simultaneous notification under both GDPR and NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art34_x_NIS2_Art23",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution may be required to notify both the data subjects (GDPR Article 34) and the CSIRT or competent authority (NIS2 Article 23) about a data breach that compromises both personal data and the provision of their services.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that exposes customer data and disrupts online banking services."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art34_x_NIS2_Art27",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "27",
+      "title": "Registry of entities"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity providing cloud computing services may be subject to both GDPR and NIS2 regulations, requiring them to notify data subjects of a breach under GDPR Article 34 and also register with ENISA under NIS2 Article 27.",
+      "suggested_scenario_seed": "A cloud computing service provider experiences a data breach affecting EU customers, requiring them to notify affected individuals and register the incident with ENISA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art34_x_NIS2_Art28",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "28",
+      "title": "Database of domain name registration data"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution, as a data controller, may be required to notify data subjects of a personal data breach under GDPR Article 34, and simultaneously, as a domain name registrar, maintain a database of domain name registration data in accordance with NIS2 Article 28, potentially creating a dual obligation to notify data subjects about the breach and ensure the accuracy of the domain name registration data.",
+      "suggested_scenario_seed": "A financial institution discovers a data breach involving customer email addresses stored in its domain name registration database."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art34_x_NIS2_Art35",
+    "overlap_zone": "incident_reporting",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "34",
+      "title": "Communication of a personal data breach to the data subject"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "35",
+      "title": "Infringements entailing a personal data breach"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution may be required to notify both the data subject and the supervisory authorities in case of a personal data breach, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank discovers a data breach that compromises customer personal data and is also subject to NIS2 Directive requirements as an essential entity."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_MiCA_Art120",
+    "overlap_zone": "crypto_asset_classification",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "MiCA",
+      "article_number": "120",
+      "title": "--- PAGE 126 ---"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "The articles create a conflict between the competent authorities responsible for ensuring compliance, as DORA Article 46 refers to the competent authority designated in accordance with Article 4 of Directive 2013/36/EU, while MiCA Article 120 is overseen by the EBA.",
+      "suggested_scenario_seed": "A credit institution is required to comply with DORA and MiCA, but the competent authorities responsible for ensuring compliance are different."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_MiFID2_Art18",
+    "overlap_zone": "crypto_asset_classification",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "18",
+      "title": "Trading process and finalisation of transactions in an MTF and an OTF"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to ensure that a credit institution meets the requirements of both DORA and MiFID2, creating a dual obligation.",
+      "suggested_scenario_seed": "A credit institution must establish transparent rules and procedures for fair and orderly trading while also ensuring compliance with DORA's requirements for critical ICT third-party service providers."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_MiFID2_Art51",
+    "overlap_zone": "crypto_asset_classification",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "51",
+      "title": "Admission of financial instruments to trading"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to ensure that a bank's (credit institution) ICT third-party service provider is compliant with DORA, while also ensuring that the bank's admission of financial instruments to trading is compliant with MiFID2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank is considering outsourcing its ICT services to a third-party provider and also plans to list a new financial instrument on a regulated market."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiCA_Art120_x_MiFID2_Art18",
+    "overlap_zone": "crypto_asset_classification",
+    "regulation_a": {
+      "name": "MiCA",
+      "article_number": "120",
+      "title": "--- PAGE 126 ---"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "18",
+      "title": "Trading process and finalisation of transactions in an MTF and an OTF"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when evaluating the trading process and technical operations of a significant asset-referenced token issuer that also operates a trading facility.",
+      "suggested_scenario_seed": "A significant asset-referenced token issuer operates a trading facility and needs to establish transparent rules and procedures for fair and orderly trading while also ensuring the sound management of its technical operations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiCA_Art120_x_MiFID2_Art51",
+    "overlap_zone": "crypto_asset_classification",
+    "regulation_a": {
+      "name": "MiCA",
+      "article_number": "120",
+      "title": "--- PAGE 126 ---"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "51",
+      "title": "Admission of financial instruments to trading"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution issuing asset-referenced tokens may need to comply with both MiCA and MiFID2 regulations, creating a dual obligation.",
+      "suggested_scenario_seed": "A fintech company plans to launch a tokenized investment product and needs to ensure compliance with EU regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art30_x_GDPR_Art56",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "30",
+      "title": "Key contractual provisions"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must ensure that ICT third-party service provider contracts comply with DORA's contractual provisions, while also being subject to the lead supervisory authority's competence under GDPR, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank hires an ICT third-party service provider to manage customer data and must ensure the contract meets DORA's requirements while also being subject to the lead supervisory authority's competence under GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art31_x_GDPR_Art56",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "31",
+      "title": "Designation of critical ICT third-party service providers"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "The designation of a critical ICT third-party service provider by ESAs under DORA Article 31 may lead to a conflict with the lead supervisory authority appointed by the GDPR Article 56 for cross-border processing.",
+      "suggested_scenario_seed": "A financial entity uses a cloud service provider that is designated as critical under DORA and also processes personal data of EU citizens, requiring a lead supervisory authority under GDPR."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art32_x_GDPR_Art56",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "32",
+      "title": "Structure of the Oversight Framework"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "A compliance officer may need to navigate the dual authority of the Joint Committee and the lead supervisory authority in the context of ICT third-party risk management and cross-border data processing.",
+      "suggested_scenario_seed": "A bank operating in multiple EU member states needs to manage ICT third-party risk and handle a complaint related to cross-border data processing."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art40_x_GDPR_Art56",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "40",
+      "title": "Ongoing oversight"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "The Lead Overseer and the supervisory authority may have conflicting roles and responsibilities in overseeing a critical ICT third-party service provider.",
+      "suggested_scenario_seed": "A bank uses a cloud service provider for its core banking system, and the Lead Overseer needs to conduct an investigation while the supervisory authority is already handling a complaint related to the same provider."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_GDPR_Art56",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "The EU financial regulation requires compliance with DORA for financial entities and GDPR for data protection, potentially leading to conflicting authority responsibilities.",
+      "suggested_scenario_seed": "A bank is subject to both DORA and GDPR, and a data breach occurs, requiring both the DORA competent authority and the GDPR lead supervisory authority to take action."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art30_x_MiFID2_Art69",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "30",
+      "title": "Key contractual provisions"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer needs to ensure that a financial entity's contract with an ICT third-party service provider includes clear and written service level agreements, while also considering the supervisory powers of competent authorities to access and review these contracts.",
+      "suggested_scenario_seed": "A financial entity is audited by a regulator and the auditor requests access to a contract with a third-party service provider, but the contract is not readily available in a downloadable format."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art30_x_MiFID2_Art72",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "30",
+      "title": "Key contractual provisions"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must ensure that ICT third-party service contracts comply with DORA's documentation requirements, while also being aware of the supervisory powers and sanctions that competent authorities may impose under MiFID2.",
+      "suggested_scenario_seed": "A financial institution is hiring an ICT third-party service provider and must draft a contract that meets DORA's requirements while being mindful of potential regulatory scrutiny under MiFID2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art31_x_MiFID2_Art69",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "31",
+      "title": "Designation of critical ICT third-party service providers"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to designate a critical ICT third-party service provider under DORA and then exercise supervisory powers over it under MiFID2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank must designate a critical ICT third-party service provider and then the regulator needs to exercise supervisory powers over it."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art31_x_MiFID2_Art72",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "31",
+      "title": "Designation of critical ICT third-party service providers"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to designate a critical ICT third-party service provider under DORA Article 31 and then exercise supervisory powers, including imposing sanctions, under MiFID2 Article 72 for the same entity.",
+      "suggested_scenario_seed": "A bank uses a critical ICT third-party service provider that fails to meet regulatory requirements, triggering both DORA and MiFID2 oversight and enforcement."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art32_x_MiFID2_Art69",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "32",
+      "title": "Structure of the Oversight Framework"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles to ensure proper oversight of ICT third-party risk and exercise of supervisory powers in case of a financial institution's non-compliance.",
+      "suggested_scenario_seed": "A bank is suspected of outsourcing ICT services to a third-party provider without adequate risk assessments, requiring the compliance officer to navigate both DORA and MiFID2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art32_x_MiFID2_Art72",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "32",
+      "title": "Structure of the Oversight Framework"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when a financial entity's ICT third-party risk management practices are being investigated and potentially sanctioned by a competent authority.",
+      "suggested_scenario_seed": "A financial institution is suspected of inadequate ICT third-party risk management and is subject to an investigation by the competent authority, which may lead to the imposition of sanctions."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art40_x_MiFID2_Art69",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "40",
+      "title": "Ongoing oversight"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on competent authorities to conduct oversight and investigations, creating a dual obligation scenario where compliance officers need to consider both articles for specific events involving critical ICT third-party service providers.",
+      "suggested_scenario_seed": "A bank is using a critical ICT third-party service provider and the Lead Overseer needs to conduct an investigation, requiring coordination with the joint examination team and access to documents, as per DORA Article 40 and MiFID2 Article 69."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art40_x_MiFID2_Art72",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "40",
+      "title": "Ongoing oversight"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when conducting an investigation involving a critical ICT third-party service provider used by a financial entity, as Article 1 requires joint examination by ESAs, competent authorities, and the nation, while Article 2 outlines the powers of competent authorities to exercise supervisory powers and impose sanctions.",
+      "suggested_scenario_seed": "A financial institution uses a critical ICT third-party service provider and is subject to both DORA and MiFID2 regulations, requiring the compliance officer to navigate the joint examination team composition and supervisory powers simultaneously."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_MiFID2_Art69",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on competent authorities to ensure compliance and exercise supervisory powers, creating a dual obligation scenario.",
+      "suggested_scenario_seed": "A bank is subject to DORA and MiFID2 regulations and a compliance officer needs to determine the correct procedures for ensuring compliance and exercising supervisory powers."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_MiFID2_Art72",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when determining the competent authority responsible for overseeing a credit institution's compliance with DORA and MiFID2 regulations.",
+      "suggested_scenario_seed": "A credit institution is subject to both DORA and MiFID2 regulations and is unsure which competent authority is responsible for ensuring compliance with DORA's ICT third-party service provider oversight requirements."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art30_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "30",
+      "title": "Key contractual provisions"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must ensure that ICT service contracts comply with DORA's contractual provisions, while also being monitored by a designated competent authority under NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank is implementing a new cloud-based service and must comply with DORA's contractual requirements while also notifying its designated competent authority under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art30_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "30",
+      "title": "Key contractual provisions"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must comply with both articles, as Article 1 requires clear contractual provisions for ICT services, while Article 2 establishes a Cooperation Group for strategic cooperation, potentially involving ICT services.",
+      "suggested_scenario_seed": "A financial entity is considering a new ICT service provider and must navigate the requirements of DORA and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art30_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "30",
+      "title": "Key contractual provisions"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must notify a significant incident to both the CSIRT and recipients of their services, as per NIS2 Article 23, while also ensuring their contractual arrangements with ICT third-party service providers comply with DORA Article 30, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank uses an ICT service provider for critical infrastructure and experiences a significant incident, requiring them to notify both the CSIRT and the service provider, while also reviewing their contractual arrangements to ensure compliance with DORA Article 30."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art31_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "31",
+      "title": "Designation of critical ICT third-party service providers"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must comply with both DORA and NIS2 regulations when designating critical ICT third-party service providers, which may lead to dual obligations.",
+      "suggested_scenario_seed": "A bank needs to designate a critical ICT third-party service provider and notify the competent authority, but the competent authority has different requirements under NIS2 compared to the ESAs under DORA."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art31_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "31",
+      "title": "Designation of critical ICT third-party service providers"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may need to designate a critical ICT third-party service provider under DORA Article 31 and also report to the Cooperation Group under NIS2 Article 14, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank needs to select a critical ICT third-party service provider for its core banking system and simultaneously inform the Cooperation Group about the selection."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art31_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "31",
+      "title": "Designation of critical ICT third-party service providers"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity must report a significant incident to both the ESAs and the CSIRT or competent authority under DORA and NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a critical ICT third-party service provider incident and must notify the ESAs and the CSIRT or competent authority."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art32_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "32",
+      "title": "Structure of the Oversight Framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles to ensure that a financial entity's ICT third-party risk management aligns with both the Joint Committee's oversight framework and the national competent authority's cybersecurity supervisory tasks.",
+      "suggested_scenario_seed": "A bank is implementing a new third-party risk management system and needs to ensure compliance with both EU regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art32_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "32",
+      "title": "Structure of the Oversight Framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles to ensure proper cooperation and information exchange between the Oversight Forum and the Cooperation Group when addressing ICT third-party risk across financial sectors.",
+      "suggested_scenario_seed": "A bank is implementing a new ICT system and needs to assess and mitigate third-party risks, requiring coordination between the Oversight Forum and the Cooperation Group."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art32_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "32",
+      "title": "Structure of the Oversight Framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to notify both the Oversight Forum and its CSIRT or competent authority in case of a significant ICT third-party risk incident, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a significant ICT third-party risk incident and must notify both the Oversight Forum and its CSIRT or competent authority."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art40_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "40",
+      "title": "Ongoing oversight"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to coordinate with both ESAs and national competent authorities to ensure proper oversight of a critical ICT third-party service provider.",
+      "suggested_scenario_seed": "A bank is using a cloud service provider that is critical to its operations, and the ESAs and national competent authorities need to collaborate to conduct a joint examination."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art40_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "40",
+      "title": "Ongoing oversight"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer needs to ensure that a critical ICT third-party service provider is subject to joint examination by ESAs, competent authorities, and possibly other entities, as per DORA Article 40, while also being part of the Cooperation Group under NIS2 Article 14, which may have different requirements and responsibilities.",
+      "suggested_scenario_seed": "A bank is using a cloud service provider that is also a critical ICT third-party service provider for multiple EU financial entities, and the bank is subject to both DORA and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art40_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "40",
+      "title": "Ongoing oversight"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial entity may be required to notify both the ESAs and its competent authority under DORA and the CSIRT or competent authority under NIS2 for the same significant incident, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank's critical ICT third-party service provider experiences a significant incident, requiring the bank to notify both the ESAs and its competent authority under DORA, and also the CSIRT or its competent authority under NIS2."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "Both articles imply different competent authorities for financial regulation and cybersecurity, potentially leading to conflicting obligations for EU financial entities.",
+      "suggested_scenario_seed": "A bank must comply with DORA's requirements for ICT third-party service providers and NIS2's cybersecurity regulations, but the competent authorities for these two regulations differ."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "The articles create a conflict between the competent authorities responsible for compliance with DORA and NIS2, as DORA refers to the competent authority designated in accordance with Article 4 of Directive 2013/36/EU, while NIS2 does not specify a particular authority.",
+      "suggested_scenario_seed": "A bank must comply with DORA and NIS2, but the articles do not clearly define which authority is responsible for ensuring compliance with both regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art46_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "46",
+      "title": "Competent authorities"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when a credit institution experiences a significant ICT third-party service provider incident that affects its services and requires both DORA and NIS2 reporting.",
+      "suggested_scenario_seed": "A credit institution experiences a significant ICT third-party service provider incident that affects its services and requires both DORA and NIS2 reporting."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art56_x_MiFID2_Art69",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when investigating a data breach in a financial institution that involves both GDPR data processing and MiFID2 supervisory powers.",
+      "suggested_scenario_seed": "A financial institution, licensed under MiFID2, experiences a data breach involving customer personal data, triggering both GDPR and MiFID2 compliance requirements."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art56_x_MiFID2_Art72",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "regulation_b": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both GDPR and MiFID2 regulations when a financial entity is involved in cross-border data processing and also has to comply with MiFID2's supervisory powers and sanctions.",
+      "suggested_scenario_seed": "A European bank is involved in cross-border data processing and needs to respond to a complaint while also facing a potential regulatory investigation."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art56_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "authority_conflict",
+      "reasoning": "A compliance officer may face a conflict between the lead supervisory authority under GDPR and the competent authority under NIS2 for a cross-border processing event involving a cybersecurity incident.",
+      "suggested_scenario_seed": "A European bank with a main establishment in one EU country and a branch in another EU country experiences a cybersecurity incident affecting customers in both countries."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art56_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to navigate the lead supervisory authority for GDPR cross-border processing and simultaneously collaborate with the Cooperation Group under NIS2 for cybersecurity incidents, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank with a European presence experiences a cross-border data breach and a cybersecurity incident, requiring both GDPR and NIS2 compliance."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "GDPR_Art56_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "GDPR",
+      "article_number": "56",
+      "title": "Competence of the lead supervisory authority"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution experiencing a significant cybersecurity incident must notify both the relevant CSIRT and the lead supervisory authority under GDPR and NIS2, creating a dual obligation.",
+      "suggested_scenario_seed": "A European bank experiences a significant data breach affecting thousands of customers and must comply with both GDPR and NIS2 notification requirements."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiFID2_Art69_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to balance MiFID2's supervisory powers with NIS2's cybersecurity responsibilities when investigating a potential breach involving a financial entity's IT system.",
+      "suggested_scenario_seed": "A financial institution's IT system is compromised, and the compliance officer must decide whether to investigate under MiFID2's Article 69 or NIS2's Article 8."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiFID2_Art69_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to balance the supervisory powers of the competent authority under MiFID2 with the cooperation and information exchange requirements of the NIS2 Cooperation Group.",
+      "suggested_scenario_seed": "A financial institution is subject to an investigation by the competent authority under MiFID2 and is also required to cooperate with the NIS2 Cooperation Group on a cybersecurity incident."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiFID2_Art69_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "MiFID2",
+      "article_number": "69",
+      "title": "Supervisory powers"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when investigating a significant incident that requires both reporting to the CSIRT or competent authority and access to documents for the investigation.",
+      "suggested_scenario_seed": "A bank experiences a cyberattack that compromises customer data and must notify the CSIRT and provide access to relevant documents for the investigation."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiFID2_Art72_x_NIS2_Art8",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "8",
+      "title": "Competent authorities and single points of contact"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to consider both articles when a financial entity is suspected of violating both MiFID2 and NIS2 regulations, requiring simultaneous investigation and potential sanctions.",
+      "suggested_scenario_seed": "A bank is suspected of violating MiFID2's market abuse regulations and NIS2's cybersecurity requirements."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiFID2_Art72_x_NIS2_Art14",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "14",
+      "title": "Cooperation Group"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A compliance officer may need to balance the exercise of supervisory powers under MiFID2 with the cooperation and information exchange requirements under NIS2.",
+      "suggested_scenario_seed": "A financial institution is subject to a supervisory investigation under MiFID2 and is also involved in a cybersecurity incident that requires cooperation with other Member States through the NIS2 Cooperation Group."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "MiFID2_Art72_x_NIS2_Art23",
+    "overlap_zone": "supervisory_authority_jurisdiction",
+    "regulation_a": {
+      "name": "MiFID2",
+      "article_number": "72",
+      "title": "Exercise of supervisory powers and powers to impose sanctions"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "23",
+      "title": "Reporting obligations"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "A financial institution experiencing a significant incident may be required to notify both the competent authority under NIS2 Article 23 and the competent authority under MiFID2 Article 72, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank experiences a cyber-attack that affects its ability to provide services, requiring it to notify both the national CSIRT and the financial regulator."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art6_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "6",
+      "title": "ICT risk management framework"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "21",
+      "title": "Cybersecurity risk-management measures"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to manage ICT risks and ensure digital operational resilience, creating a dual obligation scenario where compliance officers must consider both regulations for specific events.",
+      "suggested_scenario_seed": "A bank's IT system is compromised, and the compliance officer must determine the appropriate measures to take under both DORA and NIS2 regulations."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art13_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "13",
+      "title": "Learning and evolving"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "21",
+      "title": "Cybersecurity risk-management measures"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles require financial entities to assess and manage ICT-related risks and incidents, creating a dual obligation to ensure compliance with both regulations.",
+      "suggested_scenario_seed": "A bank experiences a major ICT-related incident and must conduct a post-incident review under DORA Article 13, while also ensuring they have taken appropriate and proportionate measures to manage the risks under NIS2 Article 21."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art23_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "23",
+      "title": "Operational or security payment-related incidents concerning credit institutions, payment institutions, account"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "21",
+      "title": "Cybersecurity risk-management measures"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on EU financial entities to manage and respond to operational or security payment-related incidents, creating a dual obligation to comply with both DORA and NIS2 regulations.",
+      "suggested_scenario_seed": "A bank experiences a major operational or security payment-related incident and must comply with both DORA's Chapter IV Digital operational resilience testing requirements and NIS2's cybersecurity risk-management measures."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art24_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "24",
+      "title": "General requirements for the performance of digital operational resilience testing"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "21",
+      "title": "Cybersecurity risk-management measures"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles impose obligations on financial entities to implement digital operational resilience testing and cybersecurity risk-management measures, creating a dual obligation.",
+      "suggested_scenario_seed": "A bank must establish a digital operational resilience testing programme (DORA) and implement cybersecurity risk-management measures (NIS2) to ensure the security of its network and information systems."
+    },
+    "final_status": "PASS"
+  },
+  {
+    "pair_id": "DORA_Art25_x_NIS2_Art21",
+    "overlap_zone": "operational_resilience_testing",
+    "regulation_a": {
+      "name": "DORA",
+      "article_number": "25",
+      "title": "Testing of ICT tools and systems"
+    },
+    "regulation_b": {
+      "name": "NIS2",
+      "article_number": "21",
+      "title": "Cybersecurity risk-management measures"
+    },
+    "validation": {
+      "pass": true,
+      "relevance_score": 5,
+      "interaction_type": "dual_obligation",
+      "reasoning": "Both articles require financial entities to implement cybersecurity measures and testing programs, creating a dual obligation to ensure both digital operational resilience and cybersecurity risk management.",
+      "suggested_scenario_seed": "A bank must implement a testing program under DORA Article 25 and also ensure cybersecurity risk management measures under NIS2 Article 21 when a critical vulnerability is discovered in their system."
     },
     "final_status": "PASS"
   },
@@ -38,8 +3052,8 @@
       "pass": true,
       "relevance_score": 5,
       "interaction_type": "dual_obligation",
-      "reasoning": "Both articles impose obligations on financial entities to manage ICT risk and cybersecurity risk, creating a dual obligation to ensure comprehensive risk management.",
-      "suggested_scenario_seed": "A bank must comply with DORA's ICT risk management framework while also ensuring cybersecurity risk-management measures under NIS2, leading to a situation where both articles are relevant."
+      "reasoning": "Both articles impose obligations on financial entities to manage ICT risk and cybersecurity risk, creating a dual obligation to ensure compliance with both regulations.",
+      "suggested_scenario_seed": "A bank uses a cloud service provider to store sensitive customer data and must comply with both DORA and NIS2 regulations to ensure the security of their network and information systems."
     },
     "final_status": "PASS"
   }

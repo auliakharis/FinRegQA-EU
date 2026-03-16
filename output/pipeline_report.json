@@ -1,35 +1,15 @@
 {
-  "total_pairs": 2,
-  "validated": 2,
-  "passed": 2,
+  "total_pairs": 139,
+  "validated": 139,
+  "passed": 139,
   "failed": 0,
   "parse_errors": 0,
-  "by_interaction_type": {
-    "dual_obligation": 2
-  },
-  "by_overlap_zone": {
-    "incident_reporting": {
-      "total": 1,
-      "passed": 1
-    },
-    "operational_resilience_testing": {
-      "total": 1,
-      "passed": 1
-    }
-  },
-  "by_regulation_pair": {
-    "DORA × GDPR": {
-      "total": 1,
-      "passed": 1
-    },
-    "DORA × NIS2": {
-      "total": 1,
-      "passed": 1
-    }
-  },
-  "total_questions_generated": 6,
-  "generation_errors": 0,
-  "timestamp": "2026-03-13T10:56:40.431336",
+  "by_interaction_type": {},
+  "by_overlap_zone": {},
+  "by_regulation_pair": {},
+  "total_questions_generated": 414,
+  "generation_errors": 1,
+  "timestamp": "2026-03-16T14:23:27.573438",
   "model": "Llama-3.1-8B-Instruct",
   "quantisation": "4bit"
 }

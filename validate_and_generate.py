@@ -315,7 +315,7 @@ def build_question_generation_prompt(pair: dict, scenario_seed: str) -> str:
     reg_a = pair["regulation_a"]
     reg_b = pair["regulation_b"]
 
-    return f"""You are an EU financial regulation expert creating exam questions.
+    return f"""You are an EU financial regulation expert facing real world financial problems, and you want to create questions with realistic scenario and truthful answers based on the regulation.
 
 SCENARIO IDEA: {scenario_seed}
 
@@ -363,159 +363,210 @@ JSON only:"""
 def run_pipeline(args):
     """Main pipeline: load model → load pairs → validate → generate → save."""
 
-    # Load article pairs
-    print(f"\nLoading article pairs from: {args.input}")
-    with open(args.input, "r", encoding="utf-8") as f:
-        pairs = json.load(f)
+    # ─── GENERATE ONLY: skip validation, load from validated_pairs.json ───
+    if args.generate_only:
+        validated_path = Path(args.output_dir) / "validated_pairs.json"
+        print(f"\nLoading validated pairs from: {validated_path}")
+        with open(validated_path, "r", encoding="utf-8") as f:
+            validated_pairs = json.load(f)
 
-    if args.max_pairs:
-        pairs = pairs[:args.max_pairs]
-        print(f"  Truncated to {args.max_pairs} pairs (--max_pairs)")
+        # Reconstruct passed_pairs from the validation results
+        # We need to merge the article text back from the original input file
+        print(f"  Loading original pairs for article text from: {args.input}")
+        with open(args.input, "r", encoding="utf-8") as f:
+            original_pairs = json.load(f)
+        original_by_id = {p.get("pair_id", f"pair_{i}"): p for i, p in enumerate(original_pairs)}
 
-    print(f"  Total pairs to process: {len(pairs)}")
+        passed_pairs = []
+        for entry in validated_pairs:
+            if entry.get("final_status") == "PASS":
+                pair_id = entry["pair_id"]
+                orig = original_by_id.get(pair_id, {})
+                passed_pairs.append({**orig, "validation": entry["validation"]})
+
+        if args.max_pairs:
+            passed_pairs = passed_pairs[:args.max_pairs]
+            print(f"  Truncated to {args.max_pairs} pairs (--max_pairs)")
+
+        print(f"  PASS pairs to generate from: {len(passed_pairs)}")
+
+        # Load model and jump straight to Stage 2
+        print(f"\n{'=' * 60}")
+        print("LOADING MODEL")
+        print(f"{'=' * 60}")
+        model, tokenizer = load_model(
+            model_name=args.model,
+            cache_dir=args.cache_dir,
+            hf_token=args.hf_token,
+            load_in_4bit=args.load_in_4bit,
+            load_in_8bit=args.load_in_8bit,
+        )
+
+        stats = {
+            "total_pairs": len(passed_pairs),
+            "validated": len(validated_pairs),
+            "passed": len(passed_pairs),
+            "failed": len(validated_pairs) - len(passed_pairs),
+            "parse_errors": 0,
+            "by_interaction_type": {},
+            "by_overlap_zone": {},
+            "by_regulation_pair": {},
+        }
 
     # Create output directory
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
-    # Load model
-    print(f"\n{'=' * 60}")
-    print("LOADING MODEL")
-    print(f"{'=' * 60}")
-    model, tokenizer = load_model(
-        model_name=args.model,
-        cache_dir=args.cache_dir,
-        hf_token=args.hf_token,
-        load_in_4bit=args.load_in_4bit,
-        load_in_8bit=args.load_in_8bit,
-    )
+    if not args.generate_only:
+        # Load model
+        print(f"\n{'=' * 60}")
+        print("LOADING MODEL")
+        print(f"{'=' * 60}")
+        model, tokenizer = load_model(
+            model_name=args.model,
+            cache_dir=args.cache_dir,
+            hf_token=args.hf_token,
+            load_in_4bit=args.load_in_4bit,
+            load_in_8bit=args.load_in_8bit,
+        )
 
-    # ─── STAGE 1: VALIDATION ───
-    print(f"\n{'=' * 60}")
-    print("STAGE 1: PAIR VALIDATION")
-    print(f"{'=' * 60}")
+        # Load article pairs
+        print(f"\nLoading article pairs from: {args.input}")
+        with open(args.input, "r", encoding="utf-8") as f:
+            pairs = json.load(f)
 
-    validated_pairs = []
-    passed_pairs = []
-    stats = {
-        "total_pairs": len(pairs),
-        "validated": 0,
-        "passed": 0,
-        "failed": 0,
-        "parse_errors": 0,
-        "by_interaction_type": {},
-        "by_overlap_zone": {},
-        "by_regulation_pair": {},
-    }
+        if args.max_pairs:
+            pairs = pairs[:args.max_pairs]
+            print(f"  Truncated to {args.max_pairs} pairs (--max_pairs)")
 
-    for i, pair in enumerate(pairs):
-        pair_id = pair.get("pair_id", f"pair_{i}")
-        print(f"\n  [{i+1}/{len(pairs)}] Validating: {pair_id}")
+        print(f"  Total pairs to process: {len(pairs)}")
 
-        prompt = build_validation_prompt(pair)
+        # ─── STAGE 1: VALIDATION ───
+        print(f"\n{'=' * 60}")
+        print("STAGE 1: PAIR VALIDATION")
+        print(f"{'=' * 60}")
 
-        try:
-            response_text = generate_response(
-                model, tokenizer, prompt,
-                temperature=0.3, max_new_tokens=300
-            )
-            validation = parse_json_response(response_text)
-        except Exception as e:
-            print(f"    ERROR: {e}")
-            response_text = None
-            validation = None
-
-        if validation is None:
-            stats["parse_errors"] += 1
-            print(f"    PARSE ERROR")
-            if response_text:
-                print(f"    Raw: {response_text[:200]}...")
-            validation = {
-                "pass": False,
-                "relevance_score": 0,
-                "interaction_type": "parse_error",
-                "reasoning": "Could not parse model response as JSON",
-                "suggested_scenario_seed": "N/A",
-                "raw_response": (response_text or "")[:500],
-            }
-
-        validated_entry = {
-            "pair_id": pair_id,
-            "overlap_zone": pair.get("overlap_zone", "unknown"),
-            "regulation_a": {
-                "name": pair["regulation_a"]["name"],
-                "article_number": pair["regulation_a"]["article_number"],
-                "title": pair["regulation_a"]["title"],
-            },
-            "regulation_b": {
-                "name": pair["regulation_b"]["name"],
-                "article_number": pair["regulation_b"]["article_number"],
-                "title": pair["regulation_b"]["title"],
-            },
-            "validation": validation,
+        validated_pairs = []
+        passed_pairs = []
+        stats = {
+            "total_pairs": len(pairs),
+            "validated": 0,
+            "passed": 0,
+            "failed": 0,
+            "parse_errors": 0,
+            "by_interaction_type": {},
+            "by_overlap_zone": {},
+            "by_regulation_pair": {},
         }
 
-        is_passed = (
-            validation.get("pass", False) is True
-            and validation.get("relevance_score", 0) >= 3
-        )
-        validated_entry["final_status"] = "PASS" if is_passed else "FAIL"
+        for i, pair in enumerate(pairs):
+            pair_id = pair.get("pair_id", f"pair_{i}")
+            print(f"\n  [{i+1}/{len(pairs)}] Validating: {pair_id}")
 
-        icon = "✓" if is_passed else "✗"
-        score = validation.get("relevance_score", "?")
-        itype = validation.get("interaction_type", "?")
-        reason = validation.get("reasoning", "?")[:80]
-        print(f"    {icon} score={score} type={itype}")
-        print(f"      {reason}")
+            prompt = build_validation_prompt(pair)
 
-        validated_pairs.append(validated_entry)
-        stats["validated"] += 1
+            try:
+                response_text = generate_response(
+                    model, tokenizer, prompt,
+                    temperature=0.3, max_new_tokens=300
+                )
+                validation = parse_json_response(response_text)
+            except Exception as e:
+                print(f"    ERROR: {e}")
+                response_text = None
+                validation = None
 
-        if is_passed:
-            stats["passed"] += 1
-            passed_pairs.append({**pair, "validation": validation})
-        else:
-            stats["failed"] += 1
+            if validation is None:
+                stats["parse_errors"] += 1
+                print(f"    PARSE ERROR")
+                if response_text:
+                    print(f"    Raw: {response_text[:200]}...")
+                validation = {
+                    "pass": False,
+                    "relevance_score": 0,
+                    "interaction_type": "parse_error",
+                    "reasoning": "Could not parse model response as JSON",
+                    "suggested_scenario_seed": "N/A",
+                    "raw_response": (response_text or "")[:500],
+                }
 
-        # Track stats
-        itype_key = validation.get("interaction_type", "unknown")
-        stats["by_interaction_type"][itype_key] = stats["by_interaction_type"].get(itype_key, 0) + 1
+            validated_entry = {
+                "pair_id": pair_id,
+                "overlap_zone": pair.get("overlap_zone", "unknown"),
+                "regulation_a": {
+                    "name": pair["regulation_a"]["name"],
+                    "article_number": pair["regulation_a"]["article_number"],
+                    "title": pair["regulation_a"]["title"],
+                },
+                "regulation_b": {
+                    "name": pair["regulation_b"]["name"],
+                    "article_number": pair["regulation_b"]["article_number"],
+                    "title": pair["regulation_b"]["title"],
+                },
+                "validation": validation,
+            }
 
-        zone = pair.get("overlap_zone", "unknown")
-        if zone not in stats["by_overlap_zone"]:
-            stats["by_overlap_zone"][zone] = {"total": 0, "passed": 0}
-        stats["by_overlap_zone"][zone]["total"] += 1
-        if is_passed:
-            stats["by_overlap_zone"][zone]["passed"] += 1
+            is_passed = (
+                validation.get("pass", False) is True
+                and validation.get("relevance_score", 0) >= 4
+            )
+            validated_entry["final_status"] = "PASS" if is_passed else "FAIL"
 
-        rp_key = f"{pair['regulation_a']['name']} × {pair['regulation_b']['name']}"
-        if rp_key not in stats["by_regulation_pair"]:
-            stats["by_regulation_pair"][rp_key] = {"total": 0, "passed": 0}
-        stats["by_regulation_pair"][rp_key]["total"] += 1
-        if is_passed:
-            stats["by_regulation_pair"][rp_key]["passed"] += 1
+            icon = "✓" if is_passed else "✗"
+            score = validation.get("relevance_score", "?")
+            itype = validation.get("interaction_type", "?")
+            reason = validation.get("reasoning", "?")[:80]
+            print(f"    {icon} score={score} type={itype}")
+            print(f"      {reason}")
 
-    # Save validation results (ALL pairs)
-    val_path = Path(args.output_dir) / "validated_pairs.json"
-    with open(val_path, "w", encoding="utf-8") as f:
-        json.dump(validated_pairs, f, indent=2, ensure_ascii=False)
-    print(f"\n  Saved {len(validated_pairs)} validated pairs to: {val_path}")
+            validated_pairs.append(validated_entry)
+            stats["validated"] += 1
 
-    # Print summary
-    print(f"\n{'─' * 40}")
-    print(f"VALIDATION SUMMARY")
-    print(f"{'─' * 40}")
-    print(f"  Total:        {stats['total_pairs']}")
-    print(f"  Passed:       {stats['passed']} ({stats['passed']/max(stats['total_pairs'],1)*100:.0f}%)")
-    print(f"  Failed:       {stats['failed']}")
-    print(f"  Parse errors: {stats['parse_errors']}")
-    print(f"\n  By overlap zone:")
-    for zone, c in sorted(stats["by_overlap_zone"].items()):
-        pct = c['passed'] / max(c['total'], 1) * 100
-        print(f"    {zone}: {c['passed']}/{c['total']} passed ({pct:.0f}%)")
-    print(f"\n  By regulation pair:")
-    for rp, c in sorted(stats["by_regulation_pair"].items()):
-        pct = c['passed'] / max(c['total'], 1) * 100
-        print(f"    {rp}: {c['passed']}/{c['total']} passed ({pct:.0f}%)")
+            if is_passed:
+                stats["passed"] += 1
+                passed_pairs.append({**pair, "validation": validation})
+            else:
+                stats["failed"] += 1
+
+            # Track stats
+            itype_key = validation.get("interaction_type", "unknown")
+            stats["by_interaction_type"][itype_key] = stats["by_interaction_type"].get(itype_key, 0) + 1
+
+            zone = pair.get("overlap_zone", "unknown")
+            if zone not in stats["by_overlap_zone"]:
+                stats["by_overlap_zone"][zone] = {"total": 0, "passed": 0}
+            stats["by_overlap_zone"][zone]["total"] += 1
+            if is_passed:
+                stats["by_overlap_zone"][zone]["passed"] += 1
+
+            rp_key = f"{pair['regulation_a']['name']} × {pair['regulation_b']['name']}"
+            if rp_key not in stats["by_regulation_pair"]:
+                stats["by_regulation_pair"][rp_key] = {"total": 0, "passed": 0}
+            stats["by_regulation_pair"][rp_key]["total"] += 1
+            if is_passed:
+                stats["by_regulation_pair"][rp_key]["passed"] += 1
+
+        # Save validation results (ALL pairs)
+        val_path = Path(args.output_dir) / "validated_pairs.json"
+        with open(val_path, "w", encoding="utf-8") as f:
+            json.dump(validated_pairs, f, indent=2, ensure_ascii=False)
+        print(f"\n  Saved {len(validated_pairs)} validated pairs to: {val_path}")
+
+        # Print summary
+        print(f"\n{'─' * 40}")
+        print(f"VALIDATION SUMMARY")
+        print(f"{'─' * 40}")
+        print(f"  Total:        {stats['total_pairs']}")
+        print(f"  Passed:       {stats['passed']} ({stats['passed']/max(stats['total_pairs'],1)*100:.0f}%)")
+        print(f"  Failed:       {stats['failed']}")
+        print(f"  Parse errors: {stats['parse_errors']}")
+        print(f"\n  By overlap zone:")
+        for zone, c in sorted(stats["by_overlap_zone"].items()):
+            pct = c['passed'] / max(c['total'], 1) * 100
+            print(f"    {zone}: {c['passed']}/{c['total']} passed ({pct:.0f}%)")
+        print(f"\n  By regulation pair:")
+        for rp, c in sorted(stats["by_regulation_pair"].items()):
+            pct = c['passed'] / max(c['total'], 1) * 100
+            print(f"    {rp}: {c['passed']}/{c['total']} passed ({pct:.0f}%)")
 
     # ─── STAGE 2: QUESTION GENERATION ───
     if args.validate_only:
@@ -718,8 +769,11 @@ Examples:
     quant.add_argument("--load_in_8bit", action="store_true",
                        help="8-bit quantisation (~10GB VRAM for 8B model)")
 
-    parser.add_argument("--validate_only", action="store_true",
-                        help="Only validate, skip question generation")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--validate_only", action="store_true",
+                      help="Only validate, skip question generation")
+    mode.add_argument("--generate_only", action="store_true",
+                      help="Skip validation; load PASS pairs from output_dir/validated_pairs.json and generate questions")
     parser.add_argument("--max_pairs", type=int, default=None,
                         help="Max pairs to process (for testing)")
 
