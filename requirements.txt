@@ -3,26 +3,23 @@
 
 # PDF parsing
 pdfplumber==0.11.4
-pypdf==4.3.1
 
-# Data handling
-pandas==2.2.3
+# Web scraping
+beautifulsoup4==4.12.3
+aiohttp==3.11.10
+
+# LLM API
+openai==1.57.4
+python-dotenv==1.0.1
 
 # LLM inference (for question generation)
-transformers==4.46.3
-torch==2.5.1
-accelerate==1.1.1
-bitsandbytes==0.44.1        
+transformers
+torch
+accelerate
+bitsandbytes
 
 # Hugging Face hub (to download open source models)
 huggingface-hub==0.26.2
 
-# Linear probing / mechanistic analysis
-scikit-learn==1.5.2
-numpy==1.26.4
-
 # Experiment tracking
 tqdm==4.67.1
-
-# Save and load structured data
-jsonlines==4.0.0

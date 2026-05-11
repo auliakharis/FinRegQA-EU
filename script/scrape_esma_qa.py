@@ -273,3 +273,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+source .env && python judge_api.py 2>&1 | tee logs/api_eval_$(date +%Y%m%d_%H%M%S).log
