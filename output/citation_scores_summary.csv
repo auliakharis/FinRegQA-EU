@@ -1,0 +1,5 @@
+file,size,corpus,model,n,inst_precision,inst_recall,inst_f1,full_precision,full_recall,full_f1
+judge_results_esma.json,small,esma,small,383,0.2538,0.3042,0.2603,0.4222,0.2881,0.3118
+judge_results_eba.json,small,eba,small,2669,0.2566,0.3728,0.2941,0.3513,0.2218,0.2505
+judge_results_esma_qa_api.json,big,esma,swiss-ai/Apertus-70B-Instruct-2509,383,0.2393,0.4008,0.2836,0.2323,0.2691,0.2223
+judge_results_eba_qa_api.json,big,eba,swiss-ai/Apertus-70B-Instruct-2509,2635,0.3149,0.6315,0.4027,0.2449,0.2453,0.2226

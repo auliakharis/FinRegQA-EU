@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sL \"https://www.esma.europa.eu/esma-qa-search-page/all\")",
+      "Bash(sort -t= -k2 -n)",
+      "Bash(python3 scripts/compute_similarity.py)",
+      "Bash(python3 script/compute_similarity.py)",
+      "Bash(grep -E \"\\(^={5,}|File:|^Mean:|Correlations|accuracy|completeness|clarity|overall|^Saved\\)\")"
+    ]
+  }
+}
