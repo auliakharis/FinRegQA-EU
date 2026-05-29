@@ -3,7 +3,37 @@
     "mean": 0.3922,
     "min": 0.0,
     "max": 0.8581,
-    "count": 383
+    "count": 383,
+    "correlations": {
+      "accuracy": {
+        "n": 383,
+        "pearson_r": 0.2215,
+        "pearson_p": 0.0,
+        "spearman_r": 0.2749,
+        "spearman_p": 0.0
+      },
+      "completeness": {
+        "n": 383,
+        "pearson_r": 0.1455,
+        "pearson_p": 0.0043,
+        "spearman_r": 0.1978,
+        "spearman_p": 0.0001
+      },
+      "clarity": {
+        "n": 383,
+        "pearson_r": 0.0116,
+        "pearson_p": 0.8217,
+        "spearman_r": -0.0414,
+        "spearman_p": 0.4188
+      },
+      "overall": {
+        "n": 383,
+        "pearson_r": 0.2192,
+        "pearson_p": 0.0,
+        "spearman_r": 0.2743,
+        "spearman_p": 0.0
+      }
+    }
   },
   "results": [
     {

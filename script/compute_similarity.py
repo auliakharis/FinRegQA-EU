@@ -1,10 +1,12 @@
 """
 Compute TF-IDF cosine similarity between ground_truth and candidate_answer
-for all judge result files (big/small, EBA/ESMA). Saves per-file JSON results.
+for all judge result files (big/small, EBA/ESMA). Saves per-file JSON results
+and reports Pearson/Spearman correlations with each judge score dimension.
 """
 
 import json
 import os
+from scipy.stats import pearsonr, spearmanr
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -46,7 +48,27 @@ for input_file in FILES:
     }
     print(f"\nMean: {summary['mean']}  Min: {summary['min']}  Max: {summary['max']}  Count: {n}")
 
+    # Correlations with judge score dimensions (skip None values)
+    score_keys = [k for k in data[0]["scores"] if k != "reasoning"]
+    correlations = {}
+    print("\nCorrelations with judge scores (Pearson / Spearman):")
+    for key in score_keys:
+        pairs = [(s, float(item["scores"][key])) for s, item in zip(scores, data) if item["scores"].get(key) is not None]
+        sim_vals, judge_vals = zip(*pairs)
+        pearson_r, pearson_p = pearsonr(sim_vals, judge_vals)
+        spearman_r, spearman_p = spearmanr(sim_vals, judge_vals)
+        correlations[key] = {
+            "n": len(pairs),
+            "pearson_r": round(pearson_r, 4),
+            "pearson_p": round(pearson_p, 4),
+            "spearman_r": round(spearman_r, 4),
+            "spearman_p": round(spearman_p, 4),
+        }
+        print(f"  {key:15s}  n={len(pairs):5d}  pearson={pearson_r:+.4f} (p={pearson_p:.3e})  spearman={spearman_r:+.4f} (p={spearman_p:.3e})")
+
+    summary["correlations"] = correlations
+
     out_path = input_file.replace(".json", "_similarity.json")
     with open(out_path, "w") as f:
         json.dump({"summary": summary, "results": results}, f, indent=2)
-    print(f"Saved -> {out_path}")
+    print(f"\nSaved -> {out_path}")
