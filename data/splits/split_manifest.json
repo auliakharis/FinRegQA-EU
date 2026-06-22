@@ -1,0 +1,10 @@
+{
+  "seed": 42,
+  "sizes": {
+    "train": 2149,
+    "val": 460,
+    "test": 461
+  },
+  "split_hash": "313f07e5c4f1c0ec75662474af70f0208e2f3192be51efcbb1915761aaf5bc80",
+  "date_created": "2026-06-22T19:33:54.583254"
+}
