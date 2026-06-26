@@ -1,0 +1,1572 @@
+{
+  "summary": {
+    "mean": 0.4499,
+    "min": 0.0092,
+    "max": 0.8213,
+    "count": 383,
+    "correlations": {
+      "accuracy": {
+        "n": 289,
+        "pearson_r": 0.0789,
+        "pearson_p": 0.1809,
+        "spearman_r": 0.1127,
+        "spearman_p": 0.0558
+      },
+      "completeness": {
+        "n": 289,
+        "pearson_r": 0.0175,
+        "pearson_p": 0.7669,
+        "spearman_r": 0.0637,
+        "spearman_p": 0.2801
+      },
+      "clarity": {
+        "n": 289,
+        "pearson_r": 0.0167,
+        "pearson_p": 0.778,
+        "spearman_r": 0.012,
+        "spearman_p": 0.8394
+      },
+      "overall": {
+        "n": 289,
+        "pearson_r": 0.0824,
+        "pearson_p": 0.1621,
+        "spearman_r": 0.1274,
+        "spearman_p": 0.0303
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "ESMA_QA_1503",
+      "similarity": 0.5533
+    },
+    {
+      "id": "ESMA_QA_2559",
+      "similarity": 0.3093
+    },
+    {
+      "id": "ESMA_QA_822",
+      "similarity": 0.5602
+    },
+    {
+      "id": "ESMA_QA_587",
+      "similarity": 0.0321
+    },
+    {
+      "id": "ESMA_QA_1812",
+      "similarity": 0.2739
+    },
+    {
+      "id": "ESMA_QA_1314",
+      "similarity": 0.6191
+    },
+    {
+      "id": "ESMA_QA_732",
+      "similarity": 0.4893
+    },
+    {
+      "id": "ESMA_QA_1432",
+      "similarity": 0.1381
+    },
+    {
+      "id": "ESMA_QA_1958",
+      "similarity": 0.3147
+    },
+    {
+      "id": "ESMA_QA_1698",
+      "similarity": 0.414
+    },
+    {
+      "id": "ESMA_QA_1384",
+      "similarity": 0.4291
+    },
+    {
+      "id": "ESMA_QA_1816",
+      "similarity": 0.5822
+    },
+    {
+      "id": "ESMA_QA_1926",
+      "similarity": 0.3506
+    },
+    {
+      "id": "ESMA_QA_2514",
+      "similarity": 0.2865
+    },
+    {
+      "id": "ESMA_QA_930",
+      "similarity": 0.4543
+    },
+    {
+      "id": "ESMA_QA_1029",
+      "similarity": 0.1934
+    },
+    {
+      "id": "ESMA_QA_1813",
+      "similarity": 0.5721
+    },
+    {
+      "id": "ESMA_QA_2086",
+      "similarity": 0.6688
+    },
+    {
+      "id": "ESMA_QA_1154",
+      "similarity": 0.4978
+    },
+    {
+      "id": "ESMA_QA_1740",
+      "similarity": 0.506
+    },
+    {
+      "id": "ESMA_QA_2025",
+      "similarity": 0.6972
+    },
+    {
+      "id": "ESMA_QA_805",
+      "similarity": 0.3263
+    },
+    {
+      "id": "ESMA_QA_1818",
+      "similarity": 0.4653
+    },
+    {
+      "id": "ESMA_QA_1953",
+      "similarity": 0.3925
+    },
+    {
+      "id": "ESMA_QA_997",
+      "similarity": 0.2971
+    },
+    {
+      "id": "ESMA_QA_1421",
+      "similarity": 0.1892
+    },
+    {
+      "id": "ESMA_QA_2516",
+      "similarity": 0.3407
+    },
+    {
+      "id": "ESMA_QA_2085",
+      "similarity": 0.487
+    },
+    {
+      "id": "ESMA_QA_1837",
+      "similarity": 0.4354
+    },
+    {
+      "id": "ESMA_QA_1927",
+      "similarity": 0.5342
+    },
+    {
+      "id": "ESMA_QA_1861",
+      "similarity": 0.5186
+    },
+    {
+      "id": "ESMA_QA_2826",
+      "similarity": 0.2498
+    },
+    {
+      "id": "ESMA_QA_1427",
+      "similarity": 0.3544
+    },
+    {
+      "id": "ESMA_QA_1337",
+      "similarity": 0.3911
+    },
+    {
+      "id": "ESMA_QA_867",
+      "similarity": 0.6068
+    },
+    {
+      "id": "ESMA_QA_1043",
+      "similarity": 0.3818
+    },
+    {
+      "id": "ESMA_QA_1254",
+      "similarity": 0.5611
+    },
+    {
+      "id": "ESMA_QA_2087",
+      "similarity": 0.6044
+    },
+    {
+      "id": "ESMA_QA_869",
+      "similarity": 0.5151
+    },
+    {
+      "id": "ESMA_QA_1403",
+      "similarity": 0.3699
+    },
+    {
+      "id": "ESMA_QA_2259",
+      "similarity": 0.3656
+    },
+    {
+      "id": "ESMA_QA_1764",
+      "similarity": 0.564
+    },
+    {
+      "id": "ESMA_QA_2089",
+      "similarity": 0.3574
+    },
+    {
+      "id": "ESMA_QA_1753",
+      "similarity": 0.5728
+    },
+    {
+      "id": "ESMA_QA_1885",
+      "similarity": 0.3626
+    },
+    {
+      "id": "ESMA_QA_2024",
+      "similarity": 0.5254
+    },
+    {
+      "id": "ESMA_QA_1300",
+      "similarity": 0.3385
+    },
+    {
+      "id": "ESMA_QA_740",
+      "similarity": 0.1624
+    },
+    {
+      "id": "ESMA_QA_1390",
+      "similarity": 0.6422
+    },
+    {
+      "id": "ESMA_QA_1509",
+      "similarity": 0.4973
+    },
+    {
+      "id": "ESMA_QA_734",
+      "similarity": 0.4573
+    },
+    {
+      "id": "ESMA_QA_1943",
+      "similarity": 0.5056
+    },
+    {
+      "id": "ESMA_QA_1261",
+      "similarity": 0.2733
+    },
+    {
+      "id": "ESMA_QA_1859",
+      "similarity": 0.6262
+    },
+    {
+      "id": "ESMA_QA_1596",
+      "similarity": 0.3138
+    },
+    {
+      "id": "ESMA_QA_2794",
+      "similarity": 0.3331
+    },
+    {
+      "id": "ESMA_QA_812",
+      "similarity": 0.4983
+    },
+    {
+      "id": "ESMA_QA_1752",
+      "similarity": 0.6527
+    },
+    {
+      "id": "ESMA_QA_1727",
+      "similarity": 0.5242
+    },
+    {
+      "id": "ESMA_QA_2547",
+      "similarity": 0.6082
+    },
+    {
+      "id": "ESMA_QA_1520",
+      "similarity": 0.4792
+    },
+    {
+      "id": "ESMA_QA_2125",
+      "similarity": 0.6016
+    },
+    {
+      "id": "ESMA_QA_730",
+      "similarity": 0.4974
+    },
+    {
+      "id": "ESMA_QA_950",
+      "similarity": 0.4439
+    },
+    {
+      "id": "ESMA_QA_928",
+      "similarity": 0.5692
+    },
+    {
+      "id": "ESMA_QA_2282",
+      "similarity": 0.4649
+    },
+    {
+      "id": "ESMA_QA_1908",
+      "similarity": 0.6408
+    },
+    {
+      "id": "ESMA_QA_1890",
+      "similarity": 0.2638
+    },
+    {
+      "id": "ESMA_QA_1038",
+      "similarity": 0.452
+    },
+    {
+      "id": "ESMA_QA_1335",
+      "similarity": 0.3911
+    },
+    {
+      "id": "ESMA_QA_1343",
+      "similarity": 0.5015
+    },
+    {
+      "id": "ESMA_QA_1560",
+      "similarity": 0.5727
+    },
+    {
+      "id": "ESMA_QA_1338",
+      "similarity": 0.3276
+    },
+    {
+      "id": "ESMA_QA_1323",
+      "similarity": 0.7577
+    },
+    {
+      "id": "ESMA_QA_1907",
+      "similarity": 0.5942
+    },
+    {
+      "id": "ESMA_QA_1296",
+      "similarity": 0.4191
+    },
+    {
+      "id": "ESMA_QA_1636",
+      "similarity": 0.4707
+    },
+    {
+      "id": "ESMA_QA_1704",
+      "similarity": 0.5082
+    },
+    {
+      "id": "ESMA_QA_929",
+      "similarity": 0.8213
+    },
+    {
+      "id": "ESMA_QA_1023",
+      "similarity": 0.3892
+    },
+    {
+      "id": "ESMA_QA_2013",
+      "similarity": 0.677
+    },
+    {
+      "id": "ESMA_QA_1668",
+      "similarity": 0.0092
+    },
+    {
+      "id": "ESMA_QA_697",
+      "similarity": 0.6292
+    },
+    {
+      "id": "ESMA_QA_1292",
+      "similarity": 0.1733
+    },
+    {
+      "id": "ESMA_QA_1834",
+      "similarity": 0.5081
+    },
+    {
+      "id": "ESMA_QA_1042",
+      "similarity": 0.7339
+    },
+    {
+      "id": "ESMA_QA_2067",
+      "similarity": 0.5463
+    },
+    {
+      "id": "ESMA_QA_1863",
+      "similarity": 0.4981
+    },
+    {
+      "id": "ESMA_QA_729",
+      "similarity": 0.5197
+    },
+    {
+      "id": "ESMA_QA_1243",
+      "similarity": 0.4802
+    },
+    {
+      "id": "ESMA_QA_2519",
+      "similarity": 0.3133
+    },
+    {
+      "id": "ESMA_QA_2052",
+      "similarity": 0.537
+    },
+    {
+      "id": "ESMA_QA_1295",
+      "similarity": 0.3579
+    },
+    {
+      "id": "ESMA_QA_1660",
+      "similarity": 0.5703
+    },
+    {
+      "id": "ESMA_QA_1959",
+      "similarity": 0.2439
+    },
+    {
+      "id": "ESMA_QA_1564",
+      "similarity": 0.0319
+    },
+    {
+      "id": "ESMA_QA_1060",
+      "similarity": 0.4873
+    },
+    {
+      "id": "ESMA_QA_2046",
+      "similarity": 0.4701
+    },
+    {
+      "id": "ESMA_QA_2055",
+      "similarity": 0.3033
+    },
+    {
+      "id": "ESMA_QA_1395",
+      "similarity": 0.3787
+    },
+    {
+      "id": "ESMA_QA_1380",
+      "similarity": 0.182
+    },
+    {
+      "id": "ESMA_QA_2004",
+      "similarity": 0.5417
+    },
+    {
+      "id": "ESMA_QA_1031",
+      "similarity": 0.4812
+    },
+    {
+      "id": "ESMA_QA_1348",
+      "similarity": 0.4398
+    },
+    {
+      "id": "ESMA_QA_1504",
+      "similarity": 0.3797
+    },
+    {
+      "id": "ESMA_QA_1301",
+      "similarity": 0.2045
+    },
+    {
+      "id": "ESMA_QA_714",
+      "similarity": 0.4161
+    },
+    {
+      "id": "ESMA_QA_2053",
+      "similarity": 0.4307
+    },
+    {
+      "id": "ESMA_QA_2502",
+      "similarity": 0.7345
+    },
+    {
+      "id": "ESMA_QA_1163",
+      "similarity": 0.5928
+    },
+    {
+      "id": "ESMA_QA_1445",
+      "similarity": 0.384
+    },
+    {
+      "id": "ESMA_QA_1738",
+      "similarity": 0.5612
+    },
+    {
+      "id": "ESMA_QA_2049",
+      "similarity": 0.3516
+    },
+    {
+      "id": "ESMA_QA_1814",
+      "similarity": 0.2847
+    },
+    {
+      "id": "ESMA_QA_2107",
+      "similarity": 0.3829
+    },
+    {
+      "id": "ESMA_QA_2560",
+      "similarity": 0.3341
+    },
+    {
+      "id": "ESMA_QA_1255",
+      "similarity": 0.1172
+    },
+    {
+      "id": "ESMA_QA_1685",
+      "similarity": 0.6407
+    },
+    {
+      "id": "ESMA_QA_1547",
+      "similarity": 0.3108
+    },
+    {
+      "id": "ESMA_QA_1638",
+      "similarity": 0.3616
+    },
+    {
+      "id": "ESMA_QA_1819",
+      "similarity": 0.443
+    },
+    {
+      "id": "ESMA_QA_1821",
+      "similarity": 0.6922
+    },
+    {
+      "id": "ESMA_QA_1570",
+      "similarity": 0.5119
+    },
+    {
+      "id": "ESMA_QA_1457",
+      "similarity": 0.3455
+    },
+    {
+      "id": "ESMA_QA_2626",
+      "similarity": 0.3625
+    },
+    {
+      "id": "ESMA_QA_2558",
+      "similarity": 0.3705
+    },
+    {
+      "id": "ESMA_QA_2045",
+      "similarity": 0.4489
+    },
+    {
+      "id": "ESMA_QA_1494",
+      "similarity": 0.5999
+    },
+    {
+      "id": "ESMA_QA_2506",
+      "similarity": 0.4126
+    },
+    {
+      "id": "ESMA_QA_1378",
+      "similarity": 0.1576
+    },
+    {
+      "id": "ESMA_QA_2260",
+      "similarity": 0.5528
+    },
+    {
+      "id": "ESMA_QA_2823",
+      "similarity": 0.3612
+    },
+    {
+      "id": "ESMA_QA_2821",
+      "similarity": 0.454
+    },
+    {
+      "id": "ESMA_QA_2829",
+      "similarity": 0.4314
+    },
+    {
+      "id": "ESMA_QA_1238",
+      "similarity": 0.5185
+    },
+    {
+      "id": "ESMA_QA_1754",
+      "similarity": 0.5194
+    },
+    {
+      "id": "ESMA_QA_796",
+      "similarity": 0.3067
+    },
+    {
+      "id": "ESMA_QA_1912",
+      "similarity": 0.4406
+    },
+    {
+      "id": "ESMA_QA_801",
+      "similarity": 0.343
+    },
+    {
+      "id": "ESMA_QA_1739",
+      "similarity": 0.4956
+    },
+    {
+      "id": "ESMA_QA_2513",
+      "similarity": 0.3298
+    },
+    {
+      "id": "ESMA_QA_1815",
+      "similarity": 0.4952
+    },
+    {
+      "id": "ESMA_QA_1449",
+      "similarity": 0.5598
+    },
+    {
+      "id": "ESMA_QA_1330",
+      "similarity": 0.596
+    },
+    {
+      "id": "ESMA_QA_1381",
+      "similarity": 0.2884
+    },
+    {
+      "id": "ESMA_QA_1322",
+      "similarity": 0.5138
+    },
+    {
+      "id": "ESMA_QA_2521",
+      "similarity": 0.423
+    },
+    {
+      "id": "ESMA_QA_1452",
+      "similarity": 0.5425
+    },
+    {
+      "id": "ESMA_QA_2515",
+      "similarity": 0.431
+    },
+    {
+      "id": "ESMA_QA_2070",
+      "similarity": 0.6871
+    },
+    {
+      "id": "ESMA_QA_1569",
+      "similarity": 0.0114
+    },
+    {
+      "id": "ESMA_QA_1940",
+      "similarity": 0.4525
+    },
+    {
+      "id": "ESMA_QA_1911",
+      "similarity": 0.3406
+    },
+    {
+      "id": "ESMA_QA_1362",
+      "similarity": 0.2846
+    },
+    {
+      "id": "ESMA_QA_2552",
+      "similarity": 0.6973
+    },
+    {
+      "id": "ESMA_QA_1805",
+      "similarity": 0.211
+    },
+    {
+      "id": "ESMA_QA_1360",
+      "similarity": 0.3095
+    },
+    {
+      "id": "ESMA_QA_1930",
+      "similarity": 0.3988
+    },
+    {
+      "id": "ESMA_QA_1626",
+      "similarity": 0.3174
+    },
+    {
+      "id": "ESMA_QA_1860",
+      "similarity": 0.4703
+    },
+    {
+      "id": "ESMA_QA_1904",
+      "similarity": 0.3452
+    },
+    {
+      "id": "ESMA_QA_1929",
+      "similarity": 0.5477
+    },
+    {
+      "id": "ESMA_QA_1630",
+      "similarity": 0.5081
+    },
+    {
+      "id": "ESMA_QA_1925",
+      "similarity": 0.6315
+    },
+    {
+      "id": "ESMA_QA_2825",
+      "similarity": 0.4535
+    },
+    {
+      "id": "ESMA_QA_2047",
+      "similarity": 0.3186
+    },
+    {
+      "id": "ESMA_QA_1019",
+      "similarity": 0.4915
+    },
+    {
+      "id": "ESMA_QA_2518",
+      "similarity": 0.42
+    },
+    {
+      "id": "ESMA_QA_2051",
+      "similarity": 0.4297
+    },
+    {
+      "id": "ESMA_QA_712",
+      "similarity": 0.3981
+    },
+    {
+      "id": "ESMA_QA_736",
+      "similarity": 0.6456
+    },
+    {
+      "id": "ESMA_QA_804",
+      "similarity": 0.5924
+    },
+    {
+      "id": "ESMA_QA_1858",
+      "similarity": 0.6852
+    },
+    {
+      "id": "ESMA_QA_1825",
+      "similarity": 0.4403
+    },
+    {
+      "id": "ESMA_QA_744",
+      "similarity": 0.6861
+    },
+    {
+      "id": "ESMA_QA_743",
+      "similarity": 0.5114
+    },
+    {
+      "id": "ESMA_QA_1342",
+      "similarity": 0.1823
+    },
+    {
+      "id": "ESMA_QA_1353",
+      "similarity": 0.3642
+    },
+    {
+      "id": "ESMA_QA_962",
+      "similarity": 0.6979
+    },
+    {
+      "id": "ESMA_QA_1928",
+      "similarity": 0.2868
+    },
+    {
+      "id": "ESMA_QA_1593",
+      "similarity": 0.4758
+    },
+    {
+      "id": "ESMA_QA_1820",
+      "similarity": 0.505
+    },
+    {
+      "id": "ESMA_QA_2511",
+      "similarity": 0.4727
+    },
+    {
+      "id": "ESMA_QA_1625",
+      "similarity": 0.4694
+    },
+    {
+      "id": "ESMA_QA_726",
+      "similarity": 0.5216
+    },
+    {
+      "id": "ESMA_QA_963",
+      "similarity": 0.4111
+    },
+    {
+      "id": "ESMA_QA_593",
+      "similarity": 0.5602
+    },
+    {
+      "id": "ESMA_QA_1260",
+      "similarity": 0.3737
+    },
+    {
+      "id": "ESMA_QA_1905",
+      "similarity": 0.4859
+    },
+    {
+      "id": "ESMA_QA_797",
+      "similarity": 0.3317
+    },
+    {
+      "id": "ESMA_QA_1835",
+      "similarity": 0.5447
+    },
+    {
+      "id": "ESMA_QA_1122",
+      "similarity": 0.5343
+    },
+    {
+      "id": "ESMA_QA_1956",
+      "similarity": 0.4942
+    },
+    {
+      "id": "ESMA_QA_795",
+      "similarity": 0.2343
+    },
+    {
+      "id": "ESMA_QA_936",
+      "similarity": 0.4042
+    },
+    {
+      "id": "ESMA_QA_2002",
+      "similarity": 0.4258
+    },
+    {
+      "id": "ESMA_QA_2501",
+      "similarity": 0.2318
+    },
+    {
+      "id": "ESMA_QA_1498",
+      "similarity": 0.3668
+    },
+    {
+      "id": "ESMA_QA_1119",
+      "similarity": 0.7093
+    },
+    {
+      "id": "ESMA_QA_1949",
+      "similarity": 0.7789
+    },
+    {
+      "id": "ESMA_QA_723",
+      "similarity": 0.6215
+    },
+    {
+      "id": "ESMA_QA_1204",
+      "similarity": 0.5052
+    },
+    {
+      "id": "ESMA_QA_1838",
+      "similarity": 0.6272
+    },
+    {
+      "id": "ESMA_QA_1774",
+      "similarity": 0.6164
+    },
+    {
+      "id": "ESMA_QA_1590",
+      "similarity": 0.4947
+    },
+    {
+      "id": "ESMA_QA_731",
+      "similarity": 0.3414
+    },
+    {
+      "id": "ESMA_QA_1236",
+      "similarity": 0.6793
+    },
+    {
+      "id": "ESMA_QA_1045",
+      "similarity": 0.6698
+    },
+    {
+      "id": "ESMA_QA_1026",
+      "similarity": 0.4298
+    },
+    {
+      "id": "ESMA_QA_1719",
+      "similarity": 0.5956
+    },
+    {
+      "id": "ESMA_QA_1713",
+      "similarity": 0.5484
+    },
+    {
+      "id": "ESMA_QA_2028",
+      "similarity": 0.5585
+    },
+    {
+      "id": "ESMA_QA_933",
+      "similarity": 0.2472
+    },
+    {
+      "id": "ESMA_QA_1811",
+      "similarity": 0.5551
+    },
+    {
+      "id": "ESMA_QA_1099",
+      "similarity": 0.6917
+    },
+    {
+      "id": "ESMA_QA_724",
+      "similarity": 0.4293
+    },
+    {
+      "id": "ESMA_QA_711",
+      "similarity": 0.6374
+    },
+    {
+      "id": "ESMA_QA_2828",
+      "similarity": 0.2654
+    },
+    {
+      "id": "ESMA_QA_746",
+      "similarity": 0.5744
+    },
+    {
+      "id": "ESMA_QA_2031",
+      "similarity": 0.6139
+    },
+    {
+      "id": "ESMA_QA_2257",
+      "similarity": 0.4296
+    },
+    {
+      "id": "ESMA_QA_1807",
+      "similarity": 0.4917
+    },
+    {
+      "id": "ESMA_QA_1385",
+      "similarity": 0.6489
+    },
+    {
+      "id": "ESMA_QA_2601",
+      "similarity": 0.5837
+    },
+    {
+      "id": "ESMA_QA_1797",
+      "similarity": 0.4737
+    },
+    {
+      "id": "ESMA_QA_2068",
+      "similarity": 0.5083
+    },
+    {
+      "id": "ESMA_QA_1665",
+      "similarity": 0.5622
+    },
+    {
+      "id": "ESMA_QA_738",
+      "similarity": 0.6302
+    },
+    {
+      "id": "ESMA_QA_1383",
+      "similarity": 0.5665
+    },
+    {
+      "id": "ESMA_QA_1565",
+      "similarity": 0.5211
+    },
+    {
+      "id": "ESMA_QA_1423",
+      "similarity": 0.3739
+    },
+    {
+      "id": "ESMA_QA_2043",
+      "similarity": 0.5117
+    },
+    {
+      "id": "ESMA_QA_1591",
+      "similarity": 0.1272
+    },
+    {
+      "id": "ESMA_QA_1824",
+      "similarity": 0.5806
+    },
+    {
+      "id": "ESMA_QA_1823",
+      "similarity": 0.3737
+    },
+    {
+      "id": "ESMA_QA_2512",
+      "similarity": 0.3652
+    },
+    {
+      "id": "ESMA_QA_735",
+      "similarity": 0.4936
+    },
+    {
+      "id": "ESMA_QA_2822",
+      "similarity": 0.3451
+    },
+    {
+      "id": "ESMA_QA_1888",
+      "similarity": 0.2599
+    },
+    {
+      "id": "ESMA_QA_2092",
+      "similarity": 0.3788
+    },
+    {
+      "id": "ESMA_QA_707",
+      "similarity": 0.6239
+    },
+    {
+      "id": "ESMA_QA_698",
+      "similarity": 0.3738
+    },
+    {
+      "id": "ESMA_QA_1328",
+      "similarity": 0.2652
+    },
+    {
+      "id": "ESMA_QA_1206",
+      "similarity": 0.3994
+    },
+    {
+      "id": "ESMA_QA_1720",
+      "similarity": 0.4825
+    },
+    {
+      "id": "ESMA_QA_1910",
+      "similarity": 0.2244
+    },
+    {
+      "id": "ESMA_QA_2824",
+      "similarity": 0.1968
+    },
+    {
+      "id": "ESMA_QA_2029",
+      "similarity": 0.2719
+    },
+    {
+      "id": "ESMA_QA_2104",
+      "similarity": 0.5433
+    },
+    {
+      "id": "ESMA_QA_2071",
+      "similarity": 0.5646
+    },
+    {
+      "id": "ESMA_QA_1948",
+      "similarity": 0.1798
+    },
+    {
+      "id": "ESMA_QA_1375",
+      "similarity": 0.0616
+    },
+    {
+      "id": "ESMA_QA_1666",
+      "similarity": 0.4686
+    },
+    {
+      "id": "ESMA_QA_860",
+      "similarity": 0.5107
+    },
+    {
+      "id": "ESMA_QA_1891",
+      "similarity": 0.3698
+    },
+    {
+      "id": "ESMA_QA_1846",
+      "similarity": 0.5652
+    },
+    {
+      "id": "ESMA_QA_961",
+      "similarity": 0.735
+    },
+    {
+      "id": "ESMA_QA_1762",
+      "similarity": 0.5715
+    },
+    {
+      "id": "ESMA_QA_1036",
+      "similarity": 0.5389
+    },
+    {
+      "id": "ESMA_QA_1627",
+      "similarity": 0.2993
+    },
+    {
+      "id": "ESMA_QA_1025",
+      "similarity": 0.3909
+    },
+    {
+      "id": "ESMA_QA_2508",
+      "similarity": 0.516
+    },
+    {
+      "id": "ESMA_QA_2557",
+      "similarity": 0.4137
+    },
+    {
+      "id": "ESMA_QA_1658",
+      "similarity": 0.556
+    },
+    {
+      "id": "ESMA_QA_793",
+      "similarity": 0.3123
+    },
+    {
+      "id": "ESMA_QA_2579",
+      "similarity": 0.4291
+    },
+    {
+      "id": "ESMA_QA_2003",
+      "similarity": 0.4027
+    },
+    {
+      "id": "ESMA_QA_1450",
+      "similarity": 0.4495
+    },
+    {
+      "id": "ESMA_QA_1594",
+      "similarity": 0.557
+    },
+    {
+      "id": "ESMA_QA_2088",
+      "similarity": 0.5122
+    },
+    {
+      "id": "ESMA_QA_1489",
+      "similarity": 0.5215
+    },
+    {
+      "id": "ESMA_QA_1223",
+      "similarity": 0.5458
+    },
+    {
+      "id": "ESMA_QA_2624",
+      "similarity": 0.5678
+    },
+    {
+      "id": "ESMA_QA_1336",
+      "similarity": 0.3464
+    },
+    {
+      "id": "ESMA_QA_1310",
+      "similarity": 0.4747
+    },
+    {
+      "id": "ESMA_QA_2030",
+      "similarity": 0.609
+    },
+    {
+      "id": "ESMA_QA_2069",
+      "similarity": 0.5431
+    },
+    {
+      "id": "ESMA_QA_1151",
+      "similarity": 0.5646
+    },
+    {
+      "id": "ESMA_QA_2551",
+      "similarity": 0.5562
+    },
+    {
+      "id": "ESMA_QA_1040",
+      "similarity": 0.6482
+    },
+    {
+      "id": "ESMA_QA_1932",
+      "similarity": 0.3664
+    },
+    {
+      "id": "ESMA_QA_1456",
+      "similarity": 0.4864
+    },
+    {
+      "id": "ESMA_QA_949",
+      "similarity": 0.4743
+    },
+    {
+      "id": "ESMA_QA_1920",
+      "similarity": 0.5186
+    },
+    {
+      "id": "ESMA_QA_1701",
+      "similarity": 0.378
+    },
+    {
+      "id": "ESMA_QA_1341",
+      "similarity": 0.558
+    },
+    {
+      "id": "ESMA_QA_2609",
+      "similarity": 0.5856
+    },
+    {
+      "id": "ESMA_QA_1892",
+      "similarity": 0.4308
+    },
+    {
+      "id": "ESMA_QA_1407",
+      "similarity": 0.1315
+    },
+    {
+      "id": "ESMA_QA_1667",
+      "similarity": 0.0359
+    },
+    {
+      "id": "ESMA_QA_1804",
+      "similarity": 0.4915
+    },
+    {
+      "id": "ESMA_QA_727",
+      "similarity": 0.344
+    },
+    {
+      "id": "ESMA_QA_1499",
+      "similarity": 0.3167
+    },
+    {
+      "id": "ESMA_QA_1771",
+      "similarity": 0.5071
+    },
+    {
+      "id": "ESMA_QA_870",
+      "similarity": 0.6029
+    },
+    {
+      "id": "ESMA_QA_1941",
+      "similarity": 0.3245
+    },
+    {
+      "id": "ESMA_QA_2711",
+      "similarity": 0.7495
+    },
+    {
+      "id": "ESMA_QA_1954",
+      "similarity": 0.5057
+    },
+    {
+      "id": "ESMA_QA_745",
+      "similarity": 0.3996
+    },
+    {
+      "id": "ESMA_QA_725",
+      "similarity": 0.5681
+    },
+    {
+      "id": "ESMA_QA_1635",
+      "similarity": 0.2808
+    },
+    {
+      "id": "ESMA_QA_2507",
+      "similarity": 0.3911
+    },
+    {
+      "id": "ESMA_QA_1826",
+      "similarity": 0.5118
+    },
+    {
+      "id": "ESMA_QA_1379",
+      "similarity": 0.3143
+    },
+    {
+      "id": "ESMA_QA_1628",
+      "similarity": 0.091
+    },
+    {
+      "id": "ESMA_QA_1302",
+      "similarity": 0.2009
+    },
+    {
+      "id": "ESMA_QA_2050",
+      "similarity": 0.3437
+    },
+    {
+      "id": "ESMA_QA_1430",
+      "similarity": 0.2032
+    },
+    {
+      "id": "ESMA_QA_1030",
+      "similarity": 0.538
+    },
+    {
+      "id": "ESMA_QA_1955",
+      "similarity": 0.3702
+    },
+    {
+      "id": "ESMA_QA_733",
+      "similarity": 0.4682
+    },
+    {
+      "id": "ESMA_QA_2054",
+      "similarity": 0.5637
+    },
+    {
+      "id": "ESMA_QA_1931",
+      "similarity": 0.5367
+    },
+    {
+      "id": "ESMA_QA_2048",
+      "similarity": 0.4798
+    },
+    {
+      "id": "ESMA_QA_803",
+      "similarity": 0.4224
+    },
+    {
+      "id": "ESMA_QA_854",
+      "similarity": 0.5725
+    },
+    {
+      "id": "ESMA_QA_871",
+      "similarity": 0.5956
+    },
+    {
+      "id": "ESMA_QA_2522",
+      "similarity": 0.4735
+    },
+    {
+      "id": "ESMA_QA_1047",
+      "similarity": 0.686
+    },
+    {
+      "id": "ESMA_QA_1377",
+      "similarity": 0.2548
+    },
+    {
+      "id": "ESMA_QA_1386",
+      "similarity": 0.1612
+    },
+    {
+      "id": "ESMA_QA_2517",
+      "similarity": 0.5807
+    },
+    {
+      "id": "ESMA_QA_1227",
+      "similarity": 0.383
+    },
+    {
+      "id": "ESMA_QA_1947",
+      "similarity": 0.3411
+    },
+    {
+      "id": "ESMA_QA_1733",
+      "similarity": 0.6548
+    },
+    {
+      "id": "ESMA_QA_1589",
+      "similarity": 0.0205
+    },
+    {
+      "id": "ESMA_QA_1886",
+      "similarity": 0.3188
+    },
+    {
+      "id": "ESMA_QA_1364",
+      "similarity": 0.2402
+    },
+    {
+      "id": "ESMA_QA_2827",
+      "similarity": 0.4951
+    },
+    {
+      "id": "ESMA_QA_1690",
+      "similarity": 0.2048
+    },
+    {
+      "id": "ESMA_QA_996",
+      "similarity": 0.6638
+    },
+    {
+      "id": "ESMA_QA_2103",
+      "similarity": 0.3699
+    },
+    {
+      "id": "ESMA_QA_1726",
+      "similarity": 0.6017
+    },
+    {
+      "id": "ESMA_QA_967",
+      "similarity": 0.3349
+    },
+    {
+      "id": "ESMA_QA_1153",
+      "similarity": 0.6821
+    },
+    {
+      "id": "ESMA_QA_1803",
+      "similarity": 0.4074
+    },
+    {
+      "id": "ESMA_QA_1446",
+      "similarity": 0.3278
+    },
+    {
+      "id": "ESMA_QA_868",
+      "similarity": 0.5647
+    },
+    {
+      "id": "ESMA_QA_842",
+      "similarity": 0.4379
+    },
+    {
+      "id": "ESMA_QA_1836",
+      "similarity": 0.6518
+    },
+    {
+      "id": "ESMA_QA_778",
+      "similarity": 0.3824
+    },
+    {
+      "id": "ESMA_QA_1389",
+      "similarity": 0.3456
+    },
+    {
+      "id": "ESMA_QA_1806",
+      "similarity": 0.431
+    },
+    {
+      "id": "ESMA_QA_1796",
+      "similarity": 0.5791
+    },
+    {
+      "id": "ESMA_QA_1320",
+      "similarity": 0.4592
+    },
+    {
+      "id": "ESMA_QA_1939",
+      "similarity": 0.5758
+    },
+    {
+      "id": "ESMA_QA_1862",
+      "similarity": 0.6635
+    },
+    {
+      "id": "ESMA_QA_1786",
+      "similarity": 0.4244
+    },
+    {
+      "id": "ESMA_QA_721",
+      "similarity": 0.6078
+    },
+    {
+      "id": "ESMA_QA_1018",
+      "similarity": 0.6497
+    },
+    {
+      "id": "ESMA_QA_1801",
+      "similarity": 0.4817
+    },
+    {
+      "id": "ESMA_QA_1608",
+      "similarity": 0.3839
+    },
+    {
+      "id": "ESMA_QA_1703",
+      "similarity": 0.2436
+    },
+    {
+      "id": "ESMA_QA_1884",
+      "similarity": 0.4082
+    },
+    {
+      "id": "ESMA_QA_1765",
+      "similarity": 0.5066
+    },
+    {
+      "id": "ESMA_QA_2010",
+      "similarity": 0.6418
+    },
+    {
+      "id": "ESMA_QA_2575",
+      "similarity": 0.531
+    },
+    {
+      "id": "ESMA_QA_1525",
+      "similarity": 0.4519
+    },
+    {
+      "id": "ESMA_QA_1580",
+      "similarity": 0.0115
+    },
+    {
+      "id": "ESMA_QA_1221",
+      "similarity": 0.7272
+    },
+    {
+      "id": "ESMA_QA_476",
+      "similarity": 0.5761
+    },
+    {
+      "id": "ESMA_QA_2082",
+      "similarity": 0.6499
+    },
+    {
+      "id": "ESMA_QA_1737",
+      "similarity": 0.614
+    },
+    {
+      "id": "ESMA_QA_1174",
+      "similarity": 0.2517
+    },
+    {
+      "id": "ESMA_QA_1919",
+      "similarity": 0.6343
+    },
+    {
+      "id": "ESMA_QA_1918",
+      "similarity": 0.4257
+    },
+    {
+      "id": "ESMA_QA_1921",
+      "similarity": 0.3563
+    },
+    {
+      "id": "ESMA_QA_1889",
+      "similarity": 0.1869
+    },
+    {
+      "id": "ESMA_QA_1773",
+      "similarity": 0.5383
+    },
+    {
+      "id": "ESMA_QA_1422",
+      "similarity": 0.4289
+    },
+    {
+      "id": "ESMA_QA_2550",
+      "similarity": 0.4218
+    },
+    {
+      "id": "ESMA_QA_1957",
+      "similarity": 0.4824
+    },
+    {
+      "id": "ESMA_QA_1933",
+      "similarity": 0.3914
+    },
+    {
+      "id": "ESMA_QA_1909",
+      "similarity": 0.3949
+    },
+    {
+      "id": "ESMA_QA_802",
+      "similarity": 0.38
+    },
+    {
+      "id": "ESMA_QA_1324",
+      "similarity": 0.6546
+    },
+    {
+      "id": "ESMA_QA_794",
+      "similarity": 0.2862
+    },
+    {
+      "id": "ESMA_QA_722",
+      "similarity": 0.5439
+    },
+    {
+      "id": "ESMA_QA_2005",
+      "similarity": 0.4027
+    },
+    {
+      "id": "ESMA_QA_2509",
+      "similarity": 0.4731
+    },
+    {
+      "id": "ESMA_QA_1440",
+      "similarity": 0.1386
+    },
+    {
+      "id": "ESMA_QA_728",
+      "similarity": 0.4594
+    },
+    {
+      "id": "ESMA_QA_2510",
+      "similarity": 0.5
+    }
+  ]
+}
