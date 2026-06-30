@@ -212,6 +212,23 @@ def _build_citation(kind: str, m: re.Match) -> Citation:
     return Citation(kind=kind, instrument=m.group(0))
 
 
+def find_citation_spans(text: str) -> list[tuple[int, int, str, re.Match]]:
+    """
+    Return (start, end, kind, match) for every raw citation pattern match in
+    *text*, sorted by position. Unlike extract_citations(), this keeps the
+    regex Match object (and its span) so callers can edit the raw string —
+    e.g. to swap a cited article/instrument for a deliberately wrong one.
+    """
+    if not text:
+        return []
+    spans: list[tuple[int, int, str, re.Match]] = []
+    for kind, pat in _PATTERNS:
+        for m in pat.finditer(text):
+            spans.append((m.start(), m.end(), kind, m))
+    spans.sort(key=lambda t: t[0])
+    return spans
+
+
 def extract_citations(text: str) -> list[Citation]:
     """
     Extract all citations from *text*.
@@ -310,49 +327,49 @@ def citation_scores(
 
 
 # ---------------------------------------------------------------------------
-# Quick manual test on first 50 items from both corpora
+# Quick manual test on the first 50 questions of judge_results_train_api.jsonl
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    DATA_FILES = [
-        Path("output/small_judge_result/judge_results_esma.json"),
-        Path("output/small_judge_result/judge_results_eba.json"),
-    ]
+    DATA_FILE = Path("output/judge_results_train_api.jsonl")
 
-    for path in DATA_FILES:
-        if not path.exists():
-            print(f"[skip] {path} not found")
-            continue
-
-        with path.open() as f:
-            data = json.load(f)
+    if not DATA_FILE.exists():
+        print(f"[skip] {DATA_FILE} not found")
+    else:
+        records = []
+        with DATA_FILE.open() as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    records.append(json.loads(line))
 
         print(f"\n{'='*70}")
-        print(f"FILE: {path.name}  ({len(data)} items, testing first 50)")
+        print(f"FILE: {DATA_FILE.name}  ({len(records)} questions, testing first 50)")
         print("=" * 70)
 
-        for item in data[:50]:
-            legal_act     = item.get("meta", {}).get("legal_act", "")
-            ground_truth  = item.get("ground_truth", "")
-            candidate     = item.get("candidate_answer", "")
+        for rec in records[:50]:
+            legal_act    = rec.get("meta", {}).get("legal_act", "")
+            ground_truth = rec.get("ground_truth", "")
 
-            gt_meta  = parse_legal_act(legal_act)
-            gt_text  = extract_citations(ground_truth)
-            cand     = extract_citations(candidate)
+            gt_meta = parse_legal_act(legal_act)
+            gt_text = extract_citations(ground_truth)
 
-            # Use legal_act citations as ground truth (coarse)
-            scores_inst = citation_scores(gt_meta, cand, level="instrument")
-            scores_full = citation_scores(gt_text, cand, level="full")
-
-            print(f"\n--- {item['id']} ---")
+            print(f"\n--- {rec['question_id']} ---")
             print(f"  legal_act   : {legal_act[:80]}")
             print(f"  GT (meta)   : {[str(c) for c in gt_meta]}")
             print(f"  GT (text)   : {[str(c) for c in gt_text[:5]]}")
-            print(f"  Candidate   : {[str(c) for c in cand[:5]]}")
-            print(f"  Scores(inst): P={scores_inst['precision']:.2f}  "
-                  f"R={scores_inst['recall']:.2f}  F1={scores_inst['f1']:.2f}")
-            print(f"  Scores(full): P={scores_full['precision']:.2f}  "
-                  f"R={scores_full['recall']:.2f}  F1={scores_full['f1']:.2f}")
+
+            for answerer, ans in rec.get("answers", {}).items():
+                cand = extract_citations(ans.get("text", ""))
+                scores_inst = citation_scores(gt_meta, cand, level="instrument")
+                scores_full = citation_scores(gt_text, cand, level="full")
+
+                print(f"  [{answerer}]")
+                print(f"    Candidate   : {[str(c) for c in cand[:5]]}")
+                print(f"    Scores(inst): P={scores_inst['precision']:.2f}  "
+                      f"R={scores_inst['recall']:.2f}  F1={scores_inst['f1']:.2f}")
+                print(f"    Scores(full): P={scores_full['precision']:.2f}  "
+                      f"R={scores_full['recall']:.2f}  F1={scores_full['f1']:.2f}")

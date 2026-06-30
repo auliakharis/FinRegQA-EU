@@ -1,0 +1,11 @@
+judge_model,mean_abs_diff,n,regulator,strong_preference,strong_preference_rate,ties,weak_preference,wins_meta-llama/Llama-3.3-70B-Instruct,wins_swiss-ai/Apertus-70B-Instruct-2509
+Qwen/Qwen3.5-27B,0.5328,2134,,151,0.0708,382,1601,1167,585
+google/gemma-4-31B-it,0.582,2134,,188,0.0881,349,1597,1259,526
+zai-org/GLM-4.7-Flash,0.7732,2046,,364,0.1779,228,1454,1197,621
+Qwen/Qwen3.5-27B,0.5139,1868,EBA,123,0.0658,342,1403,1003,523
+Qwen/Qwen3.5-27B,0.6654,266,ESMA,28,0.1053,40,198,164,62
+google/gemma-4-31B-it,0.5739,1868,EBA,159,0.0851,316,1393,1087,465
+google/gemma-4-31B-it,0.6391,266,ESMA,29,0.109,33,204,172,61
+zai-org/GLM-4.7-Flash,0.7629,1796,EBA,310,0.1726,205,1281,1033,558
+zai-org/GLM-4.7-Flash,0.847,250,ESMA,54,0.216,23,173,164,63
+,0.6273,6314,,703,0.1113,959,4652,3623,1732

@@ -1,5 +1,5 @@
-file,size,corpus,model,n,inst_precision,inst_recall,inst_f1,full_precision,full_recall,full_f1
-judge_results_esma.json,small,esma,small,383,0.2538,0.3042,0.2603,0.4222,0.2881,0.3118
-judge_results_eba.json,small,eba,small,2669,0.2566,0.3728,0.2941,0.3513,0.2218,0.2505
-judge_results_esma_qa_api.json,big,esma,swiss-ai/Apertus-70B-Instruct-2509,383,0.2393,0.4008,0.2836,0.2323,0.2691,0.2223
-judge_results_eba_qa_api.json,big,eba,swiss-ai/Apertus-70B-Instruct-2509,2635,0.3149,0.6315,0.4027,0.2449,0.2453,0.2226
+regulator,answerer_model,n,inst_precision,inst_recall,inst_f1,full_precision,full_recall,full_f1
+EBA,meta-llama/Llama-3.3-70B-Instruct,1868,0.6644,0.9732,0.7598,0.2743,0.311,0.2649
+EBA,swiss-ai/Apertus-70B-Instruct-2509,1868,0.4743,0.8908,0.5948,0.2878,0.2977,0.2663
+ESMA,meta-llama/Llama-3.3-70B-Instruct,266,0.7379,0.8647,0.7648,0.2331,0.3557,0.2502
+ESMA,swiss-ai/Apertus-70B-Instruct-2509,266,0.5068,0.8759,0.617,0.2898,0.3911,0.2928
