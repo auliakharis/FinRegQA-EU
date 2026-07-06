@@ -1,0 +1,592 @@
+"""
+Evaluate DPO-trained Qwen-4B vs baseline Qwen-4B on held-out regulatory Q&A.
+
+Three independent phases:
+
+  generate  Load baseline and DPO model locally; run both on test questions.
+            Saves output/eval_answers.jsonl.
+
+  judge     Call the vLLM-served judge panel (same 3 models as training data)
+            to pointwise-score each generated answer.
+            Saves output/eval_judge_scores.jsonl.
+
+  report    Aggregate judge scores → per-dimension means + win rate.
+            Compute citation F1 (extracted citations vs ground truth) and
+            BERTScore (semantic similarity to ground truth).
+            Prints a summary table and saves output/eval_report.json.
+
+Test set: all questions in judge_results_train_api.jsonl that are NOT in
+dpo_corruption_pairs.jsonl (1,779 of 2,138 total by default).
+
+Usage
+-----
+    # Full pipeline
+    python eval_dpo.py --phase all --baseline_model Qwen3.5-4B-Instruct
+
+    # Quick smoke-test: 10 questions, one judge
+    python eval_dpo.py --phase all --baseline_model Qwen3.5-4B-Instruct \\
+        --n_questions 10 --judge_models Qwen/Qwen3.5-27B
+
+    # Separate phases (e.g. generate on GPU node, report on login node)
+    python eval_dpo.py --phase generate --baseline_model Qwen3.5-4B-Instruct
+    python eval_dpo.py --phase judge
+    python eval_dpo.py --phase report
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+from collections import defaultdict
+from pathlib import Path
+
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+try:
+    from bert_score import score as _bert_score
+    BERT_SCORE_AVAILABLE = True
+except ImportError:
+    BERT_SCORE_AVAILABLE = False
+
+try:
+    from citation_parser import find_citation_spans
+    CITATION_PARSER_AVAILABLE = True
+except ImportError:
+    CITATION_PARSER_AVAILABLE = False
+
+# ---------------------------------------------------------------------------
+# Paths and constants
+# ---------------------------------------------------------------------------
+
+BASE              = Path("output")
+RECORDS_FILE      = BASE / "judge_results_train_api.jsonl"
+DPO_PAIRS_FILE    = BASE / "dpo_corruption_pairs.jsonl"
+
+DEFAULT_DPO_MODEL_PATH = Path("/cluster/scratch/arakhmasari/dpo_qwen4b")
+
+ALL_JUDGE_MODELS = [
+    "Qwen/Qwen3.5-27B",
+    "google/gemma-4-31B-it",
+    "zai-org/GLM-4.7-Flash",
+]
+DIMS = ["accuracy", "completeness", "topic_coherence", "citation_quality"]
+
+# Reused verbatim from judge_api.py
+JUDGE_PROMPT = """\
+You are an expert judge evaluating answers to EU financial regulation \
+questions from EBA and ESMA sources. You will score a candidate answer \
+against the official answer on four dimensions.
+
+## Question
+{question}
+
+## Topic
+{topic}
+
+## Subject Matter
+{subject_matter}
+
+## Official Answer (Ground Truth)
+{ground_truth}
+
+## Candidate Answer
+{candidate}
+
+## Scoring Dimensions
+
+**Accuracy** (factual correctness relative to the official answer):
+- 5: All factual claims match the official answer.
+- 4: Minor inaccuracies that do not change the substantive conclusion.
+- 3: Partially correct; one substantive claim is wrong or unsupported.
+- 2: Multiple substantive errors; conclusion is partly incorrect.
+- 1: Conclusion contradicts the official answer or is fabricated.
+
+**Completeness** (coverage of key points in the official answer):
+- 5: Covers all key points present in the official answer.
+- 4: Covers all key points but omits a minor detail.
+- 3: Covers the main point but misses one secondary point.
+- 2: Misses multiple key points; partial coverage.
+- 1: Misses the main point entirely.
+
+**Topic Coherence** (alignment with the specified topic and subject matter):
+- 5: Fully addresses the specified topic and subject matter without \
+drifting into adjacent regulatory areas.
+- 4: Stays on topic but includes minor tangential content.
+- 3: Partially on topic; some content addresses a different but related area.
+- 2: Primarily addresses an adjacent topic; only partially relevant.
+- 1: Off-topic or addresses a different regulatory area entirely.
+
+**Citation Quality** (specificity and correctness of legal references):
+- 5: All citations are specific and correctly identify the supporting provision.
+- 4: Citations are specific and mostly correct; one minor citation issue.
+- 3: Citations are present but partially generic, or one is incorrect.
+- 2: Citations are mostly generic or several are incorrect.
+- 1: Citations are missing or fabricated.
+
+Score independently. Use the full 1–5 range. Output ONLY the JSON below.
+
+{{
+  "reasoning": {{
+    "accuracy": "<one sentence>",
+    "completeness": "<one sentence>",
+    "topic_coherence": "<one sentence>",
+    "citation_quality": "<one sentence>"
+  }},
+  "accuracy": <1-5>,
+  "completeness": <1-5>,
+  "topic_coherence": <1-5>,
+  "citation_quality": <1-5>
+}}"""
+
+ANSWERER_PROMPT = """\
+You are an expert in EU financial regulation, with deep knowledge of EBA and \
+ESMA guidelines, technical standards, and related directives and regulations.
+
+Answer the following regulatory question. Base your answer on the actual \
+content of the legal act identified below and support every substantive \
+claim with a specific citation in the form [Source, Article/Paragraph]. \
+Write 100–400 words of prose, matching the style of official EBA/ESMA Q&A \
+responses, without padding or restating the question.
+
+## Context
+LEGAL ACT: {legal_act}
+TOPIC: {topic}
+SUBJECT MATTER: {subject_matter}
+
+## Question
+{question}
+
+Answer:
+"""
+
+
+# ---------------------------------------------------------------------------
+# Shared helpers
+# ---------------------------------------------------------------------------
+
+def load_jsonl(path: Path) -> list[dict]:
+    with path.open() as f:
+        return [json.loads(l) for l in f if l.strip()]
+
+
+def load_model_local(model_path: Path, load_in_4bit: bool = False):
+    print(f"  Loading: {model_path}")
+    tokenizer = AutoTokenizer.from_pretrained(str(model_path), local_files_only=True)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    qconfig = None
+    if load_in_4bit:
+        from transformers import BitsAndBytesConfig
+        qconfig = BitsAndBytesConfig(
+            load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4",
+        )
+    model = AutoModelForCausalLM.from_pretrained(
+        str(model_path), local_files_only=True,
+        torch_dtype=torch.float16, device_map="auto",
+        quantization_config=qconfig,
+    )
+    return model, tokenizer
+
+
+def generate_answer(model, tokenizer, prompt: str, max_new_tokens: int) -> str:
+    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    with torch.no_grad():
+        out_ids = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=False,
+            temperature=None,
+            top_p=None,
+            pad_token_id=tokenizer.pad_token_id,
+        )
+    new_tokens = out_ids[0, inputs["input_ids"].shape[1]:]
+    return tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+
+
+def select_test_questions(n: int | None, seed: int) -> list[dict]:
+    all_records = load_jsonl(RECORDS_FILE)
+    if DPO_PAIRS_FILE.exists():
+        dpo_qids = {r["question_id"] for r in load_jsonl(DPO_PAIRS_FILE)}
+    else:
+        dpo_qids = set()
+        print(f"Warning: {DPO_PAIRS_FILE} not found — using all questions.")
+    questions = [r for r in all_records if r["question_id"] not in dpo_qids]
+    if n is not None:
+        import random
+        random.Random(seed).shuffle(questions)
+        questions = questions[:n]
+    print(f"Test set: {len(questions)} questions  (excluded {len(dpo_qids)} DPO training qids)")
+    return questions
+
+
+# ---------------------------------------------------------------------------
+# Score parsing (mirrors judge_api.py)
+# ---------------------------------------------------------------------------
+
+def _find_balanced_objects(text: str) -> list[str]:
+    blocks, depth, start = [], 0, None
+    for i, ch in enumerate(text):
+        if ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}" and depth > 0:
+            depth -= 1
+            if depth == 0 and start is not None:
+                blocks.append(text[start : i + 1])
+    return blocks
+
+
+def parse_scores(text: str) -> dict:
+    text = re.sub(r"```(?:json)?\s*", "", text).strip()
+    for block in _find_balanced_objects(text):
+        try:
+            data = json.loads(block)
+            if all(k in data for k in DIMS):
+                return {k: data[k] for k in DIMS}
+        except json.JSONDecodeError:
+            continue
+    return {k: None for k in DIMS}
+
+
+# ---------------------------------------------------------------------------
+# Citation F1
+# ---------------------------------------------------------------------------
+
+def _citation_set(text: str) -> set[str]:
+    if not CITATION_PARSER_AVAILABLE:
+        return set()
+    spans = find_citation_spans(text)
+    return {text[s:e].lower().strip() for s, e, *_ in spans}
+
+
+def citation_f1(pred: str, ref: str) -> float:
+    pred_c, ref_c = _citation_set(pred), _citation_set(ref)
+    if not ref_c and not pred_c:
+        return 1.0
+    if not ref_c or not pred_c:
+        return 0.0
+    tp = len(pred_c & ref_c)
+    p  = tp / len(pred_c)
+    r  = tp / len(ref_c)
+    return 2 * p * r / (p + r) if (p + r) > 0 else 0.0
+
+
+# ---------------------------------------------------------------------------
+# Phase 1 · generate
+# ---------------------------------------------------------------------------
+
+def generate_phase(args) -> None:
+    questions = select_test_questions(args.n_questions, args.seed)
+
+    scratch = os.environ.get("SCRATCH", "")
+    model_configs = [
+        ("baseline", Path(scratch) / "models" / args.baseline_model),
+        ("dpo",      args.dpo_model_path),
+    ]
+
+    # answers keyed by question_id
+    answers: dict[str, dict] = {
+        r["question_id"]: {
+            "question_id":  r["question_id"],
+            "regulator":    r.get("regulator", ""),
+            "question":     r["question"],
+            "ground_truth": r.get("ground_truth", ""),
+            "meta":         r.get("meta", {}),
+            "baseline":     {},
+            "dpo":          {},
+        }
+        for r in questions
+    }
+
+    for model_key, model_path in model_configs:
+        print(f"\n=== Generating [{model_key}] from {model_path} ===")
+        if not model_path.exists():
+            raise FileNotFoundError(f"Model path not found: {model_path}")
+        model, tokenizer = load_model_local(model_path, args.load_in_4bit)
+
+        for i, rec in enumerate(questions):
+            meta   = rec.get("meta", {})
+            prompt = ANSWERER_PROMPT.format(
+                legal_act=meta.get("legal_act", ""),
+                topic=meta.get("topic", ""),
+                subject_matter=meta.get("subject_matter", ""),
+                question=rec["question"],
+            )
+            text = generate_answer(model, tokenizer, prompt, args.max_new_tokens)
+            answers[rec["question_id"]][model_key] = {
+                "model": str(model_path),
+                "text":  text,
+            }
+            if (i + 1) % 50 == 0:
+                print(f"  {i + 1}/{len(questions)}")
+
+        del model, tokenizer
+        torch.cuda.empty_cache()
+
+    out = args.output_dir / "eval_answers.jsonl"
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    with out.open("w") as f:
+        for row in answers.values():
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    print(f"\nSaved {len(answers)} rows → {out}")
+
+
+# ---------------------------------------------------------------------------
+# Phase 2 · judge
+# ---------------------------------------------------------------------------
+
+def judge_phase(args) -> None:
+    try:
+        from openai import OpenAI
+    except ImportError:
+        raise ImportError("pip install openai  (required to call the vLLM judge API)")
+
+    answers_file = args.output_dir / "eval_answers.jsonl"
+    if not answers_file.exists():
+        raise FileNotFoundError(f"{answers_file} not found — run --phase generate first.")
+
+    client  = OpenAI(api_key="EMPTY", base_url=args.judge_api_base)
+    rows    = load_jsonl(answers_file)
+    scored: list[dict] = []
+
+    for i, row in enumerate(rows):
+        qid  = row["question_id"]
+        meta = row.get("meta", {})
+        scores_for_q: dict[str, dict] = {"baseline": {}, "dpo": {}}
+
+        for judge_model in args.judge_models:
+            for model_key in ("baseline", "dpo"):
+                candidate = row.get(model_key, {}).get("text", "")
+                if not candidate:
+                    continue
+                prompt = JUDGE_PROMPT.format(
+                    question=row["question"],
+                    topic=meta.get("topic", ""),
+                    subject_matter=meta.get("subject_matter", ""),
+                    ground_truth=row["ground_truth"],
+                    candidate=candidate,
+                )
+                try:
+                    resp = client.chat.completions.create(
+                        model=judge_model,
+                        messages=[{"role": "user", "content": prompt}],
+                        max_tokens=512,
+                        temperature=0.0,
+                    )
+                    raw = resp.choices[0].message.content or ""
+                    raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
+                    sc  = parse_scores(raw)
+                except Exception as e:
+                    print(f"  Judge error ({judge_model}, {model_key}, {qid}): {e}")
+                    sc = {k: None for k in DIMS}
+                scores_for_q[model_key][judge_model] = sc
+
+        scored.append({
+            "question_id": qid,
+            "regulator":   row.get("regulator", ""),
+            "scores":      scores_for_q,
+        })
+        if (i + 1) % 25 == 0:
+            print(f"  {i + 1}/{len(rows)} judged")
+
+    out = args.output_dir / "eval_judge_scores.jsonl"
+    with out.open("w") as f:
+        for row in scored:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    print(f"\nSaved {len(scored)} rows → {out}")
+
+
+# ---------------------------------------------------------------------------
+# Phase 3 · report
+# ---------------------------------------------------------------------------
+
+def report_phase(args) -> None:
+    answers_file = args.output_dir / "eval_answers.jsonl"
+    scores_file  = args.output_dir / "eval_judge_scores.jsonl"
+    for p in (answers_file, scores_file):
+        if not p.exists():
+            raise FileNotFoundError(f"{p} not found — run earlier phases first.")
+
+    answers = {r["question_id"]: r for r in load_jsonl(answers_file)}
+    scored  = load_jsonl(scores_file)
+
+    # --- Judge scores & win rate -----------------------------------------
+    dim_sums:   dict[str, dict[str, float]] = {"baseline": defaultdict(float), "dpo": defaultdict(float)}
+    dim_counts: dict[str, dict[str, int]]   = {"baseline": defaultdict(int),   "dpo": defaultdict(int)}
+    wins = {"baseline": 0, "dpo": 0, "tie": 0}
+    n_judged = 0
+
+    for row in scored:
+        for model_key in ("baseline", "dpo"):
+            for judge_model in args.judge_models:
+                sc = row["scores"].get(model_key, {}).get(judge_model, {})
+                for d in DIMS:
+                    v = sc.get(d)
+                    if v is not None:
+                        dim_sums[model_key][d]   += float(v)
+                        dim_counts[model_key][d] += 1
+
+        def _overall(key: str) -> float | None:
+            vals = []
+            for jm in args.judge_models:
+                sc = row["scores"].get(key, {}).get(jm, {})
+                vs = [sc.get(d) for d in DIMS if sc.get(d) is not None]
+                if vs:
+                    vals.append(sum(vs) / len(vs))
+            return sum(vals) / len(vals) if vals else None
+
+        b, d = _overall("baseline"), _overall("dpo")
+        if b is not None and d is not None:
+            n_judged += 1
+            gap = d - b
+            if abs(gap) < 1e-9:
+                wins["tie"] += 1
+            elif gap > 0:
+                wins["dpo"] += 1
+            else:
+                wins["baseline"] += 1
+
+    # --- Citation F1 ------------------------------------------------------
+    cit_f1: dict[str, list[float]] = {"baseline": [], "dpo": []}
+    if CITATION_PARSER_AVAILABLE:
+        for row in answers.values():
+            ref = row.get("ground_truth", "")
+            for key in ("baseline", "dpo"):
+                pred = row.get(key, {}).get("text", "")
+                if pred:
+                    cit_f1[key].append(citation_f1(pred, ref))
+
+    # --- BERTScore --------------------------------------------------------
+    bert_f1: dict[str, float | None] = {"baseline": None, "dpo": None}
+    if BERT_SCORE_AVAILABLE:
+        qids = list(answers)
+        refs = [answers[q].get("ground_truth", "") for q in qids]
+        for key in ("baseline", "dpo"):
+            cands = [answers[q].get(key, {}).get("text", "") for q in qids]
+            _, _, F = _bert_score(cands, refs, lang="en", verbose=False)
+            bert_f1[key] = float(F.mean())
+
+    # --- Print -----------------------------------------------------------
+    W = 56
+    print(f"\n{'=' * W}")
+    print("  DPO Evaluation Report")
+    print(f"{'=' * W}")
+    print(f"  {'Metric':<28}{'Baseline':>8}{'DPO':>8}{'Δ':>8}")
+    print(f"  {'-' * (W - 2)}")
+
+    def _mean(key: str, d: str) -> float:
+        c = dim_counts[key][d]
+        return dim_sums[key][d] / c if c else float("nan")
+
+    for d in DIMS:
+        b, dv = _mean("baseline", d), _mean("dpo", d)
+        print(f"  Judge {d:<22}{b:>8.3f}{dv:>8.3f}{dv - b:>+8.3f}")
+
+    b_tot = sum(dim_sums["baseline"].values())
+    d_tot = sum(dim_sums["dpo"].values())
+    b_cnt = sum(dim_counts["baseline"].values())
+    d_cnt = sum(dim_counts["dpo"].values())
+    b_all = b_tot / b_cnt if b_cnt else float("nan")
+    d_all = d_tot / d_cnt if d_cnt else float("nan")
+    print(f"  {'-' * (W - 2)}")
+    print(f"  {'Judge overall (mean)':<28}{b_all:>8.3f}{d_all:>8.3f}{d_all - b_all:>+8.3f}")
+    print(f"  {'-' * (W - 2)}")
+
+    if n_judged:
+        print(f"  {'Win rate (DPO preferred)':<36}{wins['dpo'] / n_judged:>8.1%}")
+        print(f"  {'Win rate (baseline preferred)':<36}{wins['baseline'] / n_judged:>8.1%}")
+        print(f"  {'Tie rate':<36}{wins['tie'] / n_judged:>8.1%}")
+        print(f"  {'Questions judged':<36}{n_judged:>8d}")
+        print(f"  {'-' * (W - 2)}")
+
+    if CITATION_PARSER_AVAILABLE:
+        for key in ("baseline", "dpo"):
+            if cit_f1[key]:
+                avg = sum(cit_f1[key]) / len(cit_f1[key])
+                print(f"  {'Citation F1 (' + key + ')':<28}{avg:>8.3f}")
+        if cit_f1["baseline"] and cit_f1["dpo"]:
+            delta = sum(cit_f1["dpo"]) / len(cit_f1["dpo"]) - sum(cit_f1["baseline"]) / len(cit_f1["baseline"])
+            print(f"  {'Citation F1 delta':<44}{delta:>+8.3f}")
+        print(f"  {'-' * (W - 2)}")
+
+    if BERT_SCORE_AVAILABLE:
+        for key in ("baseline", "dpo"):
+            if bert_f1[key] is not None:
+                print(f"  {'BERTScore F1 (' + key + ')':<28}{bert_f1[key]:>8.3f}")
+        if bert_f1["baseline"] is not None and bert_f1["dpo"] is not None:
+            delta = bert_f1["dpo"] - bert_f1["baseline"]
+            print(f"  {'BERTScore F1 delta':<44}{delta:>+8.3f}")
+
+    print(f"{'=' * W}\n")
+
+    if not CITATION_PARSER_AVAILABLE:
+        print("Note: citation_parser not found — citation F1 skipped.")
+    if not BERT_SCORE_AVAILABLE:
+        print("Note: bert_score not installed — BERTScore skipped.  pip install bert-score")
+
+    # --- Save JSON --------------------------------------------------------
+    report = {
+        "judge_scores": {
+            k: {d: (_mean(k, d) if dim_counts[k][d] else None) for d in DIMS}
+            for k in ("baseline", "dpo")
+        },
+        "win_rate": {
+            k: (wins[k] / n_judged if n_judged else None)
+            for k in ("baseline", "dpo", "tie")
+        },
+        "n_judged": n_judged,
+        "citation_f1": {
+            k: (sum(cit_f1[k]) / len(cit_f1[k]) if cit_f1[k] else None)
+            for k in ("baseline", "dpo")
+        },
+        "bertscore_f1": bert_f1,
+    }
+    out = args.output_dir / "eval_report.json"
+    with out.open("w") as f:
+        json.dump(report, f, indent=2)
+    print(f"Report saved → {out}")
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument("--phase", choices=["generate", "judge", "report", "all"], default="all")
+    parser.add_argument("--baseline_model", default="Qwen3.5-4B-Instruct",
+                        help="Model directory name under $SCRATCH/models/")
+    parser.add_argument("--dpo_model_path", type=Path, default=DEFAULT_DPO_MODEL_PATH,
+                        help="Path to the DPO-trained model checkpoint.")
+    parser.add_argument("--judge_models", nargs="+", default=ALL_JUDGE_MODELS,
+                        help="vLLM-served judge model names (space-separated).")
+    parser.add_argument("--judge_api_base", default="http://localhost:8000/v1",
+                        help="Base URL of the vLLM judge API.")
+    parser.add_argument("--n_questions", type=int, default=None,
+                        help="Cap the test set size (default: all non-DPO questions).")
+    parser.add_argument("--load_in_4bit", action="store_true",
+                        help="Load answerer models in 4-bit quantization.")
+    parser.add_argument("--max_new_tokens", type=int, default=512)
+    parser.add_argument("--output_dir", type=Path, default=BASE)
+    parser.add_argument("--seed", type=int, default=42)
+    args = parser.parse_args()
+
+    if args.phase in ("generate", "all"):
+        generate_phase(args)
+    if args.phase in ("judge", "all"):
+        judge_phase(args)
+    if args.phase in ("report", "all"):
+        report_phase(args)
+
+
+if __name__ == "__main__":
+    main()
