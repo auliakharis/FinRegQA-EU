@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(curl -sL \"https://www.esma.europa.eu/esma-qa-search-page/all\")",
-      "Bash(sort -t= -k2 -n)"
-    ]
-  }
-}
