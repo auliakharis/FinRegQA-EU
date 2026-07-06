@@ -15,8 +15,10 @@ Three independent phases:
             BERTScore (semantic similarity to ground truth).
             Prints a summary table and saves output/eval_report.json.
 
-Test set: all questions in judge_results_train_api.jsonl that are NOT in
-dpo_corruption_pairs.jsonl (1,779 of 2,138 total by default).
+Test set: questions in judge_results_train_api.jsonl that are NOT in
+dpo_corruption_pairs.jsonl (1,779 of 2,138 total). 100 are sampled by default
+(~5.6% of the held-out pool, stratified by random seed). Pass --n_questions -1
+to use all held-out questions.
 
 Usage
 -----
@@ -43,7 +45,11 @@ from collections import defaultdict
 from pathlib import Path
 
 import torch
+from dotenv import load_dotenv
+from openai import OpenAI
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+load_dotenv()
 
 try:
     from bert_score import score as _bert_score
@@ -73,6 +79,12 @@ ALL_JUDGE_MODELS = [
     "zai-org/GLM-4.7-Flash",
 ]
 DIMS = ["accuracy", "completeness", "topic_coherence", "citation_quality"]
+
+JUDGE_MAX_TOKENS = {
+    "Qwen/Qwen3.5-27B":    6144,
+    "zai-org/GLM-4.7-Flash": 8192,
+}
+DEFAULT_JUDGE_MAX_TOKENS = 3072
 
 # Reused verbatim from judge_api.py
 JUDGE_PROMPT = """\
@@ -114,20 +126,66 @@ against the official answer on four dimensions.
 **Topic Coherence** (alignment with the specified topic and subject matter):
 - 5: Fully addresses the specified topic and subject matter without \
 drifting into adjacent regulatory areas.
-- 4: Stays on topic but includes minor tangential content.
-- 3: Partially on topic; some content addresses a different but related area.
-- 2: Primarily addresses an adjacent topic; only partially relevant.
+- 4: Stays on topic but includes minor tangential content, OR addresses \
+a broader scope that still fully covers the topic.
+- 3: Partially on topic; some content addresses a different but related \
+regulatory area.
+- 2: Primarily addresses an adjacent topic; only partially relevant to \
+the specified subject matter.
 - 1: Off-topic or addresses a different regulatory area entirely.
 
 **Citation Quality** (specificity and correctness of legal references):
-- 5: All citations are specific and correctly identify the supporting provision.
+- 5: All citations are specific (article/paragraph/field level) and \
+correctly identify the supporting provision.
 - 4: Citations are specific and mostly correct; one minor citation issue.
-- 3: Citations are present but partially generic, or one is incorrect.
-- 2: Citations are mostly generic or several are incorrect.
+- 3: Citations are present but partially generic (e.g., "Article 5" \
+without specifying the regulation), or one citation is incorrect.
+- 2: Citations are mostly generic ("the ITS", "DORA") or several are \
+incorrect.
 - 1: Citations are missing or fabricated.
 
-Score independently. Use the full 1–5 range. Output ONLY the JSON below.
+## Instructions
 
+1. **Reason before scoring.** Think step-by-step about each dimension \
+before assigning the score. Your reasoning should determine the score, \
+not the reverse.
+
+2. **Catch plausible-sounding hallucinations.** If the candidate \
+contains specific factual claims (numbers, dates, article references, \
+requirements, definitions) that are not supported by the official \
+answer, treat those as accuracy violations even if the claims sound \
+plausible.
+
+3. **Score dimensions independently.** If two dimensions seem to \
+conflict, score each on its own merits.
+
+4. **Use the full 1-5 range.** Do not default to 3 when uncertain. \
+A shorter candidate that still covers the key point is not a \
+completeness penalty.
+
+4b. **Score must match your own reasoning.** If your reasoning \
+sentence for a dimension names a specific flaw (a missing point, a \
+wrong citation, an unsupported claim, drift off-topic), the score for \
+that dimension cannot be 5. Reserve 5 only when your reasoning states \
+the candidate fully and correctly meets the criterion with no caveat. \
+Do not default to 5 out of leniency.
+
+5. **Citation specificity matters.** A correct citation to "Article 5 \
+of Regulation (EU) 2019/2033" is stronger than "Article 5" alone, \
+even when both are technically correct.
+
+6. **Be concise.** Do your step-by-step thinking silently. Each \
+reasoning field must be ONE short sentence (max ~25 words) stating the \
+conclusion, not a transcript of your deliberation. Do not repeat the \
+question, the candidate text, or the official answer back. Output the \
+JSON object immediately after you have decided the scores — no \
+preamble, no text before or after the JSON.
+
+7. **No visible thinking.** Do not output a `<think>` block, chain-of-\
+thought, or any reasoning outside the JSON's "reasoning" fields. Your \
+entire response must be the JSON object and nothing else.
+
+Respond in this exact JSON format only:
 {{
   "reasoning": {{
     "accuracy": "<one sentence>",
@@ -217,12 +275,60 @@ def select_test_questions(n: int | None, seed: int) -> list[dict]:
         dpo_qids = set()
         print(f"Warning: {DPO_PAIRS_FILE} not found — using all questions.")
     questions = [r for r in all_records if r["question_id"] not in dpo_qids]
-    if n is not None:
+    if n is not None and n != -1:
         import random
         random.Random(seed).shuffle(questions)
         questions = questions[:n]
     print(f"Test set: {len(questions)} questions  (excluded {len(dpo_qids)} DPO training qids)")
     return questions
+
+
+# ---------------------------------------------------------------------------
+# Judge API helpers (mirrors judge_api.py)
+# ---------------------------------------------------------------------------
+
+def _is_reasoning_model(model_name: str) -> bool:
+    name = model_name.lower()
+    return any(m in name for m in ("qwen", "glm"))
+
+
+def _thinking_kwargs(model_name: str) -> dict:
+    name = model_name.lower()
+    if "qwen" in name:
+        return {"extra_body": {"chat_template_kwargs": {"enable_thinking": False}}}
+    if "glm" in name:
+        return {"extra_body": {"thinking": {"type": "disabled"}}}
+    return {}
+
+
+def _call_judge(client: OpenAI, model_name: str, prompt: str, max_new_tokens: int) -> str:
+    if _is_reasoning_model(model_name):
+        prompt = f"{prompt}\n\n/no_think"
+    response = client.chat.completions.create(
+        model=model_name,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=max_new_tokens,
+        temperature=0.0,
+        **_thinking_kwargs(model_name),
+    )
+    msg = response.choices[0].message
+    text = msg.content or getattr(msg, "reasoning_content", None) or ""
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+    if not text:
+        raise ValueError(
+            f"Empty response from {model_name} (finish_reason={response.choices[0].finish_reason})"
+        )
+    return text
+
+
+def call_judge(client: OpenAI, model_name: str, prompt: str, max_new_tokens: int) -> str:
+    try:
+        return _call_judge(client, model_name, prompt, max_new_tokens)
+    except ValueError:
+        if not _is_reasoning_model(model_name):
+            raise
+        # Reasoning models occasionally exhaust their budget on hidden CoT; retry with 2x tokens.
+        return _call_judge(client, model_name, prompt, max_new_tokens * 2)
 
 
 # ---------------------------------------------------------------------------
@@ -343,17 +449,15 @@ def generate_phase(args) -> None:
 # ---------------------------------------------------------------------------
 
 def judge_phase(args) -> None:
-    try:
-        from openai import OpenAI
-    except ImportError:
-        raise ImportError("pip install openai  (required to call the vLLM judge API)")
-
     answers_file = args.output_dir / "eval_answers.jsonl"
     if not answers_file.exists():
         raise FileNotFoundError(f"{answers_file} not found — run --phase generate first.")
 
-    client  = OpenAI(api_key="EMPTY", base_url=args.judge_api_base)
-    rows    = load_jsonl(answers_file)
+    client = OpenAI(
+        api_key=os.environ.get("CSCS_SERVING_API"),
+        base_url=args.judge_api_base,
+    )
+    rows   = load_jsonl(answers_file)
     scored: list[dict] = []
 
     for i, row in enumerate(rows):
@@ -362,6 +466,7 @@ def judge_phase(args) -> None:
         scores_for_q: dict[str, dict] = {"baseline": {}, "dpo": {}}
 
         for judge_model in args.judge_models:
+            max_tokens = JUDGE_MAX_TOKENS.get(judge_model, DEFAULT_JUDGE_MAX_TOKENS)
             for model_key in ("baseline", "dpo"):
                 candidate = row.get(model_key, {}).get("text", "")
                 if not candidate:
@@ -374,14 +479,7 @@ def judge_phase(args) -> None:
                     candidate=candidate,
                 )
                 try:
-                    resp = client.chat.completions.create(
-                        model=judge_model,
-                        messages=[{"role": "user", "content": prompt}],
-                        max_tokens=512,
-                        temperature=0.0,
-                    )
-                    raw = resp.choices[0].message.content or ""
-                    raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
+                    raw = call_judge(client, judge_model, prompt, max_tokens)
                     sc  = parse_scores(raw)
                 except Exception as e:
                     print(f"  Judge error ({judge_model}, {model_key}, {qid}): {e}")
@@ -563,16 +661,16 @@ def main() -> None:
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("--phase", choices=["generate", "judge", "report", "all"], default="all")
-    parser.add_argument("--baseline_model", default="Qwen3.5-4B-Instruct",
+    parser.add_argument("--baseline_model", default="Qwen3.5-4B",
                         help="Model directory name under $SCRATCH/models/")
     parser.add_argument("--dpo_model_path", type=Path, default=DEFAULT_DPO_MODEL_PATH,
                         help="Path to the DPO-trained model checkpoint.")
     parser.add_argument("--judge_models", nargs="+", default=ALL_JUDGE_MODELS,
                         help="vLLM-served judge model names (space-separated).")
-    parser.add_argument("--judge_api_base", default="http://localhost:8000/v1",
-                        help="Base URL of the vLLM judge API.")
-    parser.add_argument("--n_questions", type=int, default=None,
-                        help="Cap the test set size (default: all non-DPO questions).")
+    parser.add_argument("--judge_api_base", default="https://api.swissai.svc.cscs.ch/v1",
+                        help="Base URL of the judge API (default: SwissAI).")
+    parser.add_argument("--n_questions", type=int, default=100,
+                        help="Number of held-out questions to sample (default: 100). Pass -1 for all.")
     parser.add_argument("--load_in_4bit", action="store_true",
                         help="Load answerer models in 4-bit quantization.")
     parser.add_argument("--max_new_tokens", type=int, default=512)
