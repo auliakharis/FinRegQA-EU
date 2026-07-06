@@ -231,7 +231,21 @@ def load_jsonl(path: Path) -> list[dict]:
 
 
 def load_model_local(model_path: Path, load_in_4bit: bool = False):
+    model_path = Path(model_path)
     print(f"  Loading: {model_path}")
+
+    # Detect LoRA adapter saved by TRL/PEFT (has adapter_config.json but no model weights).
+    # Use PEFT's own loading path to avoid transformers' integrations/peft.py which
+    # requires a newer _maybe_shard_state_dict_for_tp symbol.
+    adapter_config_path = model_path / "adapter_config.json"
+    if adapter_config_path.exists():
+        with adapter_config_path.open() as f:
+            adapter_cfg = json.load(f)
+        base_path = Path(adapter_cfg["base_model_name_or_path"])
+        print(f"  Detected LoRA adapter — loading base from: {base_path}")
+    else:
+        base_path = model_path
+
     tokenizer = AutoTokenizer.from_pretrained(str(model_path), local_files_only=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -245,10 +259,16 @@ def load_model_local(model_path: Path, load_in_4bit: bool = False):
             bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4",
         )
     model = AutoModelForCausalLM.from_pretrained(
-        str(model_path), local_files_only=True,
+        str(base_path), local_files_only=True,
         torch_dtype=torch.float16, device_map="auto",
         quantization_config=qconfig,
     )
+
+    if adapter_config_path.exists():
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, str(model_path))
+        model = model.merge_and_unload()
+
     return model, tokenizer
 
 
