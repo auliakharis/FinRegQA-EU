@@ -3,11 +3,15 @@ Generate DPO (chosen/rejected) pairs from the pointwise judge preferences,
 with the "rejected" (less-preferred) answer deliberately corrupted to make
 the contrast against "chosen" sharper and less ambiguous.
 
-Source of preference: output/pointwise_preference_consensus.json (the
-majority vote of the 3 judges per question — see compute_pointwise_preference.py).
-Only questions with a non-tie majority and majority_count >= --min-majority
-are used, so the chosen/rejected assignment itself is reasonably confident
-before any corruption is applied.
+Filtering criteria (max-based unanimous strong preference):
+  1. All 3 judges must agree on the same preferred answerer (majority_count == 3).
+  2. At least one of the 3 judges must have a strong preference
+     (max abs overall-score gap across the 3 judges >= STRONG_PREFERENCE_THRESHOLD).
+  3. The majority-preferred answerer must not be a tie.
+
+This ensures every corruption pair is built on a question where the preference
+direction is unambiguous (full consensus) and at least one judge sees a decisive
+quality difference (max-based strong signal).
 
 Corruption types (operate on the rejected answer's text)
 ----------------------------------------------------------
@@ -40,8 +44,11 @@ from pathlib import Path
 from citation_parser import ACRONYM_TO_FULL, _norm_acronym, canonicalize_instrument, find_citation_spans
 
 CONSENSUS_FILE = Path("output/pointwise_preference_consensus.json")
+COMPARISONS_FILE = Path("output/pointwise_preference_comparisons.json")
 RECORDS_FILE = Path("output/judge_results_train_api.jsonl")
 OUTPUT_FILE = Path("output/dpo_corruption_pairs.jsonl")
+
+STRONG_PREFERENCE_THRESHOLD = 1.5  # overall-score gap (0-4 scale); same as compute_pointwise_preference.py
 
 LAW_KINDS = {"regulation_eu", "regulation_short", "directive", "acronym", "guideline"}
 CORRUPTION_ORDER = ["law_swap", "article_swap", "hallucinate_citation", "hallucinate_text"]
@@ -131,7 +138,7 @@ def corrupt_article_swap(text: str, rng: random.Random) -> tuple[str, bool]:
 
     new_text = text
     changed = False
-    for start, end, kind, m in sorted(article_spans, key=lambda s: s[0], reverse=True):
+    for _start, _end, _kind, m in sorted(article_spans, key=lambda s: s[0], reverse=True):
         old_num = m.group(1)
         new_num = mapping.get(old_num, old_num)
         if new_num == old_num:
@@ -209,11 +216,6 @@ def main() -> None:
         choices=CORRUPTION_ORDER + ["combined"],
         help="Which corruption variants to generate (default: all + combined).",
     )
-    parser.add_argument(
-        "--min-majority", type=int, default=2,
-        help="Require at least this many of the 3 judges to agree on the preferred "
-             "answer before using the question (default: 2).",
-    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--output", type=Path, default=OUTPUT_FILE)
     args = parser.parse_args()
@@ -223,18 +225,32 @@ def main() -> None:
     consensus = json.load(CONSENSUS_FILE.open())
     records = load_jsonl(RECORDS_FILE)
 
+    # Build per-question max abs_diff across all judges (for the max-based strong filter)
+    comparisons: list[dict] = json.load(COMPARISONS_FILE.open())
+    max_abs_diff: dict[str, float] = {}
+    for comp in comparisons:
+        qid = comp["question_id"]
+        max_abs_diff[qid] = max(max_abs_diff.get(qid, 0.0), comp["abs_diff"])
+
     n_skipped_tie = 0
-    n_skipped_low_confidence = 0
+    n_skipped_not_all3 = 0
+    n_skipped_weak = 0
     n_questions_used = 0
     variant_counts: Counter = Counter()
     rows: list[dict] = []
 
     for c in consensus:
+        # All 3 judges must agree
+        if c["majority_count"] < 3:
+            n_skipped_not_all3 += 1
+            continue
+        # Preference direction must not be a tie
         if c["majority_preferred"] == "tie":
             n_skipped_tie += 1
             continue
-        if c["majority_count"] < args.min_majority:
-            n_skipped_low_confidence += 1
+        # At least one judge must have a strong preference (max-based)
+        if max_abs_diff.get(c["question_id"], 0.0) < STRONG_PREFERENCE_THRESHOLD:
+            n_skipped_weak += 1
             continue
 
         qid = c["question_id"]
@@ -247,6 +263,7 @@ def main() -> None:
 
         chosen_text = rec["answers"][chosen_model]["text"]
         rejected_text = rec["answers"][rejected_model]["text"]
+        question_max_diff = max_abs_diff[qid]
         n_questions_used += 1
 
         for variant in args.corruptions:
@@ -270,12 +287,14 @@ def main() -> None:
                 },
                 "majority_count": c["majority_count"],
                 "unanimous": c["unanimous"],
+                "max_abs_diff": round(question_max_diff, 4),
             })
 
-    print(f"Questions skipped (tie / no majority preference): {n_skipped_tie}")
-    print(f"Questions skipped (majority_count < {args.min_majority}): {n_skipped_low_confidence}")
-    print(f"Questions used as a base for corruption: {n_questions_used}")
-    print(f"DPO rows generated: {len(rows)}")
+    print(f"Questions skipped (not all 3 judges agree):          {n_skipped_not_all3}")
+    print(f"Questions skipped (tie):                             {n_skipped_tie}")
+    print(f"Questions skipped (max |diff| < {STRONG_PREFERENCE_THRESHOLD}):            {n_skipped_weak}")
+    print(f"Questions used as a base for corruption:             {n_questions_used}")
+    print(f"DPO rows generated:                                  {len(rows)}")
     print("\nBy corruption variant:")
     for variant in args.corruptions:
         print(f"  {variant:22s}: {variant_counts[variant]}")

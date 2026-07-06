@@ -47,6 +47,12 @@ from transformers import (
 from trl import DPOTrainer
 
 try:
+    from trl import DPOConfig   # TRL >= 0.9 moved beta/max_length here
+    _DPO_CONFIG_API = True
+except ImportError:
+    _DPO_CONFIG_API = False     # fall back to TRL 0.8.x inline args
+
+try:
     from peft import LoraConfig
     PEFT_AVAILABLE = True
 except ImportError:
@@ -81,7 +87,12 @@ Answer:
 # Model loading (mirrors judge.py's load_model)
 # ---------------------------------------------------------------------------
 
-def load_model(model_name: str, load_in_4bit: bool = False, load_in_8bit: bool = False):
+def load_model(
+    model_name: str,
+    load_in_4bit: bool = False,
+    load_in_8bit: bool = False,
+    for_training: bool = True,
+):
     scratch = os.environ.get("SCRATCH")
     if not scratch:
         raise EnvironmentError("SCRATCH environment variable is not set.")
@@ -108,6 +119,13 @@ def load_model(model_name: str, load_in_4bit: bool = False, load_in_8bit: bool =
         torch_dtype=torch.float16, device_map="auto",
         quantization_config=qconfig,
     )
+
+    # Required for LoRA training on a quantized model: enables gradient flow
+    # through frozen quantized layers and turns on gradient checkpointing.
+    if for_training and (load_in_4bit or load_in_8bit) and PEFT_AVAILABLE:
+        from peft import prepare_model_for_kbit_training
+        model = prepare_model_for_kbit_training(model)
+
     return model, tokenizer
 
 
@@ -201,7 +219,10 @@ def main() -> None:
     parser.add_argument("--lora_alpha", type=int, default=32)
     parser.add_argument("--lora_target_modules", nargs="+",
                          default=["q_proj", "k_proj", "v_proj", "o_proj"])
-    parser.add_argument("--beta", type=float, default=0.1, help="DPO temperature/beta.")
+    parser.add_argument("--beta", type=float, default=0.05,
+                         help="DPO beta (KL penalty). Lower values (0.01-0.05) are better "
+                              "for off-policy data where chosen/rejected come from a different "
+                              "model than the one being trained.")
     parser.add_argument("--learning_rate", type=float, default=5e-6)
     parser.add_argument("--epochs", type=float, default=1.0)
     parser.add_argument("--batch_size", type=int, default=1)
@@ -228,7 +249,10 @@ def main() -> None:
         # With peft_config it instead derives the reference policy from the
         # frozen base weights underneath the LoRA adapter, so no separate
         # ref_model load is needed (saves a full copy of GPU memory).
-        ref_model, _ = load_model(args.ref_model or args.model, args.load_in_4bit, args.load_in_8bit)
+        ref_model, _ = load_model(
+            args.ref_model or args.model, args.load_in_4bit, args.load_in_8bit,
+            for_training=False,  # frozen reference — skip prepare_model_for_kbit_training
+        )
 
     peft_config = None
     if args.use_lora:
@@ -238,7 +262,7 @@ def main() -> None:
             target_modules=args.lora_target_modules,
         )
 
-    training_args = TrainingArguments(
+    _shared_train_kwargs = dict(
         output_dir=args.output_dir,
         per_device_train_batch_size=args.batch_size,
         per_device_eval_batch_size=args.batch_size,
@@ -249,23 +273,45 @@ def main() -> None:
         eval_strategy="steps",
         eval_steps=50,
         save_strategy="epoch",
-        bf16=torch.cuda.is_available(),
+        bf16=torch.cuda.is_bf16_supported(),
         report_to=[],
         remove_unused_columns=False,
+        seed=args.seed,
     )
 
-    trainer = DPOTrainer(
-        model=model,
-        ref_model=ref_model,
-        args=training_args,
-        beta=args.beta,
-        train_dataset=split["train"],
-        eval_dataset=split["test"],
-        tokenizer=tokenizer,
-        max_length=args.max_length,
-        max_prompt_length=args.max_prompt_length,
-        peft_config=peft_config,
-    )
+    if _DPO_CONFIG_API:
+        # TRL >= 0.9: DPO-specific params (beta, max_length, max_prompt_length)
+        # live in DPOConfig; tokenizer is passed as processing_class.
+        training_args = DPOConfig(
+            **_shared_train_kwargs,
+            beta=args.beta,
+            max_length=args.max_length,
+            max_prompt_length=args.max_prompt_length,
+        )
+        trainer = DPOTrainer(
+            model=model,
+            ref_model=ref_model,
+            args=training_args,
+            train_dataset=split["train"],
+            eval_dataset=split["test"],
+            processing_class=tokenizer,
+            peft_config=peft_config,
+        )
+    else:
+        # TRL 0.8.x legacy API
+        training_args = TrainingArguments(**_shared_train_kwargs)
+        trainer = DPOTrainer(
+            model=model,
+            ref_model=ref_model,
+            args=training_args,
+            beta=args.beta,
+            train_dataset=split["train"],
+            eval_dataset=split["test"],
+            tokenizer=tokenizer,
+            max_length=args.max_length,
+            max_prompt_length=args.max_prompt_length,
+            peft_config=peft_config,
+        )
 
     trainer.train()
     trainer.save_model(args.output_dir)
