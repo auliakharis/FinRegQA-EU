@@ -273,7 +273,19 @@ def load_model_local(model_path: Path, load_in_4bit: bool = False):
 
 
 def generate_answer(model, tokenizer, prompt: str, max_new_tokens: int) -> str:
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    messages = [{"role": "user", "content": prompt}]
+    # apply_chat_template formats the prompt with special tokens.
+    # enable_thinking=False disables the <think> block for Qwen3/reasoning models;
+    # the TypeError fallback handles tokenizers that don't support the parameter.
+    try:
+        text = tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False,
+        )
+    except TypeError:
+        text = tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True,
+        )
+    inputs = tokenizer(text, return_tensors="pt").to(model.device)
     with torch.no_grad():
         out_ids = model.generate(
             **inputs,
@@ -284,7 +296,10 @@ def generate_answer(model, tokenizer, prompt: str, max_new_tokens: int) -> str:
             pad_token_id=tokenizer.pad_token_id,
         )
     new_tokens = out_ids[0, inputs["input_ids"].shape[1]:]
-    return tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+    out = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+    # Strip any residual <think> blocks as a safety net.
+    out = re.sub(r"<think>.*?</think>", "", out, flags=re.DOTALL).strip()
+    return out
 
 
 def select_test_questions(n: int | None, seed: int) -> list[dict]:
@@ -409,27 +424,42 @@ def citation_f1(pred: str, ref: str) -> float:
 # ---------------------------------------------------------------------------
 
 def generate_phase(args) -> None:
-    questions = select_test_questions(args.n_questions, args.seed)
-
     scratch = os.environ.get("SCRATCH", "")
-    model_configs = [
-        ("baseline", Path(scratch) / "models" / args.baseline_model),
-        ("dpo",      args.dpo_model_path),
-    ]
+    args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    # answers keyed by question_id
-    answers: dict[str, dict] = {
-        r["question_id"]: {
-            "question_id":  r["question_id"],
-            "regulator":    r.get("regulator", ""),
-            "question":     r["question"],
-            "ground_truth": r.get("ground_truth", ""),
-            "meta":         r.get("meta", {}),
-            "baseline":     {},
-            "dpo":          {},
+    # --- Question set and starting answers dict ---
+    if args.models == "dpo":
+        if args.baseline_answers is None:
+            raise ValueError("--baseline_answers is required when --models dpo")
+        baseline_rows = load_jsonl(args.baseline_answers)
+        answers = {r["question_id"]: r for r in baseline_rows}
+        questions = baseline_rows
+        print(f"Loaded {len(questions)} questions from {args.baseline_answers}")
+    else:
+        questions = select_test_questions(args.n_questions, args.seed)
+        answers = {
+            r["question_id"]: {
+                "question_id":  r["question_id"],
+                "regulator":    r.get("regulator", ""),
+                "question":     r["question"],
+                "ground_truth": r.get("ground_truth", ""),
+                "meta":         r.get("meta", {}),
+                "baseline":     {},
+                "dpo":          {},
+            }
+            for r in questions
         }
-        for r in questions
-    }
+
+    # --- Which models to run ---
+    if args.models == "baseline":
+        model_configs = [("baseline", Path(scratch) / "models" / args.baseline_model)]
+    elif args.models == "dpo":
+        model_configs = [("dpo", args.dpo_model_path)]
+    else:
+        model_configs = [
+            ("baseline", Path(scratch) / "models" / args.baseline_model),
+            ("dpo",      args.dpo_model_path),
+        ]
 
     for model_key, model_path in model_configs:
         print(f"\n=== Generating [{model_key}] from {model_path} ===")
@@ -457,7 +487,6 @@ def generate_phase(args) -> None:
         torch.cuda.empty_cache()
 
     out = args.output_dir / "eval_answers.jsonl"
-    args.output_dir.mkdir(parents=True, exist_ok=True)
     with out.open("w") as f:
         for row in answers.values():
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -689,11 +718,16 @@ def main() -> None:
                         help="vLLM-served judge model names (space-separated).")
     parser.add_argument("--judge_api_base", default="https://api.swissai.svc.cscs.ch/v1",
                         help="Base URL of the judge API (default: SwissAI).")
+    parser.add_argument("--models", choices=["all", "baseline", "dpo"], default="all",
+                        help="Which models to run in generate phase. Use 'baseline' once, "
+                             "then 'dpo' for each variant (requires --baseline_answers).")
+    parser.add_argument("--baseline_answers", type=Path, default=None,
+                        help="Pre-computed baseline eval_answers.jsonl to reuse (--models dpo only).")
     parser.add_argument("--n_questions", type=int, default=100,
                         help="Number of held-out questions to sample (default: 100). Pass -1 for all.")
     parser.add_argument("--load_in_4bit", action="store_true",
                         help="Load answerer models in 4-bit quantization.")
-    parser.add_argument("--max_new_tokens", type=int, default=512)
+    parser.add_argument("--max_new_tokens", type=int, default=1024)
     parser.add_argument("--output_dir", type=Path, default=BASE)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
