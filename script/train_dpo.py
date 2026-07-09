@@ -219,6 +219,12 @@ def main() -> None:
     parser.add_argument("--lora_alpha", type=int, default=32)
     parser.add_argument("--lora_target_modules", nargs="+",
                          default=["q_proj", "k_proj", "v_proj", "o_proj"])
+    parser.add_argument("--loss_type", default="sigmoid",
+                         choices=["sigmoid", "ipo", "robust", "hinge", "apo_zero", "apo_down",
+                                  "nca_pair", "bco_pair", "exo_pair", "sppo_hard",
+                                  "aot", "aot_unpaired", "discopop"],
+                         help="DPO loss variant. 'sigmoid'=standard DPO, 'ipo'=IPO, "
+                              "'robust'=noise-robust DPO, 'hinge'=SLiC hinge.")
     parser.add_argument("--beta", type=float, default=0.05,
                          help="DPO beta (KL penalty). Lower values (0.01-0.05) are better "
                               "for off-policy data where chosen/rejected come from a different "
@@ -286,6 +292,7 @@ def main() -> None:
             **_shared_train_kwargs,
             beta=args.beta,
             max_length=args.max_length,
+            loss_type=[args.loss_type],
         )
         trainer = DPOTrainer(
             model=model,
