@@ -31,7 +31,7 @@ Usage
 
     # Separate phases (e.g. generate on GPU node, report on login node)
     python eval_dpo.py --phase generate --baseline_model Qwen3.5-4B-Instruct
-    python eval_dpo.py --phase judge
+    python eval_dpo.py --phase judge output/eval_hallucinate_text output/eval_hallucinate_citation
     python eval_dpo.py --phase report
 """
 
@@ -75,14 +75,14 @@ DEFAULT_DPO_MODEL_PATH = Path("/cluster/scratch/arakhmasari/dpo_qwen4b")
 
 ALL_JUDGE_MODELS = [
     "Qwen/Qwen3.5-27B",
-    "google/gemma-4-31B-it",
-    "zai-org/GLM-4.7-Flash",
+    "google/gemma-4-31B-it-bdoan",
+    "zai-org/GLM-4.7-Flash-bdoan",
 ]
 DIMS = ["accuracy", "completeness", "topic_coherence", "citation_quality"]
 
 JUDGE_MAX_TOKENS = {
     "Qwen/Qwen3.5-27B":    6144,
-    "zai-org/GLM-4.7-Flash": 8192,
+    "zai-org/GLM-4.7-Flash-bdoan": 8192,
 }
 DEFAULT_JUDGE_MAX_TOKENS = 3072
 
