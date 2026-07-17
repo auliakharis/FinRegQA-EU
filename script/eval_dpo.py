@@ -83,8 +83,28 @@ DIMS = ["accuracy", "completeness", "topic_coherence", "citation_quality"]
 JUDGE_MAX_TOKENS = {
     "Qwen/Qwen3.5-27B":    6144,
     "zai-org/GLM-4.7-Flash-bdoan": 8192,
+    "zai-org/GLM-4.7-Flash": 8192,
+    "zai-org/GLM-4.7-Flash-rwindesheim-cfbig": 8192,
 }
 DEFAULT_JUDGE_MAX_TOKENS = 3072
+
+# Lab members have redeployed the same underlying judge models under different
+# endpoint names over time (a "-<person>-<tag>" suffix marks who/where it's
+# served from). Map every known deployment name to one canonical id so scores
+# recorded under different suffixes are treated as the same judge when
+# aggregating or checking for existing results.
+JUDGE_ALIASES = {
+    "google/gemma-4-31B-it-bdoan": "google/gemma-4-31B-it",
+    "google/gemma-4-31B-it": "google/gemma-4-31B-it",
+    "zai-org/GLM-4.7-Flash-bdoan": "zai-org/GLM-4.7-Flash",
+    "zai-org/GLM-4.7-Flash": "zai-org/GLM-4.7-Flash",
+    "zai-org/GLM-4.7-Flash-rwindesheim-cfbig": "zai-org/GLM-4.7-Flash",
+    "Qwen/Qwen3.5-27B": "Qwen/Qwen3.5-27B",
+}
+
+
+def canonical_judge(name: str) -> str:
+    return JUDGE_ALIASES.get(name, name)
 
 # Reused verbatim from judge_api.py
 JUDGE_PROMPT = """\

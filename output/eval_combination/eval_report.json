@@ -1,0 +1,30 @@
+{
+  "judge_scores": {
+    "baseline": {
+      "accuracy": 1.74,
+      "completeness": 1.92,
+      "topic_coherence": 3.96,
+      "citation_quality": 2.0
+    },
+    "dpo": {
+      "accuracy": 1.62,
+      "completeness": 1.89,
+      "topic_coherence": 4.05,
+      "citation_quality": 2.01
+    }
+  },
+  "win_rate": {
+    "baseline": 0.36,
+    "dpo": 0.32,
+    "tie": 0.32
+  },
+  "n_judged": 100,
+  "citation_f1": {
+    "baseline": 0.22793091875444815,
+    "dpo": 0.257746991570521
+  },
+  "bertscore_f1": {
+    "baseline": null,
+    "dpo": null
+  }
+}
