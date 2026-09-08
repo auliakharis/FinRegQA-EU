@@ -1,8 +1,16 @@
 """
-DPO fine-tuning between preferred and less-preferred regulatory answers.
+Distributionally Robust DPO (DR-DPO) fine-tuning on regulatory answer pairs.
 
-Trains a policy model with Direct Preference Optimization (TRL's DPOTrainer,
-trl==0.8.6 API) on chosen/rejected pairs produced by generate_dpo_corruptions.py
+Replaces the standard mean aggregation in DPO with the entropic risk measure:
+
+    loss = -beta_1 * log( mean( exp(-per_sample_dpo_loss / beta_1) ) )
+
+This up-weights harder examples (large per-sample loss) relative to the mean,
+making the policy more robust to the worst-case examples in each batch.
+beta_1 controls the degree of robustness: as beta_1 → ∞ the objective
+recovers standard DPO (mean), and as beta_1 → 0 it approaches the max loss.
+
+Trains on chosen/rejected pairs produced by generate_dpo_corruptions.py
 (output/dpo_corruption_pairs.jsonl), or any JSONL with the same
 {"question_id", "question", "chosen": {"text": ...}, "rejected": {"text": ...}}
 schema.
@@ -12,20 +20,13 @@ Model loading mirrors judge.py's convention ($SCRATCH/models/<name>, optional
 the full model (requires `pip install peft`) — recommended for anything above
 a few billion parameters on a single GPU.
 
-The prompt template below approximates (but does not byte-for-byte reproduce)
-judge_api.py's ANSWERER_PROMPT used to generate these answers: it reuses the
-LEGAL_ACT/TOPIC/SUBJECT_MATTER context fields (looked up from
-output/judge_results_train_api.jsonl by question_id) but omits the BACKGROUND
-field, which isn't persisted in that file. If you need an exact-match prompt,
-join against the original data/splits/*.jsonl source instead.
-
 Usage:
-    python train_dpo.py --data output/dpo_corruption_pairs.jsonl \\
-        --model Llama-3.1-8B-Instruct --use_lora --load_in_4bit
+    python train_dr_dpo.py --data output/dpo_corruption_pairs.jsonl \\
+        --model Llama-3.1-8B-Instruct --use_lora --load_in_4bit --beta_1 1.0
 
-    python train_dpo.py --data output/dpo_corruption_pairs.jsonl \\
+    python train_dr_dpo.py --data output/dpo_corruption_pairs.jsonl \\
         --corruption_variants law_swap article_swap combined \\
-        --model Qwen3.5-4B --epochs 1
+        --model Qwen3.5-4B --epochs 1 --beta_1 0.5
 """
 
 from __future__ import annotations
@@ -194,6 +195,50 @@ def load_dpo_dataset(
 
 
 # ---------------------------------------------------------------------------
+# DR-DPO trainer
+# ---------------------------------------------------------------------------
+
+class DRDPOTrainer(DPOTrainer):
+    """DPO trainer with Distributionally Robust loss aggregation.
+
+    Overrides the standard mean aggregation with the entropic risk measure:
+        loss = -beta_1 * log( mean( exp(-per_sample_loss / beta_1) ) )
+
+    Implementation: dpo_loss() returns per-sample losses; we capture them
+    before the parent's get_batch_loss_metrics() aggregates with .mean(),
+    then replace that aggregation with the DR formula on return.
+    """
+
+    def __init__(self, *args, beta_1: float = 1.0, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.beta_1 = beta_1
+        self._per_sample_losses: torch.Tensor | None = None
+
+    def dpo_loss(self, *args, **kwargs):
+        losses, chosen_rewards, rejected_rewards = super().dpo_loss(*args, **kwargs)
+        # Keep a reference with its grad_fn so we can re-aggregate below.
+        self._per_sample_losses = losses
+        return losses, chosen_rewards, rejected_rewards
+
+    def get_batch_loss_metrics(self, model, batch, train_eval="train"):
+        # Let the parent run the full forward pass and collect all metrics.
+        # Its returned loss (simple mean) is discarded; we recompute with DR.
+        _, metrics = super().get_batch_loss_metrics(model, batch, train_eval)
+
+        losses = self._per_sample_losses
+        beta_1 = self.beta_1
+
+        # Numerically stable log-mean-exp via logsumexp:
+        #   -beta_1 * log(mean(exp(-losses/beta_1)))
+        #   = -beta_1 * (logsumexp(-losses/beta_1) - log(n))
+        x = -losses / beta_1
+        n = torch.tensor(x.numel(), dtype=x.dtype, device=x.device)
+        loss = -beta_1 * (torch.logsumexp(x, dim=0) - torch.log(n))
+
+        return loss, metrics
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -215,7 +260,7 @@ def main() -> None:
     parser.add_argument("--ref_model", default=None,
                          help="Reference model name for full fine-tuning (default: same as "
                               "--model, loaded as a frozen copy). Ignored when --use_lora is set.")
-    parser.add_argument("--output_dir", default="output/dpo_checkpoints")
+    parser.add_argument("--output_dir", default="output/dr_dpo_checkpoints")
     parser.add_argument("--load_in_4bit", action="store_true")
     parser.add_argument("--load_in_8bit", action="store_true")
     parser.add_argument("--use_lora", action="store_true",
@@ -234,6 +279,10 @@ def main() -> None:
                          help="DPO beta (KL penalty). Lower values (0.01-0.05) are better "
                               "for off-policy data where chosen/rejected come from a different "
                               "model than the one being trained.")
+    parser.add_argument("--beta_1", type=float, default=1.0,
+                         help="DR-DPO robustness temperature. Controls the entropic risk "
+                              "measure: higher values approach standard DPO (mean), lower "
+                              "values up-weight harder examples. Typical range: 0.1–2.0.")
     parser.add_argument("--learning_rate", type=float, default=5e-6)
     parser.add_argument("--epochs", type=float, default=1.0)
     parser.add_argument("--batch_size", type=int, default=1)

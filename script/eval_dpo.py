@@ -71,20 +71,25 @@ BASE              = Path("output")
 RECORDS_FILE      = BASE / "judge_results_train_api.jsonl"
 DPO_PAIRS_FILE    = BASE / "dpo_corruption_pairs.jsonl"
 
-DEFAULT_DPO_MODEL_PATH = Path("/cluster/scratch/arakhmasari/dpo_qwen4b")
+DEFAULT_DPO_MODEL_PATH = Path("/cluster/scratch/arakhmasari/dpo_llama3b")
 
 ALL_JUDGE_MODELS = [
-    "Qwen/Qwen3.5-27B",
-    "google/gemma-4-31B-it-bdoan",
-    "zai-org/GLM-4.7-Flash-bdoan",
+    # "Qwen/Qwen3.5-27B",
+    # "google/gemma-4-31B-it",
+    # "zai-org/GLM-4.7-Flash",
+    "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+    "CSCS-Inference/google/gemma-4-31B-it",
+    "RCP-AIaaS/zai-org/GLM-5.3-Flash"
 ]
 DIMS = ["accuracy", "completeness", "topic_coherence", "citation_quality"]
 
 JUDGE_MAX_TOKENS = {
-    "Qwen/Qwen3.5-27B":    6144,
-    "zai-org/GLM-4.7-Flash-bdoan": 8192,
-    "zai-org/GLM-4.7-Flash": 8192,
-    "zai-org/GLM-4.7-Flash-rwindesheim-cfbig": 8192,
+    # "Qwen/Qwen3.5-27B":       6144,
+    # "google/gemma-4-31B-it":  6144,
+    # "zai-org/GLM-4.7-Flash":  8192,
+    "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B"        : 6144,
+    "CSCS-Inference/google/gemma-4-31B-it"  : 6144,
+    "RCP-AIaaS/zai-org/GLM-5.3-Flash"       : 8192,
 }
 DEFAULT_JUDGE_MAX_TOKENS = 3072
 
@@ -266,21 +271,23 @@ def load_model_local(model_path: Path, load_in_4bit: bool = False):
     else:
         base_path = model_path
 
-    tokenizer = AutoTokenizer.from_pretrained(str(model_path), local_files_only=True)
+    tokenizer = AutoTokenizer.from_pretrained(str(base_path), local_files_only=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    compute_dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
 
     qconfig = None
     if load_in_4bit:
         from transformers import BitsAndBytesConfig
         qconfig = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16,
+            load_in_4bit=True, bnb_4bit_compute_dtype=compute_dtype,
             bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4",
         )
     model = AutoModelForCausalLM.from_pretrained(
         str(base_path), local_files_only=True,
-        torch_dtype=torch.float16, device_map="auto",
+        torch_dtype=compute_dtype, device_map="auto",
         quantization_config=qconfig,
     )
 
@@ -292,20 +299,35 @@ def load_model_local(model_path: Path, load_in_4bit: bool = False):
     return model, tokenizer
 
 
+_LLAMA3_TEMPLATE = (
+    "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n"
+    "{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+)
+
+
 def generate_answer(model, tokenizer, prompt: str, max_new_tokens: int) -> str:
     messages = [{"role": "user", "content": prompt}]
-    # apply_chat_template formats the prompt with special tokens.
-    # enable_thinking=False disables the <think> block for Qwen3/reasoning models;
-    # the TypeError fallback handles tokenizers that don't support the parameter.
     try:
         text = tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True, enable_thinking=False,
         )
     except TypeError:
-        text = tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True,
-        )
+        try:
+            text = tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True,
+            )
+        except ValueError:
+            text = _LLAMA3_TEMPLATE.format(prompt=prompt)
+    except ValueError:
+        text = _LLAMA3_TEMPLATE.format(prompt=prompt)
     inputs = tokenizer(text, return_tensors="pt").to(model.device)
+
+    terminators = [
+        tokenizer.eos_token_id,
+        tokenizer.convert_tokens_to_ids("<|eot_id|>")
+    ]
+    terminators = [t for t in terminators if t is not None]
+
     with torch.no_grad():
         out_ids = model.generate(
             **inputs,
@@ -313,6 +335,8 @@ def generate_answer(model, tokenizer, prompt: str, max_new_tokens: int) -> str:
             do_sample=False,
             temperature=None,
             top_p=None,
+            repetition_penalty=1.1,
+            eos_token_id=terminators,
             pad_token_id=tokenizer.pad_token_id,
         )
     new_tokens = out_ids[0, inputs["input_ids"].shape[1]:]
@@ -613,7 +637,7 @@ def report_phase(args) -> None:
         if b is not None and d is not None:
             n_judged += 1
             gap = d - b
-            if abs(gap) < 1e-9:
+            if abs(gap) < 0.05:
                 wins["tie"] += 1
             elif gap > 0:
                 wins["dpo"] += 1

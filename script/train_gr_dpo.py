@@ -1,5 +1,5 @@
 """
-GroupDRO / DORO training for regulatory answer alignment.
+GroupDRO training for regulatory answer alignment.
 
 Applies Distributionally Robust Optimization (Sagawa et al. 2020) grouped by
 corruption variant (law_swap, article_swap, combined). Instead of minimising
@@ -33,6 +33,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import math
 import os
@@ -96,10 +97,12 @@ def load_model(
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
+    compute_dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+
     qconfig = None
     if load_in_4bit:
         qconfig = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16,
+            load_in_4bit=True, bnb_4bit_compute_dtype=compute_dtype,
             bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4",
         )
     elif load_in_8bit:
@@ -107,7 +110,7 @@ def load_model(
 
     model = AutoModelForCausalLM.from_pretrained(
         model_path, local_files_only=True,
-        torch_dtype=torch.float16, device_map="auto",
+        torch_dtype=compute_dtype, device_map="auto",
         quantization_config=qconfig,
     )
 
@@ -307,6 +310,9 @@ def main() -> None:
                         default=["q_proj", "k_proj", "v_proj", "o_proj"])
     parser.add_argument("--eta", type=float, default=0.1,
                         help="GroupDRO step size for updating group weights.")
+    parser.add_argument("--min_group_weight", type=float, default=0.05,
+                        help="Minimum weight for any group after renormalisation. "
+                             "Prevents collapse to a single group. Set 0 to disable.")
     parser.add_argument("--beta", type=float, default=0.05)
     parser.add_argument("--loss_type", default="sigmoid",
                         choices=["sigmoid", "ipo", "robust", "hinge",
@@ -376,7 +382,13 @@ def main() -> None:
         split = dataset.train_test_split(test_size=args.eval_fraction, seed=args.seed)
         print(f"  Dataset: {len(split['train'])} train  {len(split['test'])} eval")
 
+        steps_per_epoch = max(1, len(split["train"]) // (args.batch_size * args.grad_accum))
+        eval_steps = max(1, steps_per_epoch // 2)
+
         epoch_output = os.path.join(args.output_dir, f"epoch_{epoch}")
+        _dpo_kwargs: dict = dict(beta=args.beta, max_length=args.max_length, loss_type=args.loss_type)
+        if "max_prompt_length" in inspect.signature(DPOConfig.__init__).parameters:
+            _dpo_kwargs["max_prompt_length"] = args.max_prompt_length
         training_args = DPOConfig(
             output_dir=epoch_output,
             per_device_train_batch_size=args.batch_size,
@@ -386,15 +398,14 @@ def main() -> None:
             num_train_epochs=1,
             logging_steps=10,
             eval_strategy="steps",
-            eval_steps=50,
+            eval_steps=eval_steps,
             save_strategy="no",          # save only at the end
             bf16=torch.cuda.is_bf16_supported(),
+            fp16=not torch.cuda.is_bf16_supported(),
             report_to=[],
             remove_unused_columns=False,
             seed=args.seed,
-            beta=args.beta,
-            max_length=args.max_length,
-            loss_type=[args.loss_type],
+            **_dpo_kwargs,
         )
 
         trainer = DPOTrainer(
@@ -407,6 +418,11 @@ def main() -> None:
             peft_config=peft_config,
         )
         trainer.train()
+        # Carry the trained model (with LoRA weights) forward to the next epoch.
+        # Without this, DPOTrainer wraps a fresh base model each epoch and discards
+        # the previous epoch's LoRA adapter.
+        model = trainer.model
+        peft_config = None  # model is now a PeftModel; don't re-wrap in later epochs
 
         # ---- Compute per-group margins ----
         print(f"\n  Computing per-group margins for epoch {epoch} weight update...")
@@ -421,13 +437,24 @@ def main() -> None:
         for g, m in sorted(group_margins.items()):
             print(f"    {g}: {m:+.4f}")
 
-        # ---- Update group weights (exponential reweighting) ----
-        for g in all_groups:
-            margin = group_margins.get(g, 0.0)
-            group_weights[g] *= math.exp(args.eta * (-margin))  # higher loss → higher weight
+        # ---- Update group weights (exponential reweighting, log-space) ----
+        # Log-space update avoids overflow and is numerically equivalent to
+        # w_g *= exp(eta * -margin), but stable under cumulative updates.
+        log_weights = {
+            g: math.log(group_weights[g]) + args.eta * (-group_margins.get(g, 0.0))
+            for g in all_groups
+        }
+        max_lw = max(log_weights.values())
+        unnorm = {g: math.exp(lw - max_lw) for g, lw in log_weights.items()}
+        total = sum(unnorm.values())
+        group_weights = {g: v / total for g, v in unnorm.items()}
 
-        total = sum(group_weights.values())
-        group_weights = {g: w / total for g, w in group_weights.items()}
+        # Floor: prevent any group from collapsing to ~0, which would cause
+        # the weighted dataset to stop sampling it entirely.
+        if args.min_group_weight > 0:
+            group_weights = {g: max(w, args.min_group_weight) for g, w in group_weights.items()}
+            total = sum(group_weights.values())
+            group_weights = {g: w / total for g, w in group_weights.items()}
 
         weight_log.append({"epoch": epoch, "weights": dict(group_weights), "margins": dict(group_margins)})
 

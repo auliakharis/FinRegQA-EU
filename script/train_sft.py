@@ -34,6 +34,29 @@ except ImportError:
 
 RECORDS_FILE = Path("output/judge_results_train_api.jsonl")
 
+
+class _PaddingCollator:
+    """Pads pre-tokenized examples; labels are already masked in the dataset."""
+
+    def __init__(self, pad_token_id: int):
+        self._pad_id = pad_token_id
+
+    def __call__(self, features: list[dict]) -> dict[str, torch.Tensor]:
+        max_len = max(len(f["input_ids"]) for f in features)
+        input_ids_out, attn_out, labels_out = [], [], []
+        for f in features:
+            ids = list(f["input_ids"])
+            lbls = list(f["labels"])
+            pad_len = max_len - len(ids)
+            input_ids_out.append(ids + [self._pad_id] * pad_len)
+            attn_out.append([1] * len(ids) + [0] * pad_len)
+            labels_out.append(lbls + [-100] * pad_len)
+        return {
+            "input_ids": torch.tensor(input_ids_out),
+            "attention_mask": torch.tensor(attn_out),
+            "labels": torch.tensor(labels_out),
+        }
+
 PROMPT_TEMPLATE = """\
 You are an expert in EU financial regulation, with deep knowledge of EBA and \
 ESMA guidelines, technical standards, and related directives and regulations.
@@ -68,10 +91,12 @@ def load_model(model_name: str, load_in_4bit: bool = False, load_in_8bit: bool =
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
+    compute_dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+
     qconfig = None
     if load_in_4bit:
         qconfig = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16,
+            load_in_4bit=True, bnb_4bit_compute_dtype=compute_dtype,
             bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4",
         )
     elif load_in_8bit:
@@ -79,7 +104,7 @@ def load_model(model_name: str, load_in_4bit: bool = False, load_in_8bit: bool =
 
     model = AutoModelForCausalLM.from_pretrained(
         model_path, local_files_only=True,
-        torch_dtype=torch.float16, device_map="auto",
+        torch_dtype=compute_dtype, device_map="auto",
         quantization_config=qconfig,
     )
 
@@ -95,6 +120,8 @@ def load_sft_dataset(
     corruption_variants: list[str] | None,
     max_examples: int | None,
     seed: int,
+    tokenizer,
+    max_length: int,
 ) -> Dataset:
     meta_by_qid: dict[str, dict] = {}
     with RECORDS_FILE.open() as f:
@@ -135,7 +162,12 @@ def load_sft_dataset(
         random.Random(seed).shuffle(rows)
         rows = rows[:max_examples]
 
-    texts = []
+    # Tokenize prompt and answer separately so the boundary is exact.
+    # Searching for a response-template substring in the merged token IDs is
+    # unreliable because BPE merges tokens across the boundary differently
+    # than when the substring is encoded in isolation.
+    all_input_ids, all_labels = [], []
+    skipped = 0
     for row in rows:
         meta = meta_by_qid.get(row["question_id"], {})
         prompt = PROMPT_TEMPLATE.format(
@@ -144,9 +176,29 @@ def load_sft_dataset(
             subject_matter=meta.get("subject_matter", ""),
             question=row["question"],
         )
-        texts.append(prompt + row["chosen"]["text"])
+        prompt_ids = tokenizer.encode(prompt, add_special_tokens=True)
+        answer_ids = tokenizer.encode(row["chosen"]["text"], add_special_tokens=False)
+        answer_ids = answer_ids + [tokenizer.eos_token_id]
 
-    return Dataset.from_dict({"text": texts})
+        if len(prompt_ids) >= max_length:
+            # Prompt alone fills the context: no answer tokens survive the truncation,
+            # so labels would be all -100, causing NaN loss. Drop the example.
+            skipped += 1
+            continue
+
+        ids = (prompt_ids + answer_ids)[:max_length]
+        labels = ([-100] * len(prompt_ids) + list(answer_ids))[:max_length]
+
+        all_input_ids.append(ids)
+        all_labels.append(labels)
+
+    if skipped:
+        print(f"WARNING: skipped {skipped} examples where prompt alone >= max_length ({max_length}). "
+              "Increase --max_length or check your data.")
+    if not all_input_ids:
+        raise ValueError("All examples were skipped. Increase --max_length.")
+
+    return Dataset.from_dict({"input_ids": all_input_ids, "labels": all_labels})
 
 
 def main() -> None:
@@ -166,7 +218,7 @@ def main() -> None:
     parser.add_argument("--lora_alpha", type=int, default=32)
     parser.add_argument("--lora_target_modules", nargs="+",
                         default=["q_proj", "k_proj", "v_proj", "o_proj"])
-    parser.add_argument("--learning_rate", type=float, default=2e-5)
+    parser.add_argument("--learning_rate", type=float, default=2e-4)
     parser.add_argument("--epochs", type=float, default=1.0)
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--grad_accum", type=int, default=8)
@@ -179,11 +231,20 @@ def main() -> None:
     if args.use_lora and not PEFT_AVAILABLE:
         raise ImportError("peft is required for --use_lora. pip install peft")
 
-    dataset = load_sft_dataset(args.data, args.corruption_variants, args.max_examples, args.seed)
+    # Load model first: tokenizer is needed to pre-tokenize the dataset so we
+    # know the exact prompt/answer boundary (BPE tokenization is context-dependent,
+    # so searching for a template string in merged token IDs is unreliable).
+    model, tokenizer = load_model(args.model, args.load_in_4bit, args.load_in_8bit)
+
+    dataset = load_sft_dataset(
+        args.data, args.corruption_variants, args.max_examples, args.seed,
+        tokenizer, args.max_length,
+    )
     split = dataset.train_test_split(test_size=args.eval_fraction, seed=args.seed)
     print(f"Train: {len(split['train'])}  Eval: {len(split['test'])}")
 
-    model, tokenizer = load_model(args.model, args.load_in_4bit, args.load_in_8bit)
+    steps_per_epoch = max(1, len(split["train"]) // (args.batch_size * args.grad_accum))
+    eval_steps = max(1, steps_per_epoch // 2)
 
     peft_config = None
     if args.use_lora:
@@ -192,6 +253,8 @@ def main() -> None:
             bias="none", task_type="CAUSAL_LM",
             target_modules=args.lora_target_modules,
         )
+
+    collator = _PaddingCollator(tokenizer.pad_token_id)
 
     training_args = SFTConfig(
         output_dir=args.output_dir,
@@ -202,14 +265,14 @@ def main() -> None:
         num_train_epochs=args.epochs,
         logging_steps=10,
         eval_strategy="steps",
-        eval_steps=50,
+        eval_steps=eval_steps,
         save_strategy="epoch",
         bf16=torch.cuda.is_bf16_supported(),
+        fp16=not torch.cuda.is_bf16_supported(),
         report_to=[],
         seed=args.seed,
-        max_length=args.max_length,
-        dataset_text_field="text",
         packing=False,
+        remove_unused_columns=False,
     )
 
     trainer = SFTTrainer(
@@ -218,6 +281,7 @@ def main() -> None:
         train_dataset=split["train"],
         eval_dataset=split["test"],
         processing_class=tokenizer,
+        data_collator=collator,
         peft_config=peft_config,
     )
 
