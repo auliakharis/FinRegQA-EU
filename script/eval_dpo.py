@@ -554,16 +554,33 @@ def judge_phase(args) -> None:
         base_url=args.judge_api_base,
     )
     rows   = load_jsonl(answers_file)
+
+    # Seed from existing scores so already-judged (qid, model_key, judge) combos are skipped.
+    out = args.output_dir / "eval_judge_scores.jsonl"
+    existing: dict[str, dict] = {}
+    seed_file = args.existing_scores or (out if out.exists() else None)
+    if seed_file and Path(seed_file).exists():
+        for r in load_jsonl(Path(seed_file)):
+            existing[r["question_id"]] = r
+        print(f"Loaded existing scores from {seed_file} ({len(existing)} questions) — skipping completed entries.")
+
     scored: list[dict] = []
 
     for i, row in enumerate(rows):
         qid  = row["question_id"]
         meta = row.get("meta", {})
-        scores_for_q: dict[str, dict] = {"baseline": {}, "dpo": {}}
+        prev = existing.get(qid, {})
+        scores_for_q: dict[str, dict] = {
+            "baseline": dict(prev.get("scores", {}).get("baseline", {})),
+            "dpo":      dict(prev.get("scores", {}).get("dpo", {})),
+        }
 
         for judge_model in args.judge_models:
             max_tokens = JUDGE_MAX_TOKENS.get(judge_model, DEFAULT_JUDGE_MAX_TOKENS)
             for model_key in ("baseline", "dpo"):
+                existing_sc = scores_for_q[model_key].get(judge_model, {})
+                if all(existing_sc.get(d) is not None for d in DIMS):
+                    continue  # already scored
                 candidate = row.get(model_key, {}).get("text", "")
                 if not candidate:
                     continue
@@ -770,6 +787,9 @@ def main() -> None:
                              "then 'dpo' for each variant (requires --baseline_answers).")
     parser.add_argument("--baseline_answers", type=Path, default=None,
                         help="Pre-computed baseline eval_answers.jsonl to reuse (--models dpo only).")
+    parser.add_argument("--existing_scores", type=Path,
+                        default=Path("output/llama/eval_baseline/eval_judge_scores.jsonl"),
+                        help="Path to an existing eval_judge_scores.jsonl to seed from (skips already-judged entries).")
     parser.add_argument("--n_questions", type=int, default=100,
                         help="Number of held-out questions to sample (default: 100). Pass -1 for all.")
     parser.add_argument("--load_in_4bit", action="store_true",
