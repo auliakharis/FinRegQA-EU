@@ -434,7 +434,10 @@ def parse_scores(text: str) -> dict:
         try:
             data = json.loads(block)
             if all(k in data for k in DIMS):
-                return {k: data[k] for k in DIMS}
+                result = {k: data[k] for k in DIMS}
+                if isinstance(data.get("reasoning"), dict):
+                    result["reasoning"] = {k: data["reasoning"].get(k) for k in DIMS}
+                return result
         except json.JSONDecodeError:
             continue
     return {k: None for k in DIMS}
