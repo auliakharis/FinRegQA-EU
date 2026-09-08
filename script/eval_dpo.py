@@ -788,7 +788,7 @@ def main() -> None:
     parser.add_argument("--baseline_answers", type=Path, default=None,
                         help="Pre-computed baseline eval_answers.jsonl to reuse (--models dpo only).")
     parser.add_argument("--existing_scores", type=Path,
-                        default=Path("output/llama/eval_baseline/eval_judge_scores.jsonl"),
+                        default=Path("output/eval_baseline/llama/eval_judge_scores.jsonl"),
                         help="Path to an existing eval_judge_scores.jsonl to seed from (skips already-judged entries).")
     parser.add_argument("--n_questions", type=int, default=100,
                         help="Number of held-out questions to sample (default: 100). Pass -1 for all.")
