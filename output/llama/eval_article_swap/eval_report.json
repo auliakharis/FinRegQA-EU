@@ -1,0 +1,30 @@
+{
+  "judge_scores": {
+    "baseline": {
+      "accuracy": 1.5666666666666667,
+      "completeness": 1.44,
+      "topic_coherence": 3.1233333333333335,
+      "citation_quality": 1.7633333333333334
+    },
+    "dpo": {
+      "accuracy": 1.5016949152542374,
+      "completeness": 1.4508474576271186,
+      "topic_coherence": 3.2508474576271187,
+      "citation_quality": 1.759322033898305
+    }
+  },
+  "win_rate": {
+    "baseline": 0.44,
+    "dpo": 0.43,
+    "tie": 0.13
+  },
+  "n_judged": 100,
+  "citation_f1": {
+    "baseline": 0.24504242979242977,
+    "dpo": 0.23126343101343103
+  },
+  "bertscore_f1": {
+    "baseline": null,
+    "dpo": null
+  }
+}
