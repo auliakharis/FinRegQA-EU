@@ -7,15 +7,15 @@
       "citation_quality": 1.7633333333333334
     },
     "dpo": {
-      "accuracy": 1.5016949152542374,
-      "completeness": 1.4508474576271186,
-      "topic_coherence": 3.2508474576271187,
-      "citation_quality": 1.759322033898305
+      "accuracy": 1.5016722408026757,
+      "completeness": 1.451505016722408,
+      "topic_coherence": 3.2441471571906355,
+      "citation_quality": 1.7591973244147157
     }
   },
   "win_rate": {
-    "baseline": 0.44,
-    "dpo": 0.43,
+    "baseline": 0.43,
+    "dpo": 0.44,
     "tie": 0.13
   },
   "n_judged": 100,

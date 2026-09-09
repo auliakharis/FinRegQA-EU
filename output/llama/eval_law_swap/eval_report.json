@@ -1,10 +1,10 @@
 {
   "judge_scores": {
     "baseline": {
-      "accuracy": 1.5618729096989967,
-      "completeness": 1.4381270903010033,
-      "topic_coherence": 3.117056856187291,
-      "citation_quality": 1.7591973244147157
+      "accuracy": 1.5666666666666667,
+      "completeness": 1.44,
+      "topic_coherence": 3.1233333333333335,
+      "citation_quality": 1.7633333333333334
     },
     "dpo": {
       "accuracy": 1.54,
@@ -14,9 +14,9 @@
     }
   },
   "win_rate": {
-    "baseline": 0.38,
+    "baseline": 0.39,
     "dpo": 0.43,
-    "tie": 0.19
+    "tie": 0.18
   },
   "n_judged": 100,
   "citation_f1": {
