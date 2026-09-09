@@ -9,24 +9,24 @@
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 1.5693950177935942,
-        "completeness": 1.4341637010676156,
-        "topic_coherence": 3.0711743772241995,
-        "citation_quality": 1.7615658362989324,
-        "overall": 1.9590747330960854
+        "accuracy": 1.5666666666666667,
+        "completeness": 1.4266666666666667,
+        "topic_coherence": 3.09,
+        "citation_quality": 1.7533333333333334,
+        "overall": 1.9591666666666667
       },
       "dpo": {
-        "accuracy": 1.5935251798561152,
-        "completeness": 1.7553956834532374,
-        "topic_coherence": 3.597122302158273,
-        "citation_quality": 2.183453237410072,
-        "overall": 2.2823741007194247
+        "accuracy": 1.59,
+        "completeness": 1.74,
+        "topic_coherence": 3.62,
+        "citation_quality": 2.1733333333333333,
+        "overall": 2.2808333333333333
       }
     },
     "win_rate": {
       "baseline": 0.24,
-      "dpo": 0.66,
-      "tie": 0.1
+      "dpo": 0.68,
+      "tie": 0.08
     },
     "citation_f1": {
       "baseline": 0.24504242979242977,
@@ -43,24 +43,24 @@
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 1.5618729096989967,
-        "completeness": 1.434782608695652,
-        "topic_coherence": 3.120401337792642,
-        "citation_quality": 1.765886287625418,
-        "overall": 1.970735785953177
+        "accuracy": 1.5633333333333332,
+        "completeness": 1.4366666666666668,
+        "topic_coherence": 3.1233333333333335,
+        "citation_quality": 1.7666666666666666,
+        "overall": 1.9725000000000001
       },
       "dpo": {
-        "accuracy": 1.5117845117845117,
-        "completeness": 1.4511784511784511,
-        "topic_coherence": 3.3367003367003365,
-        "citation_quality": 1.67003367003367,
-        "overall": 1.9924242424242422
+        "accuracy": 1.52,
+        "completeness": 1.4566666666666668,
+        "topic_coherence": 3.3433333333333333,
+        "citation_quality": 1.6766666666666667,
+        "overall": 1.9991666666666668
       }
     },
     "win_rate": {
-      "baseline": 0.38,
+      "baseline": 0.37,
       "dpo": 0.45,
-      "tie": 0.17
+      "tie": 0.18
     },
     "citation_f1": {
       "baseline": 0.24504242979242977,
@@ -77,18 +77,18 @@
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 1.5585284280936456,
-        "completeness": 1.4381270903010033,
-        "topic_coherence": 3.120401337792642,
-        "citation_quality": 1.7625418060200668,
-        "overall": 1.9698996655518395
+        "accuracy": 1.56,
+        "completeness": 1.44,
+        "topic_coherence": 3.1266666666666665,
+        "citation_quality": 1.77,
+        "overall": 1.9741666666666666
       },
       "dpo": {
-        "accuracy": 1.5067114093959733,
-        "completeness": 1.4093959731543624,
-        "topic_coherence": 3.3187919463087248,
-        "citation_quality": 1.761744966442953,
-        "overall": 1.9991610738255035
+        "accuracy": 1.51,
+        "completeness": 1.4133333333333333,
+        "topic_coherence": 3.32,
+        "citation_quality": 1.76,
+        "overall": 2.0008333333333335
       }
     },
     "win_rate": {
@@ -118,17 +118,17 @@
         "overall": 1.9733333333333334
       },
       "dpo": {
-        "accuracy": 1.5016949152542374,
-        "completeness": 1.4508474576271186,
-        "topic_coherence": 3.2508474576271187,
-        "citation_quality": 1.759322033898305,
-        "overall": 1.990677966101695
+        "accuracy": 1.5016722408026757,
+        "completeness": 1.451505016722408,
+        "topic_coherence": 3.2441471571906355,
+        "citation_quality": 1.7591973244147157,
+        "overall": 1.9891304347826086
       }
     },
     "win_rate": {
-      "baseline": 0.45,
-      "dpo": 0.43,
-      "tie": 0.12
+      "baseline": 0.43,
+      "dpo": 0.44,
+      "tie": 0.13
     },
     "citation_f1": {
       "baseline": 0.24504242979242977,
@@ -145,11 +145,11 @@
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 1.5618729096989967,
-        "completeness": 1.4381270903010033,
-        "topic_coherence": 3.117056856187291,
-        "citation_quality": 1.7591973244147157,
-        "overall": 1.9690635451505016
+        "accuracy": 1.5666666666666667,
+        "completeness": 1.44,
+        "topic_coherence": 3.1233333333333335,
+        "citation_quality": 1.7633333333333334,
+        "overall": 1.9733333333333334
       },
       "dpo": {
         "accuracy": 1.54,
@@ -186,16 +186,16 @@
         "overall": 1.9673913043478262
       },
       "dpo": {
-        "accuracy": 1.6081081081081081,
-        "completeness": 1.4966216216216217,
-        "topic_coherence": 3.35472972972973,
-        "citation_quality": 1.760135135135135,
-        "overall": 2.0548986486486487
+        "accuracy": 1.6066666666666667,
+        "completeness": 1.4933333333333334,
+        "topic_coherence": 3.3566666666666665,
+        "citation_quality": 1.7666666666666666,
+        "overall": 2.055833333333333
       }
     },
     "win_rate": {
-      "baseline": 0.37,
-      "dpo": 0.48,
+      "baseline": 0.36,
+      "dpo": 0.49,
       "tie": 0.15
     },
     "citation_f1": {
@@ -213,24 +213,24 @@
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 1.5618729096989967,
-        "completeness": 1.4381270903010033,
-        "topic_coherence": 3.117056856187291,
-        "citation_quality": 1.7591973244147157,
-        "overall": 1.9690635451505016
+        "accuracy": 1.5666666666666667,
+        "completeness": 1.44,
+        "topic_coherence": 3.1233333333333335,
+        "citation_quality": 1.76,
+        "overall": 1.9725000000000001
       },
       "dpo": {
-        "accuracy": 1.6109215017064846,
-        "completeness": 1.5255972696245734,
-        "topic_coherence": 3.378839590443686,
-        "citation_quality": 1.7918088737201365,
-        "overall": 2.07679180887372
+        "accuracy": 1.608695652173913,
+        "completeness": 1.5217391304347827,
+        "topic_coherence": 3.367892976588629,
+        "citation_quality": 1.7959866220735785,
+        "overall": 2.0735785953177257
       }
     },
     "win_rate": {
       "baseline": 0.34,
-      "dpo": 0.51,
-      "tie": 0.15
+      "dpo": 0.5,
+      "tie": 0.16
     },
     "citation_f1": {
       "baseline": 0.24504242979242977,
