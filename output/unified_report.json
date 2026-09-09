@@ -1,172 +1,240 @@
 {
-  "output/eval_hallucinate_citation": {
+  "output/llama/eval_sft": {
     "n_questions": 100,
     "n_judged": 100,
     "judges": [
-      "Qwen/Qwen3.5-27B",
-      "google/gemma-4-31B-it",
-      "zai-org/GLM-4.7-Flash"
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 2.013333333333333,
-        "completeness": 2.033333333333333,
-        "topic_coherence": 4.163333333333333,
-        "citation_quality": 2.6066666666666665,
-        "overall": 2.7041666666666666
+        "accuracy": 1.5693950177935942,
+        "completeness": 1.4341637010676156,
+        "topic_coherence": 3.0711743772241995,
+        "citation_quality": 1.7615658362989324,
+        "overall": 1.9590747330960854
       },
       "dpo": {
-        "accuracy": 1.9733333333333334,
-        "completeness": 2.0833333333333335,
-        "topic_coherence": 4.203333333333333,
-        "citation_quality": 2.5966666666666667,
-        "overall": 2.714166666666667
+        "accuracy": 1.5935251798561152,
+        "completeness": 1.7553956834532374,
+        "topic_coherence": 3.597122302158273,
+        "citation_quality": 2.183453237410072,
+        "overall": 2.2823741007194247
       }
     },
     "win_rate": {
-      "baseline": 0.46,
+      "baseline": 0.24,
+      "dpo": 0.66,
+      "tie": 0.1
+    },
+    "citation_f1": {
+      "baseline": 0.24504242979242977,
+      "dpo": 0.18092105320308982
+    }
+  },
+  "output/llama/eval_hallucinate_citation": {
+    "n_questions": 100,
+    "n_judged": 100,
+    "judges": [
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+    ],
+    "judge_scores": {
+      "baseline": {
+        "accuracy": 1.5618729096989967,
+        "completeness": 1.434782608695652,
+        "topic_coherence": 3.120401337792642,
+        "citation_quality": 1.765886287625418,
+        "overall": 1.970735785953177
+      },
+      "dpo": {
+        "accuracy": 1.5117845117845117,
+        "completeness": 1.4511784511784511,
+        "topic_coherence": 3.3367003367003365,
+        "citation_quality": 1.67003367003367,
+        "overall": 1.9924242424242422
+      }
+    },
+    "win_rate": {
+      "baseline": 0.38,
+      "dpo": 0.45,
+      "tie": 0.17
+    },
+    "citation_f1": {
+      "baseline": 0.24504242979242977,
+      "dpo": 0.23048687423687425
+    }
+  },
+  "output/llama/eval_hallucinate_text": {
+    "n_questions": 100,
+    "n_judged": 100,
+    "judges": [
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+    ],
+    "judge_scores": {
+      "baseline": {
+        "accuracy": 1.5585284280936456,
+        "completeness": 1.4381270903010033,
+        "topic_coherence": 3.120401337792642,
+        "citation_quality": 1.7625418060200668,
+        "overall": 1.9698996655518395
+      },
+      "dpo": {
+        "accuracy": 1.5067114093959733,
+        "completeness": 1.4093959731543624,
+        "topic_coherence": 3.3187919463087248,
+        "citation_quality": 1.761744966442953,
+        "overall": 1.9991610738255035
+      }
+    },
+    "win_rate": {
+      "baseline": 0.41,
       "dpo": 0.44,
-      "tie": 0.1
+      "tie": 0.15
     },
     "citation_f1": {
-      "baseline": 0.22793091875444815,
-      "dpo": 0.23895403573035154
+      "baseline": 0.24504242979242977,
+      "dpo": 0.22497451525083104
     }
   },
-  "output/eval_hallucinate_text": {
+  "output/llama/eval_article_swap": {
     "n_questions": 100,
     "n_judged": 100,
     "judges": [
-      "Qwen/Qwen3.5-27B",
-      "google/gemma-4-31B-it",
-      "zai-org/GLM-4.7-Flash"
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 2.01,
-        "completeness": 2.1,
-        "topic_coherence": 4.123333333333333,
-        "citation_quality": 2.6233333333333335,
-        "overall": 2.7141666666666664
+        "accuracy": 1.5666666666666667,
+        "completeness": 1.44,
+        "topic_coherence": 3.1233333333333335,
+        "citation_quality": 1.7633333333333334,
+        "overall": 1.9733333333333334
       },
       "dpo": {
-        "accuracy": 1.9698996655518395,
-        "completeness": 2.0334448160535117,
-        "topic_coherence": 4.214046822742475,
-        "citation_quality": 2.568561872909699,
-        "overall": 2.6964882943143813
+        "accuracy": 1.5016949152542374,
+        "completeness": 1.4508474576271186,
+        "topic_coherence": 3.2508474576271187,
+        "citation_quality": 1.759322033898305,
+        "overall": 1.990677966101695
       }
     },
     "win_rate": {
-      "baseline": 0.46,
-      "dpo": 0.47,
-      "tie": 0.07
+      "baseline": 0.45,
+      "dpo": 0.43,
+      "tie": 0.12
     },
     "citation_f1": {
-      "baseline": 0.22793091875444815,
-      "dpo": 0.24445733678086617
+      "baseline": 0.24504242979242977,
+      "dpo": 0.23126343101343103
     }
   },
-  "output/eval_article_swap": {
+  "output/llama/eval_law_swap": {
     "n_questions": 100,
     "n_judged": 100,
     "judges": [
-      "Qwen/Qwen3.5-27B",
-      "google/gemma-4-31B-it",
-      "zai-org/GLM-4.7-Flash"
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 2.020066889632107,
-        "completeness": 2.0635451505016724,
-        "topic_coherence": 4.1438127090301,
-        "citation_quality": 2.6053511705685617,
-        "overall": 2.7081939799331103
+        "accuracy": 1.5618729096989967,
+        "completeness": 1.4381270903010033,
+        "topic_coherence": 3.117056856187291,
+        "citation_quality": 1.7591973244147157,
+        "overall": 1.9690635451505016
       },
       "dpo": {
-        "accuracy": 1.97,
-        "completeness": 2.01,
-        "topic_coherence": 4.243333333333333,
-        "citation_quality": 2.66,
-        "overall": 2.720833333333333
+        "accuracy": 1.54,
+        "completeness": 1.4533333333333334,
+        "topic_coherence": 3.35,
+        "citation_quality": 1.7633333333333334,
+        "overall": 2.026666666666667
       }
     },
     "win_rate": {
-      "baseline": 0.48,
-      "dpo": 0.42,
-      "tie": 0.1
+      "baseline": 0.39,
+      "dpo": 0.43,
+      "tie": 0.18
     },
     "citation_f1": {
-      "baseline": 0.22793091875444815,
-      "dpo": 0.2543284831783284
+      "baseline": 0.24504242979242977,
+      "dpo": 0.25101495726495726
     }
   },
-  "output/eval_law_swap": {
+  "output/llama/eval_gr_dpo": {
     "n_questions": 100,
     "n_judged": 100,
     "judges": [
-      "Qwen/Qwen3.5-27B",
-      "google/gemma-4-31B-it",
-      "zai-org/GLM-4.7-Flash"
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 2.0133779264214047,
-        "completeness": 2.05685618729097,
-        "topic_coherence": 4.137123745819398,
-        "citation_quality": 2.608695652173913,
-        "overall": 2.7040133779264215
+        "accuracy": 1.5618729096989967,
+        "completeness": 1.434782608695652,
+        "topic_coherence": 3.1137123745819397,
+        "citation_quality": 1.7591973244147157,
+        "overall": 1.9673913043478262
       },
       "dpo": {
-        "accuracy": 2.0033444816053514,
-        "completeness": 2.0702341137123748,
-        "topic_coherence": 4.183946488294314,
-        "citation_quality": 2.709030100334448,
-        "overall": 2.741638795986622
+        "accuracy": 1.6081081081081081,
+        "completeness": 1.4966216216216217,
+        "topic_coherence": 3.35472972972973,
+        "citation_quality": 1.760135135135135,
+        "overall": 2.0548986486486487
       }
     },
     "win_rate": {
-      "baseline": 0.4,
-      "dpo": 0.46,
-      "tie": 0.14
+      "baseline": 0.37,
+      "dpo": 0.48,
+      "tie": 0.15
     },
     "citation_f1": {
-      "baseline": 0.22793091875444815,
-      "dpo": 0.24152684272249492
+      "baseline": 0.24504242979242977,
+      "dpo": 0.22869516594516592
     }
   },
-  "output/eval_combination": {
+  "output/llama/eval_dr_dpo": {
     "n_questions": 100,
     "n_judged": 100,
     "judges": [
-      "Qwen/Qwen3.5-27B",
-      "google/gemma-4-31B-it",
-      "zai-org/GLM-4.7-Flash"
+      "CSCS-Inference/google/gemma-4-31B-it",
+      "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B",
+      "RCP-AIaaS/zai-org/GLM-5.3-Flash"
     ],
     "judge_scores": {
       "baseline": {
-        "accuracy": 2.0100334448160537,
-        "completeness": 2.05685618729097,
-        "topic_coherence": 4.117056856187291,
-        "citation_quality": 2.632107023411371,
-        "overall": 2.7040133779264215
+        "accuracy": 1.5618729096989967,
+        "completeness": 1.4381270903010033,
+        "topic_coherence": 3.117056856187291,
+        "citation_quality": 1.7591973244147157,
+        "overall": 1.9690635451505016
       },
       "dpo": {
-        "accuracy": 1.9063545150501673,
-        "completeness": 1.9966555183946488,
-        "topic_coherence": 4.207357859531773,
-        "citation_quality": 2.591973244147157,
-        "overall": 2.6755852842809364
+        "accuracy": 1.6109215017064846,
+        "completeness": 1.5255972696245734,
+        "topic_coherence": 3.378839590443686,
+        "citation_quality": 1.7918088737201365,
+        "overall": 2.07679180887372
       }
     },
     "win_rate": {
-      "baseline": 0.42,
-      "dpo": 0.42,
-      "tie": 0.16
+      "baseline": 0.34,
+      "dpo": 0.51,
+      "tie": 0.15
     },
     "citation_f1": {
-      "baseline": 0.22793091875444815,
-      "dpo": 0.257746991570521
+      "baseline": 0.24504242979242977,
+      "dpo": 0.22295653323284903
     }
   }
 }

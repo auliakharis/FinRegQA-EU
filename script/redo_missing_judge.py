@@ -14,6 +14,8 @@ import json
 import os
 from pathlib import Path
 
+from sympy import python
+
 from openai import OpenAI
 
 from eval_dpo import (
@@ -113,3 +115,18 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
+
+# python script/redo_missing_judge.py output/llama/eval_sft --judge_model "CSCS-Inference/google/gemma-4-31B-it"
+# python script/redo_missing_judge.py output/llama/eval_sft --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+
+# python script/redo_missing_judge.py output/llama/eval_dr_dpo --judge_model "RCP-AIaaS/Qwen/Qwen3.6-35B-A3B"
+# python script/redo_missing_judge.py output/llama/eval_dr_dpo --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+
+# python script/redo_missing_judge.py output/llama/eval_gr_dpo --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+# python script/redo_missing_judge.py output/llama/eval_law_swap --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+# python script/redo_missing_judge.py output/llama/eval_hallucinate_text --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+# python script/redo_missing_judge.py output/llama/eval_hallucinate_citation --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"
+# python script/redo_missing_judge.py output/llama/eval_article_swap --judge_model "RCP-AIaaS/zai-org/GLM-5.3-Flash"

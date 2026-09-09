@@ -24,11 +24,13 @@ from eval_dpo import canonical_judge
 DIMS = ["accuracy", "completeness", "topic_coherence", "citation_quality"]
 
 DEFAULT_DIRS = [
-    Path("output/eval_hallucinate_citation"),
-    Path("output/eval_hallucinate_text"),
-    Path("output/eval_article_swap"),
-    Path("output/eval_law_swap"),
-    Path("output/eval_combination"),
+    Path("output/llama/eval_sft"),
+    Path("output/llama/eval_hallucinate_citation"),
+    Path("output/llama/eval_hallucinate_text"),
+    Path("output/llama/eval_article_swap"),
+    Path("output/llama/eval_law_swap"),
+    Path("output/llama/eval_gr_dpo"),
+    Path("output/llama/eval_dr_dpo"),
 ]
 
 
