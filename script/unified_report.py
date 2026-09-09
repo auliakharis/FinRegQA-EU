@@ -29,6 +29,7 @@ DEFAULT_DIRS = [
     Path("output/llama/eval_hallucinate_text"),
     Path("output/llama/eval_article_swap"),
     Path("output/llama/eval_law_swap"),
+    Path("output/llama/eval_dpo_all"),
     Path("output/llama/eval_gr_dpo"),
     Path("output/llama/eval_dr_dpo"),
 ]
